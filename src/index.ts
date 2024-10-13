@@ -32,15 +32,6 @@ declare class PortOption extends HTMLOptionElement {
 
 let portSelector: HTMLSelectElement;
 let connectButton: HTMLButtonElement;
-let baudRateSelector: HTMLSelectElement;
-let customBaudRateInput: HTMLInputElement;
-let dataBitsSelector: HTMLSelectElement;
-let paritySelector: HTMLSelectElement;
-let stopBitsSelector: HTMLSelectElement;
-let flowControlCheckbox: HTMLInputElement;
-let echoCheckbox: HTMLInputElement;
-let flushOnEnterCheckbox: HTMLInputElement;
-let autoconnectCheckbox: HTMLInputElement;
 
 let portCounter = 1;
 let port: SerialPort | SerialPortPolyfill | undefined;
@@ -60,12 +51,7 @@ term.loadAddon(fitAddon);
 term.loadAddon(new WebLinksAddon());
 
 const encoder = new TextEncoder();
-let toFlush = '';
 term.onData((data) => {
-  if (echoCheckbox.checked) {
-    term.write(data);
-  }
-
   if (port?.writable == null) {
     console.warn(`unable to find writable port`);
     return;
@@ -73,16 +59,7 @@ term.onData((data) => {
 
   const writer = port.writable.getWriter();
 
-  if (flushOnEnterCheckbox.checked) {
-    toFlush += data;
-    if (data === '\r') {
-      writer.write(encoder.encode(toFlush));
-      writer.releaseLock();
-      toFlush = '';
-    }
-  } else {
-    writer.write(encoder.encode(data));
-  }
+  writer.write(encoder.encode(data));
 
   writer.releaseLock();
 });
@@ -141,47 +118,6 @@ function maybeAddNewPort(port: SerialPort | SerialPortPolyfill): PortOption {
 }
 
 /**
- * Download the terminal's contents to a file.
- */
-function downloadTerminalContents(): void {
-  if (!term) {
-    throw new Error('no terminal instance found');
-  }
-
-  if (term.rows === 0) {
-    console.log('No output yet');
-    return;
-  }
-
-  term.selectAll();
-  const contents = term.getSelection();
-  term.clearSelection();
-  const linkContent = URL.createObjectURL(
-      new Blob([new TextEncoder().encode(contents).buffer],
-          {type: 'text/plain'}));
-  const fauxLink = document.createElement('a');
-  fauxLink.download = `terminal_content_${new Date().getTime()}.txt`;
-  fauxLink.href = linkContent;
-  fauxLink.click();
-}
-
-/**
- * Clear the terminal's contents.
- */
-function clearTerminalContents(): void {
-  if (!term) {
-    throw new Error('no terminal instance found');
-  }
-
-  if (term.rows === 0) {
-    console.log('No output yet');
-    return;
-  }
-
-  term.clear();
-}
-
-/**
  * Sets |port| to the currently selected port. If none is selected then the
  * user is prompted for one.
  */
@@ -202,16 +138,6 @@ async function getSelectedPort(): Promise<void> {
 }
 
 /**
- * @return {number} the currently selected baud rate
- */
-function getSelectedBaudRate(): number {
-  if (baudRateSelector.value == 'custom') {
-    return Number.parseInt(customBaudRateInput.value);
-  }
-  return Number.parseInt(baudRateSelector.value);
-}
-
-/**
  * Resets the UI back to the disconnected state.
  */
 function markDisconnected(): void {
@@ -219,12 +145,6 @@ function markDisconnected(): void {
   portSelector.disabled = false;
   connectButton.textContent = 'Connect';
   connectButton.disabled = false;
-  baudRateSelector.disabled = false;
-  customBaudRateInput.disabled = false;
-  dataBitsSelector.disabled = false;
-  paritySelector.disabled = false;
-  stopBitsSelector.disabled = false;
-  flowControlCheckbox.disabled = false;
   port = undefined;
 }
 
@@ -238,31 +158,18 @@ async function connectToPort(): Promise<void> {
   }
 
   const options = {
-    baudRate: getSelectedBaudRate(),
-    dataBits: Number.parseInt(dataBitsSelector.value),
-    parity: paritySelector.value as ParityType,
-    stopBits: Number.parseInt(stopBitsSelector.value),
-    flowControl:
-        flowControlCheckbox.checked ? <const> 'hardware' : <const> 'none',
+    baudRate: 9600,
+    dataBits: 7,
+    parity: 'even' as ParityType,
+    stopBits: 1,
+    flowControl: <const> 'none',
     bufferSize,
-
-    // Prior to Chrome 86 these names were used.
-    baudrate: getSelectedBaudRate(),
-    databits: Number.parseInt(dataBitsSelector.value),
-    stopbits: Number.parseInt(stopBitsSelector.value),
-    rtscts: flowControlCheckbox.checked,
   };
   console.log(options);
 
   portSelector.disabled = true;
   connectButton.textContent = 'Connecting...';
   connectButton.disabled = true;
-  baudRateSelector.disabled = true;
-  customBaudRateInput.disabled = true;
-  dataBitsSelector.disabled = true;
-  paritySelector.disabled = true;
-  stopBitsSelector.disabled = true;
-  flowControlCheckbox.disabled = true;
 
   try {
     await port.open(options);
@@ -378,13 +285,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  const downloadOutput =
-    document.getElementById('download') as HTMLSelectElement;
-  downloadOutput.addEventListener('click', downloadTerminalContents);
-
-  const clearOutput = document.getElementById('clear') as HTMLSelectElement;
-  clearOutput.addEventListener('click', clearTerminalContents);
-
   portSelector = document.getElementById('ports') as HTMLSelectElement;
 
   connectButton = document.getElementById('connect') as HTMLButtonElement;
@@ -395,35 +295,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       connectToPort();
     }
   });
-
-  baudRateSelector = document.getElementById('baudrate') as HTMLSelectElement;
-  baudRateSelector.addEventListener('input', () => {
-    if (baudRateSelector.value == 'custom') {
-      customBaudRateInput.hidden = false;
-    } else {
-      customBaudRateInput.hidden = true;
-    }
-  });
-
-  customBaudRateInput =
-      document.getElementById('custom_baudrate') as HTMLInputElement;
-  dataBitsSelector = document.getElementById('databits') as HTMLSelectElement;
-  paritySelector = document.getElementById('parity') as HTMLSelectElement;
-  stopBitsSelector = document.getElementById('stopbits') as HTMLSelectElement;
-  flowControlCheckbox = document.getElementById('rtscts') as HTMLInputElement;
-  echoCheckbox = document.getElementById('echo') as HTMLInputElement;
-  flushOnEnterCheckbox =
-      document.getElementById('enter_flush') as HTMLInputElement;
-  autoconnectCheckbox =
-      document.getElementById('autoconnect') as HTMLInputElement;
-
-  const convertEolCheckbox =
-      document.getElementById('convert_eol') as HTMLInputElement;
-  const convertEolCheckboxHandler = () => {
-    term.options.convertEol = convertEolCheckbox.checked;
-  };
-  convertEolCheckbox.addEventListener('change', convertEolCheckboxHandler);
-  convertEolCheckboxHandler();
 
   const polyfillSwitcher =
       document.getElementById('polyfill_switcher') as HTMLAnchorElement;
@@ -443,11 +314,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // https://github.com/google/web-serial-polyfill/issues/20
   if (!usePolyfill) {
     navigator.serial.addEventListener('connect', (event) => {
-      const portOption = addNewPort(event.target as SerialPort);
-      if (autoconnectCheckbox.checked) {
-        portOption.selected = true;
-        connectToPort();
-      }
+      // const portOption = addNewPort(event.target as SerialPort);
+      addNewPort(event.target as SerialPort);
+      // portOption.selected = true;
+      connectToPort();
     });
     navigator.serial.addEventListener('disconnect', (event) => {
       const portOption = findPortOption(event.target as SerialPort);
