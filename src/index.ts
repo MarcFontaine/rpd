@@ -335,6 +335,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+for (const elem of document.getElementsByClassName('clickCmd') ) {
+  elem.addEventListener('click', sendCmd);
+}
+
 /**
  * Turn the transmitter off
  */
@@ -364,4 +368,13 @@ function sendSerial(data:string) {
   writer.write(encoder.encode(data));
 
   writer.releaseLock();
+}
+
+// (_this: HTMLElement, _ev: Event)
+/**
+ * Send a Command
+*/
+function sendCmd() {
+//  var message = event.target.value;
+  sendSerial('message');
 }
