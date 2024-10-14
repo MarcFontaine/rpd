@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import {Terminal} from 'xterm';
-import {FitAddon} from 'xterm-addon-fit';
-import {WebLinksAddon} from 'xterm-addon-web-links';
-import 'xterm/css/xterm.css';
 import {
   serial as polyfill, SerialPort as SerialPortPolyfill,
 } from 'web-serial-polyfill';
@@ -42,18 +38,7 @@ let reader: ReadableStreamDefaultReader | ReadableStreamBYOBReader | undefined;
 const urlParams = new URLSearchParams(window.location.search);
 const usePolyfill = urlParams.has('polyfill');
 const bufferSize = 8 * 1024; // 8kB
-
-const term = new Terminal({
-  scrollback: 10_000,
-});
-
-const fitAddon = new FitAddon();
-term.loadAddon(fitAddon);
-
-term.loadAddon(new WebLinksAddon());
-
 const encoder = new TextEncoder();
-term.onData(sendSerial);
 
 /**
  * Returns the option corresponding to the given SerialPort if one is present
@@ -137,7 +122,7 @@ async function getSelectedPort(): Promise<void> {
 function dumpSerialOut(msg:string, callback?: () => void): void {
   const element=document.getElementById('serialOut');
   if (element) element.innerText = msg;
-  term.writeln(msg, callback);
+  if (callback) callback();
 }
 
 /**
@@ -278,16 +263,6 @@ async function disconnectFromPort(): Promise<void> {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const terminalElement = document.getElementById('terminal');
-  if (terminalElement) {
-    term.open(terminalElement);
-    fitAddon.fit();
-
-    window.addEventListener('resize', () => {
-      fitAddon.fit();
-    });
-  }
-
   portSelector = document.getElementById('ports') as HTMLSelectElement;
   PTT_OFF = document.getElementById('PTT_OFF') as HTMLButtonElement;
   PTT_ON = document.getElementById('PTT_ON') as HTMLButtonElement;
@@ -333,11 +308,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
   }
-});
 
-for (const elem of document.getElementsByClassName('clickCmd') ) {
-  elem.addEventListener('click', sendCmd);
-}
+  for (const elem of document.getElementsByClassName('clickCmd') ) {
+    elem.addEventListener('click', sendCmd);
+  }
+});
 
 /**
  * Turn the transmitter off

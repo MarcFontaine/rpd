@@ -1,18 +1,15 @@
 {
-  "name": "serial-terminal",
+  "name": "XK852-control",
   "version": "0.0.1",
-  "description": "A demonstration of the Serial API providing an interactive serial console.",
+  "description": "CAT program for XK852 transceivers",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GoogleChromeLabs/serial-terminal.git"
+    "url": "https://github.com/MarcFontaine/serial-terminal.git"
   },
   "dependencies": {
     "@types/w3c-web-serial": "^1.0.3",
-    "web-serial-polyfill": "^1.0.14",
-    "xterm": "^5.2.1",
-    "xterm-addon-fit": "^0.7.0",
-    "xterm-addon-web-links": "^0.8.0"
+    "web-serial-polyfill": "^1.0.14"
   },
   "devDependencies": {
     "@types/web": "0.0.71",
