@@ -32,6 +32,8 @@ declare class PortOption extends HTMLOptionElement {
 
 let portSelector: HTMLSelectElement;
 let connectButton: HTMLButtonElement;
+let PTT_OFF: HTMLButtonElement;
+let PTT_ON: HTMLButtonElement;
 
 let portCounter = 1;
 let port: SerialPort | SerialPortPolyfill | undefined;
@@ -51,18 +53,7 @@ term.loadAddon(fitAddon);
 term.loadAddon(new WebLinksAddon());
 
 const encoder = new TextEncoder();
-term.onData((data) => {
-  if (port?.writable == null) {
-    console.warn(`unable to find writable port`);
-    return;
-  }
-
-  const writer = port.writable.getWriter();
-
-  writer.write(encoder.encode(data));
-
-  writer.releaseLock();
-});
+term.onData(sendSerial);
 
 /**
  * Returns the option corresponding to the given SerialPort if one is present
@@ -138,10 +129,22 @@ async function getSelectedPort(): Promise<void> {
 }
 
 /**
+ * Show serial input and diagnostics.
+ * @param {String} msg  the message to show.
+ * @param {void} callback
+ * Optional callback that fires when the data was processed.
+*/
+function dumpSerialOut(msg:string, callback?: () => void): void {
+  const element=document.getElementById('serialOut');
+  if (element) element.innerText = msg;
+  term.writeln(msg, callback);
+}
+
+/**
  * Resets the UI back to the disconnected state.
  */
 function markDisconnected(): void {
-  term.writeln('<DISCONNECTED>');
+  dumpSerialOut('<DISCONNECTED>');
   portSelector.disabled = false;
   connectButton.textContent = 'Connect';
   connectButton.disabled = false;
@@ -173,13 +176,13 @@ async function connectToPort(): Promise<void> {
 
   try {
     await port.open(options);
-    term.writeln('<CONNECTED>');
+    dumpSerialOut('<CONNECTED>');
     connectButton.textContent = 'Disconnect';
     connectButton.disabled = false;
   } catch (e) {
     console.error(e);
     if (e instanceof Error) {
-      term.writeln(`<ERROR: ${e.message}>`);
+      dumpSerialOut(`<ERROR: ${e.message}>`);
     }
     markDisconnected();
     return;
@@ -211,7 +214,7 @@ async function connectToPort(): Promise<void> {
 
         if (value) {
           await new Promise<void>((resolve) => {
-            term.write(value, resolve);
+            dumpSerialOut(value, resolve);
           });
         }
         if (done) {
@@ -222,7 +225,7 @@ async function connectToPort(): Promise<void> {
       console.error(e);
       await new Promise<void>((resolve) => {
         if (e instanceof Error) {
-          term.writeln(`<ERROR: ${e.message}>`, resolve);
+          dumpSerialOut(`<ERROR: ${e.message}>`, resolve);
         }
       });
     } finally {
@@ -239,7 +242,7 @@ async function connectToPort(): Promise<void> {
     } catch (e) {
       console.error(e);
       if (e instanceof Error) {
-        term.writeln(`<ERROR: ${e.message}>`);
+        dumpSerialOut(`<ERROR: ${e.message}>`);
       }
     }
 
@@ -266,7 +269,7 @@ async function disconnectFromPort(): Promise<void> {
     } catch (e) {
       console.error(e);
       if (e instanceof Error) {
-        term.writeln(`<ERROR: ${e.message}>`);
+        dumpSerialOut(`<ERROR: ${e.message}>`);
       }
     }
   }
@@ -286,6 +289,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   portSelector = document.getElementById('ports') as HTMLSelectElement;
+  PTT_OFF = document.getElementById('PTT_OFF') as HTMLButtonElement;
+  PTT_ON = document.getElementById('PTT_ON') as HTMLButtonElement;
+  PTT_ON.addEventListener('click', setTxOn);
+  PTT_OFF.addEventListener('click', setTxOff);
 
   connectButton = document.getElementById('connect') as HTMLButtonElement;
   connectButton.addEventListener('click', () => {
@@ -327,3 +334,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 });
+
+/**
+ * Turn the transmitter off
+ */
+function setTxOff() {
+  document.body.style.background = 'rgb(36, 234, 29)';
+}
+
+/**
+ * Turn the transmitter On
+ */
+function setTxOn() {
+  document.body.style.background = 'rgb(14, 6, 237)';
+}
+
+/**
+ * Send Data to the serial port
+ * @param {string} data the command to send
+*/
+function sendSerial(data:string) {
+  if (port?.writable == null) {
+    console.warn(`unable to find writable port`);
+    return;
+  }
+
+  const writer = port.writable.getWriter();
+
+  writer.write(encoder.encode(data));
+
+  writer.releaseLock();
+}
