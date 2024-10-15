@@ -1,20 +1,17 @@
 {
   "package-lock": {
-    "name": "serial-terminal",
+    "name": "XK852-control",
     "version": "0.0.1",
     "lockfileVersion": 3,
     "requires": true,
     "packages": {
       "": {
-        "name": "serial-terminal",
+        "name": "XK852-control",
         "version": "0.0.1",
         "license": "Apache-2.0",
         "dependencies": {
           "@types/w3c-web-serial": "^1.0.3",
-          "web-serial-polyfill": "^1.0.14",
-          "xterm": "^5.2.1",
-          "xterm-addon-fit": "^0.7.0",
-          "xterm-addon-web-links": "^0.8.0"
+          "web-serial-polyfill": "^1.0.14"
         },
         "devDependencies": {
           "@types/web": "0.0.71",
@@ -3024,9 +3021,9 @@
         }
       },
       "node_modules/electron-to-chromium": {
-        "version": "1.5.36",
-        "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.36.tgz",
-        "integrity": "sha512-HYTX8tKge/VNp6FGO+f/uVDmUkq+cEfcxYhKf15Akc4M5yxt5YmorwlAitKWjWhWQnKcDRBAQKXkhqqXMqcrjw==",
+        "version": "1.5.38",
+        "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.38.tgz",
+        "integrity": "sha512-VbeVexmZ1IFh+5EfrYz1I0HTzHVIlJa112UEWhciPyeOcKJGeTv6N8WnG4wsQB81DGCaVEGhpSb6o6a8WYFXXg==",
         "dev": true,
         "license": "ISC"
       },
@@ -6769,33 +6766,6 @@
         "dev": true,
         "license": "ISC"
       },
-      "node_modules/xterm": {
-        "version": "5.3.0",
-        "resolved": "https://registry.npmjs.org/xterm/-/xterm-5.3.0.tgz",
-        "integrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
-        "deprecated": "This package is now deprecated. Move to @xterm/xterm instead.",
-        "license": "MIT"
-      },
-      "node_modules/xterm-addon-fit": {
-        "version": "0.7.0",
-        "resolved": "https://registry.npmjs.org/xterm-addon-fit/-/xterm-addon-fit-0.7.0.tgz",
-        "integrity": "sha512-tQgHGoHqRTgeROPnvmtEJywLKoC/V9eNs4bLLz7iyJr1aW/QFzRwfd3MGiJ6odJd9xEfxcW36/xRU47JkD5NKQ==",
-        "deprecated": "This package is now deprecated. Move to @xterm/addon-fit instead.",
-        "license": "MIT",
-        "peerDependencies": {
-          "xterm": "^5.0.0"
-        }
-      },
-      "node_modules/xterm-addon-web-links": {
-        "version": "0.8.0",
-        "resolved": "https://registry.npmjs.org/xterm-addon-web-links/-/xterm-addon-web-links-0.8.0.tgz",
-        "integrity": "sha512-J4tKngmIu20ytX9SEJjAP3UGksah7iALqBtfTwT9ZnmFHVplCumYQsUJfKuS+JwMhjsjH61YXfndenLNvjRrEw==",
-        "deprecated": "This package is now deprecated. Move to @xterm/addon-web-links instead.",
-        "license": "MIT",
-        "peerDependencies": {
-          "xterm": "^5.0.0"
-        }
-      },
       "node_modules/yallist": {
         "version": "3.1.1",
         "resolved": "https://registry.npmjs.org/yallist/-/yallist-3.1.1.tgz",
@@ -6818,5 +6788,5 @@
       }
     }
   },
-  "invalidationHash": "2e29b4a6f2d41c336ff9491af61f292bec4dbae69f1cffb790441fa7dc0d941d"
+  "invalidationHash": "610dcaa2e6eee12b87ce6eb2db0c1e3fa338aa546a5f9baef7276f9bf8d32749"
 }
