@@ -330,26 +330,37 @@ function setTxOn() {
 
 /**
  * Send Data to the serial port
- * @param {string} data the command to send
+ * @param {Uint8Array} data the command to send
 */
-function sendSerial(data:string) {
+function sendSerial(data: Uint8Array) {
   if (port?.writable == null) {
     console.warn(`unable to find writable port`);
     return;
   }
 
   const writer = port.writable.getWriter();
-
-  writer.write(encoder.encode(data));
-
+  writer.write(data);
   writer.releaseLock();
 }
 
-// (_this: HTMLElement, _ev: Event)
 /**
  * Send a Command
+* @param {any} event the Event : Todo:use React
 */
-function sendCmd() {
-//  var message = event.target.value;
-  sendSerial('message');
+function sendCmd(event: any ) {
+  const elem = event.currentTarget;
+  if (elem) sendSerial(toXK852Cmd(elem.value));
+}
+
+/**
+ * Format XK852
+* @param {string} cmd the command string
+* @return {Uint8Array} the XK852 command bytes
+*/
+function toXK852Cmd(cmd: string): Uint8Array {
+  const m = encoder.encode(cmd);
+  const msg = new Uint8Array(m, 1, m.length + 2);
+  msg[0] = 10; // begin of message : LF
+  msg[m.length + 1] = 13; // begin of message : CR
+  return (encoder.encode(cmd));
 }
