@@ -14,55 +14,39 @@
 <div class="container">
 <H1> XK852 Rig Control <H2>
 
-</div>
-<div class="options">
-  <label for="ports">Port:</label>
-  <select id="ports">
-    <option value="prompt">Click 'Connect' to add a port...</option>
-  </select>
-  <button id="connect">Connect</button>
-
-  <div class="info">
-    <a id="polyfill_switcher"></a>
-  </div>
-  <br>
-</div>
-<br>
-<div>
-  <pre id="serialOut" >
-    No output!
-  </pre>
-  <br>
-</div>
-
 <div>
   CAT Method
 </div>
+  <div class="options">
+    <label for="ports">Port:</label>
+    <select id="ports">
+      <option value="prompt">Click 'Connect' to add a port...</option>
+    </select>
+    <button id="connect">Connect</button>
+
+    <div class="info">
+      <a id="polyfill_switcher"></a>
+    </div>
+    <br>
+  </div>
+  <br>
+</div>
 
 <div class="container">
+<div class="cmd" name = "OP_MODE" op = 'S'>
+  Power Mode
+  <br>
+  <input type="radio" class="clickCmd" id="OP_MODE_OFF" name="OP_MODE" value="*S0"> <label for="OP_MODE_OFF">Off</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_RX" name="OP_MODE" value="*S1"> <label for="OP_MODE_RX">Receive only</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_TX_LOW" name="OP_MODE" value="*S2"> <label for="OP_MODE_TX_LOW">RX/TX low power</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_TX_MID" name="OP_MODE" value="*S3"> <label for="OP_MODE_TX_MID">RX/TX medium power</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_TX_FULL" name="OP_MODE" value="*S4"> <label for="OP_MODE_TX_FULL">RX/TX full power</label><br>
 </div>
-<div class="cmd" name = "ADDRESS" op = 'A'>
-  Rig address
-</div>
-<div class="cmd" name = "BFO" op = 'B'>
-  BFO
 </div>
 <div class="cmd" name = "FREQUENCY" op = 'F'>
   Frequency
 </div>
 <input type="number" onchange="setFrequency" ><br>
-<div class="cmd" name = "LINE" op = 'G'>
-  Line
-  <br>
-  <input type="radio" class="clickCmd" id="LINE_OFF" name="LINE" value="*G0"> <label for="LINE_OFF">Off</label> <br>
-  <input type="radio" class="clickCmd" id="LINE_ON" name="LINE" value="*G1"> <label for="LINE_ON">On</label> <br>
-</div>
-<div class="cmd" name = "FSK_STOP" op = 'H'>
-  FSK Stop
-  <br>
-  <input type="radio" class="clickCmd" id="FSK_STOP_OFF" name="FSK_STOP" value="*H0"> <label for="FSK_STOP_OFF">Off</label> <br>
-  <input type="radio" class="clickCmd" name="FSK_STOP" value="*H1"> <label for="LINE_OFF">On</label> <br>
-</div>
 <div class="cmd" name = "MODE" op = 'I'>
   Mode
   <br>
@@ -75,49 +59,6 @@
   <input type="radio" class="clickCmd" id="MODE_FSK_MID" name="MODE" value="*I8"> <label for="MODE_FSK_MID">FSK medium power</label><br>
   <input type="radio" class="clickCmd" id="MODE_FSK_HP" name="MODE" value="*I9"> <label for="MODE_FSK_HP">FSK high power</label><br>
 </div>
-<div class="cmd" name = "EXTERN" op = 'J'>
-  Extern (0-9)
-  <br>
-</div>
-<div class="cmd" name = "CHANNEL" op = 'K'>
-  Channel (0-99)
-</div>
-<div class="cmd" name = "NOISE_BLANK" op = 'N'>
-  Noise blank
-  <br>
-  <input type="radio" class="clickCmd" id="NOISE_BLANK_OFF" name="NOISE_BLANK" value="*N0"> <label for="NOISE_BLANK_OFF">Off</label><br>
-  <input type="radio" class="clickCmd" id="NOISE_BLANK_ON" name="NOISE_BLANK" value="*N1"> <label for="NOISE_BLANK_ON">On</label><br>
-</div>
-<div class="cmd" name = "STATUS" op = 'O'>
-  Status query
-  <br>
-  <input type="radio" class="clickCmd" id="STATUS_1" name="STATUS_1" value="*O1"> <label for="STATUS_1">Query Status</label><br>
-  <input type="radio" class="clickCmd" id="STATUS_2" name="STATUS_2" value="*O2"> <label for="STATUS_2">Query CM</label><br>
-</div>
-<div class="cmd" name = "OP_MODE" op = 'S'>
-  Power Mode
-  <br>
-  <input type="radio" class="clickCmd" id="OP_MODE_OFF" name="OP_MODE" value="*S0"> <label for="OP_MODE_OFF">Off</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_RX" name="OP_MODE" value="*S1"> <label for="OP_MODE_RX">Receive only</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_TX_LOW" name="OP_MODE" value="*S2"> <label for="OP_MODE_TX_LOW">RX/TX low power</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_TX_MID" name="OP_MODE" value="*S3"> <label for="OP_MODE_TX_MID">RX/TX medium power</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_TX_FULL" name="OP_MODE" value="*S4"> <label for="OP_MODE_TX_FULL">RX/TX full power</label><br>
-</div>
-<div class="cmd" name = "SELFTEST" op = 'T'>
-  Selftest
-  <br>
-  <button class="clickCmd" id="SELFTEST" value="*Tu">Start Selftest</button><br>
-   <button class="clickCmd" id="SELFTEST_QUERY_CM" value="*Tu5"> Query Selftest Result</button><br>
-  <button class="clickCmd" id="SELFTEST_QUERY_BITE"  value="*T28">Query Selftest result BITE</button><br>
-
-</div>
-<div class="cmd" name = "VOICE" op = 'V'>
-  Voice Control
-  <br>
-  <input type="radio" class="clickCmd" id="VOICE_OFF" name="VOICE" value="*V0"> <label for="VOICE_OFF">Voice control off</label><br>
-  <input type="radio" class="clickCmd" id="VOICE_ON" name="VOICE" value="*V1"> <label for="VOICE_OFF">Voice control on</label><br>
-  Voice
-</div>
 <div class="cmd" name = "PTT" op = 'X'>
   PTT
   <br>
@@ -129,10 +70,65 @@
   Tune
   <br>
 </div>
+<div class="cmd" name = "STATUS" op = 'O'>
+  Status query
+  <br>
+  <button class="clickCmd" id="STATUS_1" value="*O1">Query Status</button><br>
+  <button class="clickCmd" id="STATUS_2" value="*O2">Query CM</button><br>
+</div>
+<div>
+  <pre id="serialOut" >
+    No output!
+  </pre>
+  <br>
+</div>
+<div class="cmd" name = "SELFTEST" op = 'T'>
+  Selftest
+  <br>
+  <button class="clickCmd" id="SELFTEST" value="*Tu">Start Selftest</button><br>
+   <button class="clickCmd" id="SELFTEST_QUERY_CM" value="*Tu5"> Query Selftest Result</button><br>
+  <button class="clickCmd" id="SELFTEST_QUERY_BITE"  value="*T28">Query Selftest result BITE</button><br>
+</div>
+<div class="cmd" name = "ADDRESS" op = 'A'>
+  Rig address
+</div>
+<div class="cmd" name = "BFO" op = 'B'>
+  BFO
+</div>
+<div class="cmd" name = "NOISE_BLANK" op = 'N'>
+  Noise blank
+  <br>
+  <input type="radio" class="clickCmd" id="NOISE_BLANK_OFF" name="NOISE_BLANK" value="*N0"> <label for="NOISE_BLANK_OFF">Off</label><br>
+  <input type="radio" class="clickCmd" id="NOISE_BLANK_ON" name="NOISE_BLANK" value="*N1"> <label for="NOISE_BLANK_ON">On</label><br>
+</div>
+<div class="cmd" name = "VOICE" op = 'V'>
+  Voice Control
+  <br>
+  <input type="radio" class="clickCmd" id="VOICE_OFF" name="VOICE" value="*V0"> <label for="VOICE_OFF">Voice control off</label><br>
+  <input type="radio" class="clickCmd" id="VOICE_ON" name="VOICE" value="*V1"> <label for="VOICE_OFF">Voice control on</label><br>
+</div>
+<div class="cmd" name = "LINE" op = 'G'>
+  Line
+  <br>
+  <input type="radio" class="clickCmd" id="LINE_OFF" name="LINE" value="*G0"> <label for="LINE_OFF">Off</label> <br>
+  <input type="radio" class="clickCmd" id="LINE_ON" name="LINE" value="*G1"> <label for="LINE_ON">On</label> <br>
+</div>
+<div class="cmd" name = "FSK_STOP" op = 'H'>
+  FSK Stop
+  <br>
+  <input type="radio" class="clickCmd" id="FSK_STOP_OFF" name="FSK_STOP" value="*H0"> <label for="FSK_STOP_OFF">Off</label> <br>
+  <input type="radio" class="clickCmd" name="FSK_STOP" value="*H1"> <label for="LINE_OFF">On</label> <br>
+</div>
 <div class="cmd" name = "FSK_POLARITY" op = 'Z'>
   FSK polarity
 </div>
-
+<div class="cmd" name = "EXTERN" op = 'J'>
+  Extern (0-9)
+  <br>
+</div>
+<div class="cmd" name = "CHANNEL" op = 'K'>
+  Channel (0-99)
+</div>
 <script type="module" src="/src/index.ts"></script>
 </body>
 </html>
