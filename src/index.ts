@@ -115,13 +115,13 @@ async function getSelectedPort(): Promise<void> {
 
 /**
  * Show serial input and diagnostics.
- * @param {String} msg  the message to show.
+ * @param {string} msg  the message to show.
  * @param {void} callback
  * Optional callback that fires when the data was processed.
 */
-function dumpSerialOut(msg:string, callback?: () => void): void {
+function dumpSerialOut(msg: string, callback?: () => void): void {
   const element=document.getElementById('serialOut');
-  if (element) element.innerText = msg;
+  if (element) element.innerText += msg;
   if (callback) callback();
 }
 
@@ -129,7 +129,7 @@ function dumpSerialOut(msg:string, callback?: () => void): void {
  * Resets the UI back to the disconnected state.
  */
 function markDisconnected(): void {
-  dumpSerialOut('<DISCONNECTED>');
+  dumpSerialOut('<DISCONNECTED>\n');
   portSelector.disabled = false;
   connectButton.textContent = 'Connect';
   connectButton.disabled = false;
@@ -161,13 +161,13 @@ async function connectToPort(): Promise<void> {
 
   try {
     await port.open(options);
-    dumpSerialOut('<CONNECTED>');
+    dumpSerialOut('<CONNECTED>\n');
     connectButton.textContent = 'Disconnect';
     connectButton.disabled = false;
   } catch (e) {
     console.error(e);
     if (e instanceof Error) {
-      dumpSerialOut(`<ERROR: ${e.message}>`);
+      dumpSerialOut(`<ERROR: ${e.message}>\n`);
     }
     markDisconnected();
     return;
@@ -175,31 +175,24 @@ async function connectToPort(): Promise<void> {
 
   while (port && port.readable) {
     try {
-      try {
-        reader = port.readable.getReader({mode: 'byob'});
-      } catch {
-        reader = port.readable.getReader();
-      }
+      reader = port.readable.getReader({mode: 'byob'});
 
       let buffer = null;
       for (;;) {
         const {value, done} = await (async () => {
-          if (reader instanceof ReadableStreamBYOBReader) {
-            if (!buffer) {
-              buffer = new ArrayBuffer(bufferSize);
-            }
-            const {value, done} =
-                await reader.read(new Uint8Array(buffer, 0, bufferSize));
-            buffer = value?.buffer;
-            return {value, done};
-          } else {
-            return await reader.read();
+          if (!buffer) {
+            buffer = new ArrayBuffer(bufferSize);
           }
+          const {value, done} =
+            await reader.read(new Uint8Array(buffer, 0, bufferSize));
+          buffer = value?.buffer;
+          return {value, done};
         })();
 
         if (value) {
           await new Promise<void>((resolve) => {
-            dumpSerialOut(value, resolve);
+            const msg = new TextDecoder().decode(value);
+            dumpSerialOut(msg, resolve);
           });
         }
         if (done) {
@@ -210,7 +203,7 @@ async function connectToPort(): Promise<void> {
       console.error(e);
       await new Promise<void>((resolve) => {
         if (e instanceof Error) {
-          dumpSerialOut(`<ERROR: ${e.message}>`, resolve);
+          dumpSerialOut(`<ERROR: ${e.message}>\n`, resolve);
         }
       });
     } finally {
@@ -359,8 +352,9 @@ function sendCmd(event: any ) {
 */
 function toXK852Cmd(cmd: string): Uint8Array {
   const m = encoder.encode(cmd);
-  const msg = new Uint8Array(m, 1, m.length + 2);
+  const msg = new Uint8Array(m.length + 2);
   msg[0] = 10; // begin of message : LF
+  msg.set(m, 1);
   msg[m.length + 1] = 13; // begin of message : CR
-  return (encoder.encode(cmd));
+  return msg;
 }
