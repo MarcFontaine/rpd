@@ -30,6 +30,7 @@ let portSelector: HTMLSelectElement;
 let connectButton: HTMLButtonElement;
 let PTT_OFF: HTMLButtonElement;
 let PTT_ON: HTMLButtonElement;
+let FREQUENCY: HTMLInputElement;
 
 let portCounter = 1;
 let port: SerialPort | SerialPortPolyfill | undefined;
@@ -257,10 +258,15 @@ async function disconnectFromPort(): Promise<void> {
 
 document.addEventListener('DOMContentLoaded', async () => {
   portSelector = document.getElementById('ports') as HTMLSelectElement;
+
   PTT_OFF = document.getElementById('PTT_OFF') as HTMLButtonElement;
+  PTT_OFF.addEventListener('click', setTxOff);
+
   PTT_ON = document.getElementById('PTT_ON') as HTMLButtonElement;
   PTT_ON.addEventListener('click', setTxOn);
-  PTT_OFF.addEventListener('click', setTxOff);
+
+  FREQUENCY = document.getElementById('FREQUENCY') as HTMLInputElement;
+  FREQUENCY.addEventListener('change', setFrequency);
 
   connectButton = document.getElementById('connect') as HTMLButtonElement;
   connectButton.addEventListener('click', () => {
@@ -319,6 +325,19 @@ function setTxOff() {
  */
 function setTxOn() {
   document.body.style.background = 'rgb(14, 6, 237)';
+}
+
+/**
+ * Set the frequency
+ @param {any} event the event
+ */
+function setFrequency(event: any ) {
+  const e = event.currentTarget;
+  if (e) {
+    const f = Math.round(e.value/10);
+    const cmd = `*F${f}`;
+    sendSerial(toXK852Cmd(cmd));
+  }
 }
 
 /**
