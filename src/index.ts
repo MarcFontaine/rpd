@@ -145,7 +145,8 @@ async function connectToPort(): Promise<void> {
   if (!port) {
     return;
   }
-
+  // TODO: https://wicg.github.io/serial/#setsignals-method
+  // TODO: Test with plain old serial adapter not with microham
   const options = {
     baudRate: 9600,
     dataBits: 7,

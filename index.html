@@ -9,6 +9,14 @@
   <meta name="author" content="">
 </head>
 
+<style>
+  .serial-debug-out pre {
+    height: 100px;
+    width: 500px;
+    overflow: scroll;
+  }
+</style>
+
 <body style="background-color:blueviolet">
 
 <div class="container">
@@ -76,7 +84,7 @@ Frequency
   <button class="clickCmd" id="STATUS_1" value="*O1">Query Status</button><br>
   <button class="clickCmd" id="STATUS_2" value="*O2">Query CM</button><br>
 </div>
-<div>
+<div class="serial-debug-out">
   <pre id="serialOut" >
     No output!
   </pre>
