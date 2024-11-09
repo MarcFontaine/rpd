@@ -335,8 +335,9 @@ function setTxOn() {
 function setFrequency(event: any ) {
   const e = event.currentTarget;
   if (e) {
-    const f = Math.round(e.value/10);
-    const cmd = `*F${f}`;
+    const f = Math.round(e.value/10); // TODO: check limits
+    const fstring = String(f).padStart(7, `0000000` );
+    const cmd = `*F${fstring}`;
     sendSerial(toXK852Cmd(cmd));
   }
 }
