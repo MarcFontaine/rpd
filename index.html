@@ -15,6 +15,24 @@
     width: 500px;
     overflow: scroll;
   }
+  #FREQUENCY {
+    font-size: 2em;
+  }
+  #PTT_BUTTON {
+    font-size: 2em;
+  }
+  .sliderdiv {
+    width: 100%;
+  }
+  #FREQUENCY_SLIDER {
+    appearance: none;
+    width: 80%; /* Full-width */
+    /*height: 25px;  Specified height */
+    background: #d3d3d3;
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+  }
 </style>
 
 <body>
@@ -25,8 +43,11 @@
 </div>
 <div id="rigcontrol">
 <div class="cmd" name = "FREQUENCY" op = 'F'>
-Frequency
-<input type="number" id="FREQUENCY"><br>
+  Frequency <input type="number" id="FREQUENCY_INPUT" min="1500" max="30000" step="0.1"> kHz
+  <br>
+  <div id="sliderdiv">
+    <input id="FREQUENCY_SLIDER" type="range" min="0" max="200" value="100">
+  </div>
 </div>
 <div>
   <br>

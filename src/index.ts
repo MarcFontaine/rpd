@@ -43,7 +43,8 @@ let connectButton: HTMLButtonElement;
 let PTT_OFF: HTMLButtonElement;
 let PTT_ON: HTMLButtonElement;
 let PTT_BUTTON: HTMLButtonElement;
-let FREQUENCY: HTMLInputElement;
+let FrequencyInput: HTMLInputElement;
+let FrequencySlider: HTMLInputElement;
 
 let portCounter = 1;
 let port: SerialPort | SerialPortPolyfill | undefined;
@@ -54,6 +55,7 @@ const usePolyfill = urlParams.has('polyfill');
 const bufferSize = 8 * 1024; // 8kB
 const encoder = new TextEncoder();
 
+let frequency = 14000000;
 /**
  * Returns the option corresponding to the given SerialPort if one is present
  * in the selection dropdown.
@@ -287,8 +289,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   PTT_BUTTON.addEventListener('mousedown', setTxOn);
   PTT_BUTTON.addEventListener('mouseup', setTxOff);
 
-  FREQUENCY = document.getElementById('FREQUENCY') as HTMLInputElement;
-  FREQUENCY.addEventListener('change', setFrequency);
+  FrequencyInput = document
+      .getElementById('FREQUENCY_INPUT') as HTMLInputElement;
+
+  FrequencyInput.value = frequency/1000;
+  FrequencyInput.addEventListener('change', setFrequencyInput);
+
+  FrequencySlider = document
+      .getElementById('FREQUENCY_SLIDER') as HTMLInputElement;
+  FrequencySlider.value = 100;
+  FrequencySlider.addEventListener('input', frequencySliderMove);
 
   connectButton = document.getElementById('connect') as HTMLButtonElement;
   connectButton.addEventListener('click', () => {
@@ -355,14 +365,40 @@ function setTxOn() {
  * Set the frequency
  @param {any} event the event
  */
-function setFrequency(event: any ) {
+function setFrequencyInput(event: any) {
   const e = event.currentTarget;
   if (e) {
-    const f = Math.round(e.value/10); // TODO: check limits
-    const fstring = String(f).padStart(7, `0000000` );
-    const cmd = `*F${fstring}`;
-    sendSerial(toXK852Cmd(cmd));
+    setFrequency(e.value * 1000);
   }
+}
+
+/**
+ * user moves the frequency slider
+ @param {any} event the event
+ */
+function frequencySliderMove(event: any) {
+  const e = event.currentTarget;
+  if (e) {
+    const x = e.value - 100;
+    const df = Math.sign(x) * Math.exp(Math.abs(x) / 7.5);
+    FrequencyInput.value = Math.round((frequency + df)/10)/100;
+  }
+}
+
+/**
+ * Set the frequency
+ @param {number} f the target frequncy
+ @return {number} the frequency that was used
+ */
+function setFrequency(f: number ): number {
+  let x = Math.round(f / 10);
+  if (x < 150000) x = 150000;
+  if (x > 3000000) x = 3000000;
+  const fstring = String(x).padStart(7, `0000000` );
+  const cmd = `*F${fstring}`;
+  sendSerial(toXK852Cmd(cmd));
+  frequency = x*10;
+  return frequency;
 }
 
 /**
