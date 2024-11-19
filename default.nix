@@ -28,8 +28,8 @@
 #    '';
 #  };
 
-  name = lib.mkForce "serial-console";
-  version = lib.mkForce "0.0.1";
+  name = lib.mkForce "XK852-rigcontrol";
+  version = lib.mkForce "0.0.2";
 
   mkDerivation = {
     src = lib.cleanSource ./.;

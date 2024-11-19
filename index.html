@@ -17,44 +17,20 @@
   }
 </style>
 
-<body style="background-color:blueviolet">
+<body>
 
 <div class="container">
 <H1> XK852 Rig Control <H2>
 
-<div>
-  CAT Method
 </div>
-<div class="options">
-  <div style="display: none;">
-  <label for="ports">Port:</label>
-    <select id="ports">
-      <option value="prompt">Click 'Connect' to add a port...</option>
-    </select>
-  </div>
-  <button id="connect">Connect</button>
-  <div class="info" style="display: none;">
-    <a id="polyfill_switcher"></a>
-  </div>
-  <br>
-</div>
-<br>
-</div>
-
-<div class="container">
-<div class="cmd" name = "OP_MODE" op = 'S'>
-  Power Mode
-  <br>
-  <input type="radio" class="clickCmd" id="OP_MODE_OFF" name="OP_MODE" value="*S0"> <label for="OP_MODE_OFF">Off</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_RX" name="OP_MODE" value="*S1"> <label for="OP_MODE_RX">Receive only</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_TX_LOW" name="OP_MODE" value="*S2"> <label for="OP_MODE_TX_LOW">RX/TX low power</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_TX_MID" name="OP_MODE" value="*S3"> <label for="OP_MODE_TX_MID">RX/TX medium power</label><br>
-  <input type="radio" class="clickCmd" id="OP_MODE_TX_FULL" name="OP_MODE" value="*S4"> <label for="OP_MODE_TX_FULL">RX/TX full power</label><br>
-</div>
-</div>
+<div id="rigcontrol">
 <div class="cmd" name = "FREQUENCY" op = 'F'>
 Frequency
 <input type="number" id="FREQUENCY"><br>
+</div>
+<div>
+  <br>
+  <button id="PTT_BUTTON">PTT</button><br>
 </div>
 <div class="cmd" name = "MODE" op = 'I'>
   Mode
@@ -68,16 +44,21 @@ Frequency
   <input type="radio" class="clickCmd" id="MODE_FSK_MID" name="MODE" value="*I8"> <label for="MODE_FSK_MID">FSK medium power</label><br>
   <input type="radio" class="clickCmd" id="MODE_FSK_HP" name="MODE" value="*I9"> <label for="MODE_FSK_HP">FSK high power</label><br>
 </div>
-<div class="cmd" name = "PTT" op = 'X'>
-  PTT
+<div class="cmd" name = "OP_MODE" op = 'S'>
+  Power Mode
   <br>
-  <button class="clickCmd" id="PTT_OFF" value="*X2">TX OFF</button><br>
-  <button class="clickCmd" id="PTT_ON" value="*X1">TX ON</button><br>
-  <button class="clickCmd" id="PTT_DISPLAY_OFF" value="*X0">PTT DISPLAY OFF</button><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_OFF" name="OP_MODE" value="*S0"> <label for="OP_MODE_OFF">Off</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_RX" name="OP_MODE" value="*S1"> <label for="OP_MODE_RX">Receive only</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_TX_LOW" name="OP_MODE" value="*S2"> <label for="OP_MODE_TX_LOW">RX/TX low power</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_TX_MID" name="OP_MODE" value="*S3"> <label for="OP_MODE_TX_MID">RX/TX medium power</label><br>
+  <input type="radio" class="clickCmd" id="OP_MODE_TX_FULL" name="OP_MODE" value="*S4"> <label for="OP_MODE_TX_FULL">RX/TX full power</label><br>
 </div>
-<div class="cmd" name = "TUNE" op = 'Y'>
-  Tune
+<div class="cmd" name = "PTT" op = 'X'>
+  TX On/OFF
   <br>
+  <button id="PTT_OFF">TX OFF</button><br>
+  <button id="PTT_ON">TX ON</button><br>
+  <button class="clickCmd" id="PTT_DISPLAY_OFF" value="*X0">PTT DISPLAY OFF</button><br>
 </div>
 <div class="cmd" name = "STATUS" op = 'O'>
   Status query
@@ -85,10 +66,21 @@ Frequency
   <button class="clickCmd" id="STATUS_1" value="*O1">Query Status</button><br>
   <button class="clickCmd" id="STATUS_2" value="*O2">Query CM</button><br>
 </div>
-<div class="serial-debug-out">
-  <pre id="serialOut" >
-    No output!
-  </pre>
+
+<button onclick="showExtaCommands()">Show/Hide more Commands</button>
+<script>
+function showExtaCommands() {
+  var x = document.getElementById("extraCommands");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+<div id="extraCommands" style="display: none;">
+<div class="cmd" name = "TUNE" op = 'Y'>
+  Tune
   <br>
 </div>
 <div class="cmd" name = "SELFTEST" op = 'T'>
@@ -137,6 +129,37 @@ Frequency
 </div>
 <div class="cmd" name = "CHANNEL" op = 'K'>
   Channel (0-99)
+</div>
+</div>
+</div>
+
+<div id="connectcontrol">
+Transceiver Connection
+</div>
+<div class="options">
+  <div style="display: none;">
+  <label for="ports">Port:</label>
+    <select id="ports">
+      <option value="prompt">Click 'Connect' to add a port...</option>
+    </select>
+  </div>
+  <button id="connect">Connect to local serial port</button>
+  <div class="info" style="display: none;">
+    <a id="polyfill_switcher"></a>
+  </div>
+  <br>
+</div>
+<br>
+
+<div class="serial-debug-out">
+  <pre id="serialOut" >
+    No output!
+  </pre>
+  <br>
+</div>
+
+<div>
+<a href="https://www.github.com/MarcFontaine/rigpage">Source on github</a>
 </div>
 <script type="module" src="/src/index.ts"></script>
 </body>

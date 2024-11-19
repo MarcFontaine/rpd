@@ -26,10 +26,23 @@ declare class PortOption extends HTMLOptionElement {
   port: SerialPort | SerialPortPolyfill;
 }
 
+// eslint-disable-next-line no-unused-vars
+enum GuiMode {
+// eslint-disable-next-line no-unused-vars
+  NotConnected = 'NotConnected',
+// eslint-disable-next-line no-unused-vars
+  Connected = 'Connected',
+// eslint-disable-next-line no-unused-vars
+  ConnectedTxOn = 'ConnectedTxOn',
+// eslint-disable-next-line no-unused-vars
+  SomeError = 'SomeError'
+}
+
 let portSelector: HTMLSelectElement;
 let connectButton: HTMLButtonElement;
 let PTT_OFF: HTMLButtonElement;
 let PTT_ON: HTMLButtonElement;
+let PTT_BUTTON: HTMLButtonElement;
 let FREQUENCY: HTMLInputElement;
 
 let portCounter = 1;
@@ -164,6 +177,7 @@ async function connectToPort(): Promise<void> {
   try {
     await port.open(options);
     dumpSerialOut('<CONNECTED>\n');
+    setGuiMode(GuiMode.Connected);
     connectButton.textContent = 'Disconnect';
     connectButton.disabled = false;
   } catch (e) {
@@ -171,6 +185,7 @@ async function connectToPort(): Promise<void> {
     if (e instanceof Error) {
       dumpSerialOut(`<ERROR: ${e.message}>\n`);
     }
+    setGuiMode(GuiMode.SomeError);
     markDisconnected();
     return;
   }
@@ -225,7 +240,7 @@ async function connectToPort(): Promise<void> {
         dumpSerialOut(`<ERROR: ${e.message}>`);
       }
     }
-
+    setGuiMode(GuiMode.SomeError);
     markDisconnected();
   }
 }
@@ -250,14 +265,16 @@ async function disconnectFromPort(): Promise<void> {
       console.error(e);
       if (e instanceof Error) {
         dumpSerialOut(`<ERROR: ${e.message}>`);
+        setGuiMode(GuiMode.SomeError);
       }
     }
   }
-
   markDisconnected();
+  setGuiMode(GuiMode.NotConnected);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  setGuiMode(GuiMode.NotConnected);
   portSelector = document.getElementById('ports') as HTMLSelectElement;
 
   PTT_OFF = document.getElementById('PTT_OFF') as HTMLButtonElement;
@@ -265,6 +282,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   PTT_ON = document.getElementById('PTT_ON') as HTMLButtonElement;
   PTT_ON.addEventListener('click', setTxOn);
+
+  PTT_BUTTON = document.getElementById('PTT_BUTTON') as HTMLButtonElement;
+  PTT_BUTTON.addEventListener('mousedown', setTxOn);
+  PTT_BUTTON.addEventListener('mouseup', setTxOff);
 
   FREQUENCY = document.getElementById('FREQUENCY') as HTMLInputElement;
   FREQUENCY.addEventListener('change', setFrequency);
@@ -318,14 +339,16 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Turn the transmitter off
  */
 function setTxOff() {
-  document.body.style.background = 'rgb(36, 234, 29)';
+  sendSerial(toXK852Cmd('*X2'));
+  setGuiMode(GuiMode.Connected);
 }
 
 /**
  * Turn the transmitter On
  */
 function setTxOn() {
-  document.body.style.background = 'rgb(14, 6, 237)';
+  sendSerial(toXK852Cmd('*X1'));
+  setGuiMode(GuiMode.ConnectedTxOn);
 }
 
 /**
@@ -378,4 +401,29 @@ function toXK852Cmd(cmd: string): Uint8Array {
   msg.set(m, 1);
   msg[m.length + 1] = 13; // begin of message : CR
   return msg;
+}
+
+/**
+ * Set Gui Mode
+* @param {GuiMode} mode the Gui Mode
+*/
+function setGuiMode(mode: GuiMode) {
+  // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
+  const rigcontrol = document.getElementById('rigcontrol')!;
+  switch (mode) {
+    case GuiMode.NotConnected:
+      document.body.style.background = 'blueviolet';
+      rigcontrol.style.display = 'none';
+      break;
+    case GuiMode.Connected:
+      document.body.style.background = 'rgb(36, 234, 29)';
+      rigcontrol.style.display = 'block';
+      break;
+    case GuiMode.ConnectedTxOn:
+      document.body.style.background = 'rgb(14, 6, 237)';
+      break;
+    case GuiMode.SomeError:
+      document.body.style.background = 'red';
+      break;
+  }
 }

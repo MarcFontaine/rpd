@@ -1,6 +1,6 @@
 {
-  "short_name": "Serial Terminal",
-  "name": "Serial Terminal",
+  "short_name": "XK852 rig control",
+  "name": "XK852 rig control",
   "icons": [
     {
       "src": "images/icons-1024.png",
