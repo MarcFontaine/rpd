@@ -18,6 +18,8 @@ import {
   serial as polyfill, SerialPort as SerialPortPolyfill,
 } from 'web-serial-polyfill';
 
+import * as WebRTC from './webrtc';
+
 /**
  * Elements of the port selection dropdown extend HTMLOptionElement so that
  * they can reference the SerialPort they represent.
@@ -276,6 +278,7 @@ async function disconnectFromPort(): Promise<void> {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  WebRTC.initWebRTC();
   setGuiMode(GuiMode.NotConnected);
   portSelector = document.getElementById('ports') as HTMLSelectElement;
 
@@ -292,12 +295,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   FrequencyInput = document
       .getElementById('FREQUENCY_INPUT') as HTMLInputElement;
 
-  FrequencyInput.value = frequency/1000;
+  FrequencyInput.value = (frequency / 1000).toString();
   FrequencyInput.addEventListener('change', setFrequencyInput);
 
   FrequencySlider = document
       .getElementById('FREQUENCY_SLIDER') as HTMLInputElement;
-  FrequencySlider.value = 100;
+  FrequencySlider.value = (100).toString();
   FrequencySlider.addEventListener('input', frequencySliderMove);
 
   connectButton = document.getElementById('connect') as HTMLButtonElement;
@@ -381,7 +384,7 @@ function frequencySliderMove(event: any) {
   if (e) {
     const x = e.value - 100;
     const df = Math.sign(x) * Math.exp(Math.abs(x) / 7.5);
-    FrequencyInput.value = Math.round((frequency + df)/10)/100;
+    FrequencyInput.value = (Math.round((frequency + df) / 10) / 100).toString();
   }
 }
 

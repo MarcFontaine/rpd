@@ -22,7 +22,6 @@
     }
   ],
   "start_url": "./?source=pwa",
-  "display": "standalone",
   "scope": "./",
   "id": "./"
 }
