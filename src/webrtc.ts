@@ -117,12 +117,11 @@ function addSession(entryElement, videoElement, session) {
 
 // @filename: webrtc.ts
 export function initWebRTC() {
-//  const signalingProtocol = window.location.protocol.startsWith("https") ? "wss" : "ws";
   const gstWebRTCConfig = {
     meta: {
       name: `XK852RigControl-${Date.now()}`
       },
-    signalingServerUrl: `ws://oh0.duckdns.org:8443`,
+    signalingServerUrl: `wss://remote-qth.oh0.duckdns.org:443/ice`,
     webrtcConfig: {
 	iceServers: [
 	 {
