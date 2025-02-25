@@ -1,3 +1,3 @@
 <div>
 Searchbar
-<div>
+</div>

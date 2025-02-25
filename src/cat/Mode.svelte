@@ -2,7 +2,7 @@
 import {rig} from '../state.svelte';
 import {set_MODE_AME, set_MODE_USB ,set_MODE_LSB,
   set_MODE_CW, set_MODE_ISB,
-  set_MODE_FSK_LP, set_MODE_FSK_MID, set_MODE_FSK_HP } from '../cat.ts';
+  set_MODE_FSK_LP, set_MODE_FSK_MID, set_MODE_FSK_HP } from '../cat';
 </script>
 
 <div class="mode">

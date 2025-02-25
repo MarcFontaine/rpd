@@ -7,7 +7,7 @@ import * as Profile from './profile';
 <div>
 <button
   onclick={() => {
-    currentProfile.p=Config.localSerial;
+    currentProfile.p = Config.localSerial;
     Profile.initProfile(Config.localSerial)
   }}>
 Connect to a Local Serial Port

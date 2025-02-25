@@ -1,6 +1,6 @@
 import {replace} from 'svelte-spa-router';
 
-import * as State from './state';
+import * as State from './state.svelte';
 import * as WebSerial from './serial';
 import * as WebSocket from './websocket';
 import * as WebRTC from './webrtc';
@@ -42,7 +42,7 @@ async function initLink(l: any) {
 
 };
 export async function initProfile(p: any) {
-  State.setCurrentProfile(p)
+  State.currentProfile.p = p;
   p.links.forEach(initLink)
   replace('/rigcontrol');
 };

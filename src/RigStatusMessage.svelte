@@ -11,14 +11,14 @@ const formatter = new Intl.DateTimeFormat('en-US',{
   minute: '2-digit',
   second: '2-digit',
   fractionalSecondDigits: 3
- });
+  });
 
 </script>
 
 <div>
 <details>
   <summary>
-    <span style="font-size:2em;">RigStatus:
+    <span style="font-size:2em;">RigStatus:</span>
     <span><button style="font-size:0.5em;" onclick={syncRig}>Sync</button></span>
     <br>
     <span style="font-size:0.5em;">{rig.returnMsg}</span>
@@ -36,5 +36,3 @@ const formatter = new Intl.DateTimeFormat('en-US',{
   {/each}
 </details>
 </div>
-
-

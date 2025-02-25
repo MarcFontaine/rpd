@@ -1,7 +1,7 @@
 <script lang="ts">
 import {rig} from '../state.svelte';
 import {set_OP_MODE_OFF, set_OP_MODE_RX ,set_OP_MODE_TX_LOW,
-  set_OP_MODE_TX_MID, set_OP_MODE_TX_FULL } from '../cat.ts';
+  set_OP_MODE_TX_MID, set_OP_MODE_TX_FULL } from '../cat';
 </script>
 
 <div class="txpower">

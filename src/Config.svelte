@@ -4,7 +4,6 @@ import * as Profile from './profile';
 import { currentProfile} from './state.svelte';
 
 let {params} = $props();
-
 let profile = $state(currentProfile.p ? currentProfile.p : null);
 let expert = $state(false);
 let url = $state((params && params.wild) ? params.wild : null);
@@ -35,25 +34,27 @@ async function loadProfile() {
     }
   });
   const data = await response.json();
-  profile = Config.validateProfile(data);
-  return (true)
-}
-
-async function selectFile(e) {
-  const file = e.target.files[0];
-  let json;
-  if (file == null) {
-    json = null;
-    return;
+  if (data) {
+    profile = Config.validateProfile(data);
+    return (true)
   }
-  json = await readJsonFile(file);
-  profile = Config.validateProfile(json);
+  else return false;
 }
 
-function readJsonFile(file) {
+async function selectFile(e:Event) {
+  const target = e.target as HTMLInputElement;
+  if (!target || !target.files ) return;
+  const file = target.files[0];
+  readJsonFile(file)
+    .then (json => {
+      profile = Config.validateProfile(json);
+    })
+}
+
+function readJsonFile(file:File):Promise<JSON> {
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
-    reader.onload = () => resolve(JSON.parse(reader.result));
+    reader.onload = () => resolve(JSON.parse(reader.result as string));
     reader.onerror = reject;
     reader.readAsText(file);
   });
@@ -128,7 +129,7 @@ function readJsonFile(file) {
     Current Profile : {profile.name}
     </h2>
   <br>
-  <textarea rows="30" cols="80" disabled="true">
+  <textarea rows="30" cols="80" disabled>
   {JSON.stringify(profile, null, 4)}
   </textarea>
   </div>

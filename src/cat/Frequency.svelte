@@ -1,12 +1,12 @@
 <script lang="ts">
 import {rig} from '../state.svelte';
-import {setFrequency} from '../cat.ts';
+import {setFrequency} from '../cat';
 
 let fset = $derived(rig.frequency);
 let f = $state(1500);
 let s = $state(100);
 
-function format(f:num) {
+function format(f:number) {
   return f.toFixed(2).padStart(8," ")
 }
 
@@ -18,13 +18,13 @@ function fsum() {
   return clamp(fn)
 }
 
-function clamp(f) {
+function clamp(f:number) {
   if (f < 1500) return 1500
     else if (f > 29999) return 29999
     else return f;
 }
 
-function set(f_unsafe) {
+function set(f_unsafe:number) {
   const f=clamp(f_unsafe);
   setFrequency(1000*f);
 }

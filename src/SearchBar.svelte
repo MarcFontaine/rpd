@@ -1,11 +1,8 @@
-<script>
+<script lang="ts">
   import Typeahead from "svelte-typeahead";
-  import {bookmarks} from "./bookmarks.ts";
+  import {bookmarks} from "./bookmarks";
   let v = $state("");
   
-  function onSelect(event) {
-    event.detail.original.runAction(event.detail.searched);
-  }
 </script>
 
 <Typeahead
@@ -14,7 +11,7 @@
   placeholder={`Enter Frequency or Command`}
   data={bookmarks}
   extract={ item => item.getLabel(v) }
-  on:select={onSelect}
+  on:select={ event => event.detail.original.runAction(event.detail.searched) }
   on:clear={() => {} }
   disable={ item => item.isDisabled }
   bind:value={v}

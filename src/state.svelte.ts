@@ -1,4 +1,4 @@
-export const currentProfile = $state( { p: null } );
+export const currentProfile = $state( { p: {} } );
 
 const emptyLogs : Array<any> = [] //Todo: limit size
 
@@ -38,7 +38,7 @@ export const webRTCCapture = $state(
   , session: null
   , starting: false
   , hasSession: false
-  , mediaElement: null
+  , mediaElement: {}
   , clientId: null
   , consumers: {}
   });
@@ -50,3 +50,15 @@ export const webRTCClient = $state(
   , autoStartProducers: []
   , producers: {}
   });
+
+export type Cmd =
+  { xk852serialNative: Uint8Array
+  , rigctld: string
+  , timeout: number
+  };
+
+export var sendCmdCallback: any;
+
+export function setSendCmdCallback(fn: any) {
+  sendCmdCallback = fn;
+}

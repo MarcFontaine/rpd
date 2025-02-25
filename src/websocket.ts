@@ -1,6 +1,6 @@
 import {gui, setReturnMsg, pushLog} from './state.svelte';
-import * as State from './state';
-import {Cmd} from './state';
+import * as State from './state.svelte';
+import {type Cmd} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
 
 function matchReturnMsg(str: string) {

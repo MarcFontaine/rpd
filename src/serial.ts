@@ -20,8 +20,8 @@ import {
 
 import {gui} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
-import * as State from './state';
-import {Cmd} from './state';
+import * as State from './state.svelte';
+import {type Cmd} from './state.svelte';
 import {pushLog, setReturnMsg} from './state.svelte';
 
 /**
