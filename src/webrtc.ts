@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 import * as Config from './config';
-import * as State from './state';
+import * as State from './state.svelte';
 import {webRTC, webRTCClient} from './state.svelte';
 
 // @filename: webrtc.ts
