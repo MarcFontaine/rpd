@@ -1,6 +1,7 @@
 {
   "short_name": "XK852 rig control",
   "name": "XK852 rig control",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "images/icons-1024.png",

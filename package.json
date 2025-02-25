@@ -1,6 +1,6 @@
 {
   "name": "XK852-control",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "description": "CAT program for XK852 transceivers",
   "license": "Apache-2.0",
   "repository": {
@@ -9,22 +9,30 @@
   },
   "dependencies": {
     "@types/w3c-web-serial": "^1.0.3",
-    "web-serial-polyfill": "^1.0.14"
+    "web-serial-polyfill": "^1.0.14",
+    "svelte-typeahead": "^5.0.0"
   },
   "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@tsconfig/svelte": "^5.0.4",
+    "svelte": "^5.15.0",
+    "svelte-spa-router": "^4.0.1",
+    "svelte-check": "^4.1.1",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.5",
     "@types/web": "0.0.71",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "eslint": "^8.9.0",
     "eslint-config-google": "^0.14.0",
-    "typescript": "^4.7.4",
-    "vite": "^6.0.3",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-pwa": "^0.21.1"
-  },
+    "vite-plugin-pwa": "^0.21.1",
+    "@kitajs/html": "^4.2.6"
+   },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   }
 }

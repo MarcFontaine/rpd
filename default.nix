@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   dream2nix,
   ...
@@ -10,6 +11,8 @@
   ];
 
   deps = {nixpkgs, ...}: {
+    npm = pkgs.nodejs_22;
+    nodejs = pkgs.nodejs_22;
     inherit
       (nixpkgs)
       gnugrep
@@ -17,25 +20,16 @@
       ;
   };
 
-#  nodejs-granular-v3 = {
-#    buildScript = ''
-#      tsc ./src/index.ts
-#      mv app.js app.js.tmp
-#      echo "#!${config.deps.nodejs}/bin/node" > index.js
-#      cat index.js.tmp >> index.js
-#      chmod +x ./index.js
-#      patchShebangs .
-#    '';
-#  };
-
   name = lib.mkForce "XK852-rigcontrol";
-  version = lib.mkForce "0.0.2";
+  version = lib.mkForce "0.10.0";
 
   mkDerivation = {
     src = lib.cleanSource ./.;
-#    checkPhase = ''
-#      ./app.js | ${config.deps.gnugrep}/bin/grep -q "Hello, World!"
-#    '';
+    preInstallPhases = lib.mkForce [];
+    installPhase = ''
+      mkdir -p $out/rigpage
+      cp -avr dist/* $out/rigpage
+    '';
     doCheck = true;
   };
 }
