@@ -16,10 +16,9 @@ $effect( () =>
 
 {#if webRTCCapture.enable}
 <div>
-<details>
-<summary>
-  <span>Outgoing WebRTC audio Stream: {paused ? "PAUSED" : ""}</span>
-</summary>
+  <h2>
+    <span>Outgoing WebRTC audio Stream: {paused ? "PAUSED" : ""}</span>
+  </h2>
 <div style="display:flex; flex-direction: column;">
 
   {#if webRTCCapture.enableVideo}
@@ -58,6 +57,5 @@ $effect( () =>
     {/each}
   </ul>
 </div>
-</details>
 </div>
 {/if}

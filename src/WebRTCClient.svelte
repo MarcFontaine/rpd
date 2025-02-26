@@ -5,10 +5,9 @@ import {startSession} from './webrtc';
 
 {#if webRTCClient.enable}
 <div>
-<details>
-<summary>
-  <span>Remote WebRTC Stream
-</summary>
+<h2>
+  Remote WebRTC Streams
+</h2>
 <div style="display:flex; flex-direction: column;">
   {#each Object.entries(webRTCClient.producers) as [id, p]}
   <p>
@@ -47,6 +46,5 @@ import {startSession} from './webrtc';
   </p>
   {/each}
 </div>
-</details>
 </div>
 {/if}

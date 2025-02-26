@@ -18,7 +18,6 @@ import {
   SerialPort as SerialPortPolyfill,
 } from 'web-serial-polyfill';
 
-import {gui} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
@@ -136,7 +135,6 @@ export async function connectToPort(): Promise<void> {
     await port.open(options);
     dumpSerialOut('<CONNECTED>\n');
     setGuiMode(GuiMode.Connected);
-    gui.showCat = true;
     State.setSendCmdCallback(sendSerialReadReply());
   } catch (e) {
     console.error(e);

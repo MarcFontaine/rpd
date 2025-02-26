@@ -1,4 +1,4 @@
-import {gui, setReturnMsg, pushLog} from './state.svelte';
+import {setReturnMsg, pushLog} from './state.svelte';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
@@ -28,7 +28,6 @@ export async function connect (url: string) {
   };
   ws.onopen = (_evt: Event) => {
     State.setSendCmdCallback(mkCallback(ws));
-    gui.showCat = true;
     setGuiMode(GuiMode.Connected);
   };
   ws.onerror = (_evt: Event) => {

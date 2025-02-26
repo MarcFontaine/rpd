@@ -23,9 +23,7 @@ export function setReturnMsg(msg: string)
 }
 
 export const gui = $state(
-  { showProfiles: true
-  , showDebug: true
-  , showCat: false
+  { showWebRTC: false
   });
 
 export const webRTC = $state(
