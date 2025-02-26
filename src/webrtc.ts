@@ -89,6 +89,6 @@ export function startSession(state, videoElement, session) {
 };
 
 export function initWebRTC() {
-  const api = new GstWebRTCAPI(State.currentProfile.gstWebRTCConfig);
+  const api = new GstWebRTCAPI(State.currentProfile.p.gstWebRTCConfig);
   return api;
 };
