@@ -27,10 +27,10 @@ export function setTxOn() {
  */
 export function setFrequency(f: number ): number {
   rig.frequencyConfirmed = false;
+  rig.frequency = f;
   let x = Math.round(f / 10);
   if (x < 150000) x = 150000;
   if (x > 3000000) x = 3000000;
-  rig.frequency = x;
   const fstring = String(x).padStart(7, `0000000` );
   const cmd = `*F${fstring}`;
   sendCmd(toCmd(cmd));
