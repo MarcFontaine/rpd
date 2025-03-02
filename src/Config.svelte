@@ -90,7 +90,10 @@ function readJsonFile(file:File):Promise<JSON> {
     <br>
     Configuration Server URL:
     <br>
-    <input bind:value="{url}">
+    <input
+      size="60"
+      bind:value="{url}"
+    >
     <br>
     </form>
 

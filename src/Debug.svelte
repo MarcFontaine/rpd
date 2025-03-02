@@ -3,7 +3,7 @@ import {rig, log} from './state.svelte';
 import {syncRig} from './cat';
 import SendXK852Cmd from './SendXK852Cmd.svelte';
 import RigStatusMessage from './RigStatusMessage.svelte';
-import About from './About.svelte';
+import About from './misc/About.svelte';
 
 let isVerbose = $state(false);
 
