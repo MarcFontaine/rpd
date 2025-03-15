@@ -1,4 +1,5 @@
-import {setReturnMsg, pushLog} from './state.svelte';
+import {setReturnMsg} from './setXK852Status';
+import {pushLog} from './state.svelte';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
@@ -17,7 +18,8 @@ export async function connect (url: string) {
   ws.onmessage = (evt: MessageEvent) => {
       evt.data.text().then(
         function(value: string) {
-	  setReturnMsg(matchReturnMsg(value));
+	  const xk852Status = matchReturnMsg(value);
+	  setReturnMsg(xk852Status);
 	  pushLog(
 	    { src:'hamlib_return(websocket)'
 	    , msg: value

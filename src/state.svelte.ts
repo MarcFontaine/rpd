@@ -1,3 +1,5 @@
+// import * as Types from './types';
+
 export const currentProfile = $state( { p: {} } );
 
 const emptyLogs : Array<any> = [] //Todo: limit size
@@ -15,12 +17,8 @@ export const rig = $state(
   { returnMsg: "no Message"
   , frequency: 1500000
   , frequencyConfirmed: false
+  , power: {}
   });
-
-export function setReturnMsg(msg: string)
-{
-  if (msg != '\n T  ') rig.returnMsg=msg; //ignore this message
-}
 
 export const gui = $state(
   { showWebRTC: false

@@ -21,7 +21,8 @@ import {
 import {setGuiMode, GuiMode} from './gui';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
-import {pushLog, setReturnMsg} from './state.svelte';
+import {pushLog} from './state.svelte';
+import {setReturnMsg} from './setXK852Status';
 
 /**
  * Elements of the port selection dropdown extend HTMLOptionElement so that

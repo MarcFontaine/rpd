@@ -8,7 +8,7 @@ import {set_OP_MODE_OFF, set_OP_MODE_RX ,set_OP_MODE_TX_LOW,
 <details>
   <summary>
     <span style="font-size:2em;">
-      Transceiver Power Mode
+      Transceiver Power Mode : { rig.power ? rig.power : "undefined"}
     </span>
   </summary>
   <button onclick={set_OP_MODE_OFF} >

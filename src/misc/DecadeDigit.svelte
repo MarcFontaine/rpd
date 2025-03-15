@@ -19,15 +19,15 @@ onpointerdown={(e)=> {console.log(e);onDelta(e.movementY * pointerSpeed)}}
 .frequency_confirmed {
   font-family: "Courier New";
   font-size: 9em;
-  font-weight: bold;
+  font-weight: normal;
+  font-style: normal;
   white-space: pre;
-  touch-action: none;
 }
 .frequency_not_confirmed {
   font-family: "Courier New";
   font-size: 9em;
-  font-weight: lighter;
+  font-weight: bold;
+  font-style: normal;
   white-space: pre;
-  touch-action: none;  
 }
 </style>

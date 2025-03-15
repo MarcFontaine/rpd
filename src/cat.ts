@@ -1,7 +1,8 @@
 import {setGuiMode, GuiMode} from './gui';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
-import {rig, setReturnMsg} from './state.svelte';
+import {rig} from './state.svelte';
+import {setReturnMsg} from './setXK852Status';
 
 const encoder = new TextEncoder();
 /**
