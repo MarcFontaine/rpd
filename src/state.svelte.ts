@@ -13,15 +13,20 @@ export function pushLog(obj:any) {
   log.objs.push(obj)
 };
 
-export const rig = $state(
-  { returnMsg: "no Message"
-  , frequency: 1500000
-  , frequencyConfirmed: false
-  , power: {}
+export const gui = $state(
+  { frequency:
+    { value: 1500000
+    , time: Date.now ()
+    , confirmed: false
+    }
+  , showWebRTC: false
   });
 
-export const gui = $state(
-  { showWebRTC: false
+export const rig = $state(
+  { returnMsg: "no Message"
+  , time: Date.now ()
+  , frequency: 1500000
+  , power: {}
   });
 
 export const webRTC = $state(

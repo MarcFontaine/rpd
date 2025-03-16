@@ -1,7 +1,7 @@
 import {setGuiMode, GuiMode} from './gui';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
-import {rig} from './state.svelte';
+import {gui} from './state.svelte';
 import {setReturnMsg} from './setXK852Status';
 
 const encoder = new TextEncoder();
@@ -27,8 +27,11 @@ export function setTxOn() {
  @return {number} the frequency that was used
  */
 export function setFrequency(f: number ): number {
-  rig.frequencyConfirmed = false;
-  rig.frequency = f;
+  gui.frequency = {
+      value: f
+    , confirmed: false
+    , time: Date.now ()
+  };
   let x = Math.round(f / 10);
   if (x < 150000) x = 150000;
   if (x > 3000000) x = 3000000;

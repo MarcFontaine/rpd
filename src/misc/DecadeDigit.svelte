@@ -1,14 +1,11 @@
 <script lang="ts">
-import {rig} from '../state.svelte';
-import {setFrequency} from '../cat';
-
-let { d=0,onDelta } = $props();
+let { isConfirmed, d=0, onDelta } = $props();
 
 const wheelSpeed = 1/250;
 const pointerSpeed = 1/10;
 
 </script>
-<button class={rig.frequencyConfirmed? "frequency_confirmed" : "frequency_not_confirmed"}
+<button class={isConfirmed? "frequency_confirmed" : "frequency_not_confirmed"}
 onwheel={(e)=> onDelta(- e.deltaY * wheelSpeed)}
 onpointerdown={(e)=> {console.log(e);onDelta(e.movementY * pointerSpeed)}}
 >

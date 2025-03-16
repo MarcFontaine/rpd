@@ -18,16 +18,9 @@ function parseXK852Status(str: string) {
   const arr = Array.from(matches);
   if (arr && arr[0]) {
     const m=arr[0];
-    rig.frequency = Number(m[1])*10;
-    rig.frequencyConfirmed = true;
-    switch (m[11]) {
-      case '0' : rig.power = XK852Power.Off; break
-      case '1' : rig.power = XK852Power.RxOnly; break
-      case '2' : rig.power = XK852Power.Low; break
-      case '3' : rig.power = XK852Power.Mid; break
-      case '4' : rig.power = XK852Power.Full; break     
-      default  : rig.power = {};
-    }
+    rig.time = Date.now ();
+    rig.frequency = parseFrequency(m[1]);
+    rig.power = parsePower(m[11]);
     console.log(arr[0][2]);
     console.log(arr[0][3]);
     console.log(arr[0][4]);
@@ -41,3 +34,17 @@ function parseXK852Status(str: string) {
   }
 }
 
+function parseFrequency(s: string) {
+  return 10*Number(s);
+}
+
+function parsePower(s: string) {
+  switch (s) {
+    case '0' : return XK852Power.Off;
+    case '1' : return XK852Power.RxOnly;
+    case '2' : return XK852Power.Low;
+    case '3' : return XK852Power.Mid;
+    case '4' : return XK852Power.Full;
+    default  : return {}; // TODO
+  }
+}
