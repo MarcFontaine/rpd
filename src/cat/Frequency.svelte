@@ -17,8 +17,7 @@ let frequency = $derived.by(()=> {
 
 let isConfirmed = $derived.by(() => {
   return frequency == rig.frequency;
-  }
-  );
+  });
 
 let digits = $derived.by(()=>{
   let d = [];
@@ -51,7 +50,7 @@ function makeOnDelta(v:number) {
     if (Math.abs(delta_scroll) >= v) {
       const newFreq = round(v, initialFrequency + delta_scroll);
       last_update += (newFreq - initialFrequency);
-      setFrequency(clamp(newFreq));
+      setFrequencyRateLimited(clamp(newFreq));
       }
   }
 }

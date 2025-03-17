@@ -3,6 +3,7 @@ import {pushLog} from './state.svelte';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
+import {catOnConnect} from './cat';
 
 function matchReturnMsg(str: string) {
   const pattern = /(Reply: \x0a)(.+)/g;
@@ -31,6 +32,7 @@ export async function connect (url: string) {
   ws.onopen = (_evt: Event) => {
     State.setSendCmdCallback(mkCallback(ws));
     setGuiMode(GuiMode.Connected);
+    catOnConnect();
   };
   ws.onerror = (_evt: Event) => {
     State.setSendCmdCallback(undefined);

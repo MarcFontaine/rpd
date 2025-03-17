@@ -26,7 +26,15 @@ export function setTxOn() {
  @param {number} f the target frequncy
  @return {number} the frequency that was used
  */
-export function setFrequency(f: number ): number {
+export function setFrequency(f: number) {
+  sendCmd(setFrequencyCmd(f));
+}
+
+export function setFrequencyRateLimited(f: number) {
+  sendRateLimitedCmd(setFrequencyCmd(f));
+}
+
+function setFrequencyCmd(f: number): State.Cmd {
   gui.frequency = {
       value: f
     , confirmed: false
@@ -37,9 +45,25 @@ export function setFrequency(f: number ): number {
   if (x > 3000000) x = 3000000;
   const fstring = String(x).padStart(7, `0000000` );
   const cmd = `*F${fstring}`;
-  sendCmd(toCmd(cmd));
-  return x;
+  return toCmd(cmd);
 }
+
+const minSendCmdDelay = 150; // ms
+let sendCmdTimeOut : (null | number) = null;
+
+export function sendRateLimitedCmd(c:Cmd) {
+  if (Date.now() - latestSendCmdTime > minSendCmdDelay) {
+    if (sendCmdTimeOut) clearTimeout(sendCmdTimeOut)
+    sendCmdTimeOut = null;
+    sendCmd(c);
+  }
+  else {
+    if (sendCmdTimeOut) clearTimeout(sendCmdTimeOut);
+    sendCmdTimeOut = setTimeout(() => sendCmd(c), minSendCmdDelay);
+  }
+}
+
+export function catOnConnect() { syncRig(); }
 
 export function syncRig() { sendCmd(toCmd('*O1')); }
 
@@ -58,7 +82,10 @@ export function set_MODE_FSK_LP()  { sendCmd(toCmd('*I7')); }
 export function set_MODE_FSK_MID() { sendCmd(toCmd('*I8')); }
 export function set_MODE_FSK_HP()  { sendCmd(toCmd('*I9')); }
 
+export let latestSendCmdTime = Date.now ();
+
 export function sendCmd(cmd: Cmd) {
+  latestSendCmdTime = Date.now ();
   State.sendCmdCallback(cmd);
 }
 
