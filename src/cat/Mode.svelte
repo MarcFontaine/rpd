@@ -9,7 +9,7 @@ import {set_MODE_AME, set_MODE_USB ,set_MODE_LSB,
 <details>
   <summary>
     <span style="font-size:2em;">
-      Mode
+      Mode: {rig.mode}
     </span>
   </summary>
   <button onclick={set_MODE_AME} >

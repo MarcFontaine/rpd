@@ -27,6 +27,7 @@ export const rig = $state(
   , time: Date.now ()
   , frequency: 1500000
   , power: {}
+  , mode: {}
   });
 
 export const webRTC = $state(

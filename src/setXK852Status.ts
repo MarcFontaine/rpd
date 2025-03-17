@@ -1,4 +1,4 @@
-import { XK852Power } from './types';
+import { XK852Power, XK852Mode } from './types';
 import { rig } from './state.svelte';
 
 // F1407400K  I2B   J9G0N0V0Z1H1S2
@@ -20,17 +20,8 @@ function parseXK852Status(str: string) {
     const m=arr[0];
     rig.time = Date.now ();
     rig.frequency = parseFrequency(m[1]);
+    rig.mode = parseMode(m[3]);
     rig.power = parsePower(m[11]);
-    console.log(arr[0][2]);
-    console.log(arr[0][3]);
-    console.log(arr[0][4]);
-    console.log(arr[0][5]);
-    console.log(arr[0][6]);
-    console.log(arr[0][7]);
-    console.log(arr[0][8]);
-    console.log(arr[0][9]);
-    console.log(arr[0][10]);
-    console.log(arr[0][11]);
   }
 }
 
@@ -46,5 +37,19 @@ function parsePower(s: string) {
     case '3' : return XK852Power.Mid;
     case '4' : return XK852Power.Full;
     default  : return {}; // TODO
+  }
+}
+
+function parseMode(s: string) {
+  switch (s) {
+    case '1' : return XK852Mode.AME;
+    case '2' : return XK852Mode.USB;
+    case '3' : return XK852Mode.LSB;
+    case '5' : return XK852Mode.CW;
+    case '6' : return XK852Mode.ISB;
+    case '7' : return XK852Mode.FSK_LP;
+    case '8' : return XK852Mode.FSK_MID;
+    case '9' : return XK852Mode.FSK_HP;
+    default  : return {};
   }
 }
