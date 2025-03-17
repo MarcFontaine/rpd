@@ -79,7 +79,7 @@ function ft8_frequency(f:number) {
       `FT8 at ${f} kHz`
     , () => {
         CAT.setFrequency(f*1000);
-	CAT.set_MODE_USB
+	CAT.set_MODE_USB();
     })
 }
 
