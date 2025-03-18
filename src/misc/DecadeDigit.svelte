@@ -6,8 +6,8 @@ const pointerSpeed = 1/10;
 
 </script>
 <button class={isConfirmed? "frequency_confirmed" : "frequency_not_confirmed"}
-onwheel={(e)=> onDelta(- e.deltaY * wheelSpeed)}
-onpointerdown={(e)=> {console.log(e);onDelta(e.movementY * pointerSpeed)}}
+onwheel={(e)=> {e.preventDefault();onDelta(- e.deltaY * wheelSpeed)}}
+onpointerdown={(e)=> {e.preventDefault();onDelta(e.movementY * pointerSpeed)}}
 >
 {d}
 </button>

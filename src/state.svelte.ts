@@ -59,6 +59,10 @@ export type Cmd =
   , timeout: number
   };
 
+export const espHomeEvent = $state(
+  { data: ""
+  });
+
 export var sendCmdCallback: any;
 
 export function setSendCmdCallback(fn: any) {

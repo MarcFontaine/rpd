@@ -4,6 +4,7 @@ import {syncRig} from './cat';
 import SendXK852Cmd from './SendXK852Cmd.svelte';
 import RigStatusMessage from './RigStatusMessage.svelte';
 import About from './misc/About.svelte';
+import EspHome from './aux/EspHome.svelte';
 
 let isVerbose = $state(false);
 
@@ -23,6 +24,7 @@ const formatter = new Intl.DateTimeFormat('en-US',{
 <div>
   <RigStatusMessage />
   <SendXK852Cmd />
+  <EspHome />
   <br>
   Log Messages:
   <br>

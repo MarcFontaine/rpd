@@ -5,6 +5,7 @@ import * as WebSerial from './serial';
 import * as WebSocket from './websocket';
 import * as WebRTC from './webrtc';
 import * as WebRTCCapture from './capture';
+import * as EspHome from './esphome';
 import {webRTC, webRTCClient, webRTCCapture } from './state.svelte';
 
 async function initLink(l: any) {
@@ -38,6 +39,12 @@ async function initLink(l: any) {
        webRTCCapture.enable = true;
        break;
      }
+   case 'EspHomeEvent':
+     {
+       EspHome.connect(l.espHomeURL);
+       break;
+     }
+
 };
 
 };
