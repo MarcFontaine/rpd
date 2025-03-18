@@ -6,6 +6,7 @@ import WebRTCToggle from './WebRTCToggle.svelte';
 import Wheel from './misc/Wheel.svelte';
 import Test from './misc/Test.svelte';
 import Frequency from './cat/Frequency.svelte';
+import Auxiliary from './aux/Auxiliary.svelte';
 
 export const routes = {
   '/' : LocalSerial
@@ -15,6 +16,7 @@ export const routes = {
 , '/debug' : Debug
 , '/serial' : LocalSerial
 , '/webrtc' : WebRTCToggle
+, '/aux' : Auxiliary
 , '/wheel' : Wheel
 , '/frequency' : Frequency
 , '/test' : Test

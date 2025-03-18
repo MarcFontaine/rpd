@@ -21,6 +21,9 @@ import active from 'svelte-spa-router/active'
   <li>
     <a href="/debug" use:link use:active={'/debug'} >Debug</a>
   </li>
+  <li>
+    <a href="/aux" use:link use:active={'/aux'} >Aux</a>
+  </li>
 </ul>
 </div>
 </nav>

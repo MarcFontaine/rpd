@@ -14,5 +14,5 @@ const formatter = new Intl.DateTimeFormat('en-US',{
 
 <div>
   <span><button style="font-size:2em;" onclick={syncRig}>Sync RigStatus</button></span>
-  <span style="font-size:1em;">{rig.returnMsg}</span>
+  <pre style="font-size:1em;">{rig.returnMsg}</pre>
 </div>
