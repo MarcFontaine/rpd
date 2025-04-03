@@ -8,31 +8,6 @@ let accum_x = $state(0);
 let accum_y = $state(0);
 let accum_z = $state(0);
 
-
-const deviceFilter = {
-  filters : [
-    { vendorId: 0x0483, productId: 0x5757, usagePage: 1 }
-  ]
-  };
-
-function handleHidInput(event) {
-  const { data, device, reportId } = event;
-  wheel = data.getInt16(1, true);
-};
-
-async function connectRigControl() {
-  if ("hid" in navigator) {
-//    navigator.hid.addEventListener("connect", ({ device }) => {
-//      console.log(`HID connected: ${device.productName}`);
-//    });
-    const devices = await navigator.hid.requestDevice(deviceFilter);
-    console.log(devices);
-    const rigControl = devices[0];
-    await rigControl.open();
-    rigControl.addEventListener("inputreport",handleHidInput);
-  }
-}
-
 </script>
 
 <div class="wheel"

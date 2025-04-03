@@ -19,6 +19,9 @@ import active from 'svelte-spa-router/active'
     <a href="/webrtc" use:link use:active={'/webrtc'} >Audio/Video</a>
   </li>
   <li>
+    <a href="/hid" use:link use:active={'/aux'} >USB Controller</a>
+  </li>
+  <li>
     <a href="/debug" use:link use:active={'/debug'} >Debug</a>
   </li>
   <li>
