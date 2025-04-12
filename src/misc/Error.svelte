@@ -1,0 +1,30 @@
+<script lang="ts">
+import {rig, log} from '../state.svelte';
+
+function ackError(e) {
+  e.isErrorConfirmed = true;
+  log.errors = log.errors.filter((elem) => elem !== e);
+};
+
+</script>
+
+{#if log.errors.length >0 }
+<div>
+  <h1>Error</h1>
+<div>
+  {#each log.errors.slice(-20).reverse() as l}
+    {#if !l.isErrorConfirmed}
+      <span>
+        <button
+	  onclick={() => ackError(l) }
+	>
+	Ack
+	</button>
+        {l.msg}
+      </span>
+      <br>
+    {/if}
+  {/each}
+</div>
+</div>
+{/if}

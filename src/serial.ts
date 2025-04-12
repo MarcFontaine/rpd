@@ -21,7 +21,7 @@ import {
 import {setGuiMode, GuiMode} from './gui';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
-import {pushLog} from './state.svelte';
+import {pushError, pushLog} from './state.svelte';
 import {setReturnMsg} from './setXK852Status';
 
 /**
@@ -74,9 +74,9 @@ async function getSelectedPort(): Promise<void> {
  * @param {void} callback
  * Optional callback that fires when the data was processed.
 */
-function dumpSerialOut(msg: string, callback?: () => void): void {
-  pushLog(
-    { src: 'serial-outmsg'
+function serialError(msg: string, callback?: () => void): void {
+  pushError(
+    { src: 'serial-error'
     , date: new Date()
     , msg: msg
     });
@@ -87,7 +87,7 @@ function dumpSerialOut(msg: string, callback?: () => void): void {
  * Resets the UI back to the disconnected state.
  */
 function markDisconnected(): void {
-  dumpSerialOut('<DISCONNECTED>\n');
+  serialError('Device disconnected');
   port = undefined;
   State.setSendCmdCallback(undefined);
 }
@@ -124,9 +124,9 @@ export async function connectToPort(): Promise<void> {
   // TODO: Test with plain old serial adapter not with microham
   const options = {
     baudRate: 9600,
-    dataBits: 7,
+    dataBits: 7 as 7,
     parity: 'even' as ParityType,
-    stopBits: 1,
+    stopBits: 1 as 1,
     flowControl: <const> 'none',
     bufferSize,
   };
@@ -134,13 +134,16 @@ export async function connectToPort(): Promise<void> {
 
   try {
     await port.open(options);
-    dumpSerialOut('<CONNECTED>\n');
+    pushLog(
+      { src: 'serial-outmsg'
+      , date: new Date()
+      , msg: 'Connected'
+      });
     setGuiMode(GuiMode.Connected);
     State.setSendCmdCallback(sendSerialReadReply());
   } catch (e) {
-    console.error(e);
     if (e instanceof Error) {
-      dumpSerialOut(`<ERROR: ${e.message}>\n`);
+      serialError(`Open Port: Error: ${e.message}`);
     }
     setGuiMode(GuiMode.SomeError);
     markDisconnected();
@@ -169,10 +172,9 @@ export async function connectToPort(): Promise<void> {
           });
       }
     } catch (e) {
-      console.error(e);
       await new Promise<void>((resolve) => {
          if (e instanceof Error) {
-           dumpSerialOut(`<ERROR: ${e.message}>\n`, resolve);
+           serialError(`Read: Error: ${e.message}`, resolve);
         }
       });
     } finally {
@@ -188,7 +190,7 @@ export async function connectToPort(): Promise<void> {
      } catch (e) {
        console.error(e);
        if (e instanceof Error) {
-         dumpSerialOut(`<ERROR: ${e.message}>`);
+         serialError(`Port Close: Error: ${e.message}`);
        }
      }
      setGuiMode(GuiMode.SomeError);
@@ -215,7 +217,7 @@ export async function disconnectFromPort(): Promise<void> {
     } catch (e) {
       console.error(e);
       if (e instanceof Error) {
-        dumpSerialOut(`<ERROR: ${e.message}>`);
+        serialError(`Port Close: Error: ${e.message}`);
         setGuiMode(GuiMode.SomeError);
       }
     }

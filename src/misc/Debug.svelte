@@ -1,10 +1,10 @@
 <script lang="ts">
-import {rig, log} from './state.svelte';
-import {syncRig} from './cat';
-import SendXK852Cmd from './SendXK852Cmd.svelte';
-import RigStatusMessage from './RigStatusMessage.svelte';
-import About from './misc/About.svelte';
-import EspHome from './aux/EspHome.svelte';
+import {rig, log} from '../state.svelte';
+import {syncRig} from '../cat';
+import SendXK852Cmd from '../SendXK852Cmd.svelte';
+import RigStatusMessage from '../RigStatusMessage.svelte';
+import About from './About.svelte';
+import EspHome from '../aux/EspHome.svelte';
 
 let isVerbose = $state(false);
 

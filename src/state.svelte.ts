@@ -5,8 +5,16 @@ export const currentProfile = $state( { p: {} } );
 const emptyLogs : Array<any> = [] //Todo: limit size
 
 export const log = $state(
-  { objs: emptyLogs
+  { objs:   emptyLogs
+  , errors: emptyLogs
   });
+
+export function pushError(obj:any) {
+  obj.isError = true;
+  obj.isErrorConfirmed = false;
+  log.errors.push(obj)
+  pushLog(obj);
+};
 
 export function pushLog(obj:any) {
   if (!obj.date) obj.date = new Date();
