@@ -21,6 +21,11 @@ export function pushLog(obj:any) {
   log.objs.push(obj)
 };
 
+export const screen = $state(
+  { screen1: 'RigControl'
+  , screen2: 'Debug'
+  });
+
 export const gui = $state(
   { frequency:
     { value: 1500000
