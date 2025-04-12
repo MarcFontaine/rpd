@@ -71,7 +71,13 @@ export const espHomeEvent = $state(
   { data: ""
   });
 
-export var sendCmdCallback: any;
+export var sendCmdCallback = (() => {
+  pushError(
+    { src: 'CAT'
+    , date: new Date()
+    , msg: 'Tranceiver not connected.'
+    });
+});
 
 export function setSendCmdCallback(fn: any) {
   sendCmdCallback = fn;
