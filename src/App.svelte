@@ -1,23 +1,30 @@
 <script lang="ts">
 import ReloadPromt from './misc/ReloadPromt.svelte';
 import Error from './misc/Error.svelte';
-import Router from 'svelte-spa-router';
 import Navigation from './Navigation.svelte';
+import SearchBar from './SearchBar.svelte';
+import Router from 'svelte-spa-router';
 import WebRTC from './WebRTC.svelte';
 import {routes} from './routes';
-
 import {screen} from './state.svelte';
 </script>
-
-<Error />
-<ReloadPromt />
-<div>
-  <h1> XK852 Rig Control</h1>
-  <Navigation />
+<div style="flex-direction: column;">
+  <div>
+    <ReloadPromt />
+  </div>
+  <div style="max-height: 10em; overflow-y: scroll;background-color:red; " >
+    <Error />
+  </div>
+  <div>
+    <Navigation />
+  </div>
+  <div>
+    <SearchBar />
+  </div>
   <div>
     <Router {routes}/>
   </div>
-</div>
-<div>
-<WebRTC />
+  <div>
+    <WebRTC />
+  </div>
 </div>
