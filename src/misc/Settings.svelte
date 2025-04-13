@@ -14,6 +14,12 @@ import {settings} from '../state.svelte';
     <input type="checkbox" bind:checked={settings.showNavigationBar}> Show Navigation Bar
   <br>
   <br>
+    <input type="checkbox" bind:checked={settings.showDecadeButtons}> Show Up/Down Buttons in Frequency Decade
+  <br>
+  <br>
+    <input type="checkbox" bind:checked={settings.showDecadeButtons}> Set Mobile Mode
+  <br>
+  <br>
   Screen 1
   <select bind:value={settings.screen1} >
     <option value={'RigControl'} >RigControl</option>

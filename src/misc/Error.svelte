@@ -11,6 +11,12 @@ function ackError(e) {
 {#if log.errors.length >0 }
 <div>
   <h1>Error</h1>
+   <button
+     onclick={() => log.errors=[] }
+   >
+   Ack All
+   </button>
+
 <div>
   {#each log.errors.slice(-20).reverse() as l}
     {#if !l.isErrorConfirmed}

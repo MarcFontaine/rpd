@@ -21,5 +21,7 @@ let p = $props();
   <Debug />
 {:else if p.element == 'Settings'}
   <Settings />
+<!--
 {:else if p.element == 'Empty'}
+-->
 {/if}

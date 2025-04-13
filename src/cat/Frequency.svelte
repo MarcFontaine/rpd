@@ -56,19 +56,18 @@ function makeOnDelta(v:number) {
 }
 
 </script>
-
-<div style="display:flex; flex-direction: row;">
-<DecadeDigit isConfirmed={isConfirmed} d={digits[7]} onDelta={makeOnDelta(10000000)}/>
-<DecadeDigit isConfirmed={isConfirmed} d={digits[6]} onDelta={makeOnDelta(1000000)}/>
-<DecadeDigit isConfirmed={isConfirmed} d={digits[5]} onDelta={makeOnDelta(100000)}/>
-<DecadeDigit isConfirmed={isConfirmed} d={digits[4]} onDelta={makeOnDelta(10000)}/>
-<DecadeDigit isConfirmed={isConfirmed} d={digits[3]} onDelta={makeOnDelta(1000)}/>
-<div style="font-size: 9em;">
-.
-</div>
-<DecadeDigit isConfirmed={isConfirmed} d={digits[2]} onDelta={makeOnDelta(100)}/>
-<DecadeDigit isConfirmed={isConfirmed} d={digits[1]} onDelta={makeOnDelta(10)}/>
-  
+<div style="display:flex; flex-direction: column;">
+  <div style="display:flex; flex-direction: row;">
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[7]} onDelta={makeOnDelta(10000000)}/>
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[6]} onDelta={makeOnDelta(1000000)}/>
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[5]} onDelta={makeOnDelta(100000)}/>
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[4]} onDelta={makeOnDelta(10000)}/>
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[3]} onDelta={makeOnDelta(1000)}/>
+    <div style="font-size: 9em;"> . </div>
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[2]} onDelta={makeOnDelta(100)}/>
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[1]} onDelta={makeOnDelta(10)}/>
+  </div>
+  test 1 2 t
 </div>
 <style>
 </style>

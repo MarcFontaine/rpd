@@ -1,16 +1,39 @@
 <script lang="ts">
+import {settings} from '../state.svelte';
+
 let { isConfirmed, d=0, onDelta } = $props();
 
 const wheelSpeed = 1/250;
 const pointerSpeed = 1/10;
 
 </script>
-<button class={isConfirmed? "frequency_confirmed" : "frequency_not_confirmed"}
-onwheel={(e)=> {e.preventDefault();onDelta(- e.deltaY * wheelSpeed)}}
-onpointerdown={(e)=> {e.preventDefault();onDelta(e.movementY * pointerSpeed)}}
->
-{d}
-</button>
+
+{#snippet digit()}
+   <button class={isConfirmed? "frequency_confirmed" : "frequency_not_confirmed"}
+   onwheel={(e)=> {e.preventDefault();onDelta(- e.deltaY * wheelSpeed)}}
+   onpointerdown={(e)=> {e.preventDefault();onDelta(e.movementY * pointerSpeed)}}
+   >
+   {d}
+   </button>
+{/snippet}
+
+{#if settings.showDecadeButtons}
+<div style="display:flex; flex-direction: column;">
+  <button class="updown"
+  onclick={()=>onDelta(1)}
+  >
+  &#x2303
+  </button>
+  {@render digit()}
+  <button class="updown"
+  onclick={()=>onDelta(-1)}
+  >
+  &#x2304
+  </button>
+</div>
+{:else}
+{@render digit()}
+{/if}
 <style>
 
 .frequency_confirmed {
@@ -23,6 +46,13 @@ onpointerdown={(e)=> {e.preventDefault();onDelta(e.movementY * pointerSpeed)}}
 .frequency_not_confirmed {
   font-family: "Courier New";
   font-size: 9em;
+  font-weight: bold;
+  font-style: normal;
+  white-space: pre;
+}
+.updown {
+  font-family: "Courier New";
+  font-size: 2em;
   font-weight: bold;
   font-style: normal;
   white-space: pre;

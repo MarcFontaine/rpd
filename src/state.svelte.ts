@@ -71,7 +71,7 @@ export const espHomeEvent = $state(
   { data: ""
   });
 
-export var sendCmdCallback = (() => {
+export var sendCmdCallback = ((_cmd:any) => {
   pushError(
     { src: 'CAT'
     , date: new Date()
@@ -90,4 +90,5 @@ export const settings = $state(
   , screen4: 'Empty'
   , showSearchBar: true
   , showNavigationBar: true
+  , showDecadeButtons: true
   });

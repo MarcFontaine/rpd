@@ -10,16 +10,17 @@ import {setTxOff, setTxOn} from '../cat';
     onpointercancel={setTxOff} >
     PTT
   </button>
+</div>
 
-  <div style="width:10%;"></div>   
-
+<div class="ptt">
   <button style="width:20%; font-size:1em;"
     onclick={setTxOff}
   >
     TX OFF
   </button>
+  <div style="width:20%;"></div>
 
-  <button style="font-size:1em;"
+  <button style="width:10%; font-size:1em;"
     onclick={setTxOn}
   >
     TX ON
