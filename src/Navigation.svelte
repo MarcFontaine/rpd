@@ -1,8 +1,10 @@
 <script lang="ts">
 import {link} from 'svelte-spa-router'
 import active from 'svelte-spa-router/active'
+import {settings} from './state.svelte';
 </script>
 
+{#if settings.showNavigationBar}
 <nav>
 <div class="nav"> 
 <ul>
@@ -14,6 +16,9 @@ import active from 'svelte-spa-router/active'
   </li>
   <li>
     <a href="/config" use:link use:active={'/config'} >Config</a>
+  </li>
+  <li>
+    <a href="/settings" use:link use:active={'/settings'} >Settings</a>
   </li>
   <li>
     <a href="/webrtc" use:link use:active={'/webrtc'} >Audio/Video</a>
@@ -36,6 +41,7 @@ import active from 'svelte-spa-router/active'
 </ul>
 </div>
 </nav>
+{/if}
 
 <style>
 li {

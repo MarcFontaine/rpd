@@ -21,11 +21,6 @@ export function pushLog(obj:any) {
   log.objs.push(obj)
 };
 
-export const screen = $state(
-  { screen1: 'RigControl'
-  , screen2: 'Debug'
-  });
-
 export const gui = $state(
   { frequency:
     { value: 1500000
@@ -87,3 +82,12 @@ export var sendCmdCallback = (() => {
 export function setSendCmdCallback(fn: any) {
   sendCmdCallback = fn;
 }
+
+export const settings = $state(
+  { screen1: 'RigControl'
+  , screen2: 'Debug'
+  , screen3: 'Settings'
+  , screen4: 'Empty'
+  , showSearchBar: true
+  , showNavigationBar: true
+  });

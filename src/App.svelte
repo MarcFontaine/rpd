@@ -6,7 +6,6 @@ import SearchBar from './SearchBar.svelte';
 import Router from 'svelte-spa-router';
 import WebRTC from './WebRTC.svelte';
 import {routes} from './routes';
-import {screen} from './state.svelte';
 </script>
 <div style="flex-direction: column;">
   <div>

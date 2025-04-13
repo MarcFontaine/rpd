@@ -2,6 +2,7 @@
 import Config from './Config.svelte';
 import RigControl from './RigControl.svelte';
 import LocalSerial from './LocalSerial.svelte';
+import Settings from './misc/Settings.svelte';
 import Debug from './misc/Debug.svelte';
 import WebRTCToggle from './WebRTCToggle.svelte';
 import Wheel from './misc/Wheel.svelte';
@@ -18,4 +19,7 @@ let p = $props();
   <RigControl />
 {:else if p.element == 'Debug'}
   <Debug />
+{:else if p.element == 'Settings'}
+  <Settings />
+{:else if p.element == 'Empty'}
 {/if}
