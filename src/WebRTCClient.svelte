@@ -1,6 +1,18 @@
 <script lang="ts">
 import {webRTC, webRTCClient} from './state.svelte';
 import {startSession} from './webrtc';
+
+$effect( () => {
+  for (const [id, p] of Object.entries(webRTCClient.producers)) {
+    // TODO: configurable autostart
+    if (p.producer.meta.name == 'XK852-Halle') {
+          console.log('XK852-Halle autostart');
+	  const session = webRTC.api.createConsumerSession(id);
+	  startSession(p, webRTCClient.producers[id].mediaElement, session)
+    }
+  }
+});
+
 </script>
 
 {#if webRTCClient.enable}
