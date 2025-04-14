@@ -84,7 +84,8 @@ export function setSendCmdCallback(fn: any) {
 }
 
 export const settings = $state(
-  { screen1: 'RigControl'
+  { expertMode: false
+  , screen1: 'RigControl'
   , screen2: 'Debug'
   , screen3: 'Settings'
   , screen4: 'Empty'
@@ -93,4 +94,5 @@ export const settings = $state(
   , showDecadeButtons: false
   , showPTT: true
   , smartPTT: true
+  , rigSyncInterval: 20
   });

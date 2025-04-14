@@ -1,11 +1,10 @@
 <script lang="ts">
 import * as Config from './config';
 import * as Profile from './profile';
-import { currentProfile} from './state.svelte';
+import { currentProfile, settings } from './state.svelte';
 
 let {params} = $props();
 let profile = $state(currentProfile.p ? currentProfile.p : null);
-let expert = $state(false);
 let url = $state((params && params.wild) ? params.wild : null);
 let username = $state("");
 let password = $state("");
@@ -96,30 +95,22 @@ function readJsonFile(file:File):Promise<JSON> {
     >
     <br>
     </form>
-
-    {#if !expert}
+    {#if !settings.expertMode}
       <button
 	onclick={loadStartProfile}
       >
       Start Profile
       </button>
       <br>
-   {:else}
+    {:else}
       <button
 	onclick={loadProfile}
       >
       Load Profile from URL (with Username Password)
       </button>
     {/if}
-    {#if !expert}
-      <button
-	onclick={() => {expert = true;}}
-      >
-      Expert Mode
-      </button>
-    {/if}
   </div>
-  {#if expert}
+  {#if settings.expertMode}
   <div>
    Load Profile from File
    <br>

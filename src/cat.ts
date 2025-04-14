@@ -63,9 +63,14 @@ export function sendRateLimitedCmd(c:Cmd) {
   }
 }
 
-export function catOnConnect() { syncRig(); }
-
 export function syncRig() { sendCmd(toCmd('*O1')); }
+
+export function syncRigDeamon() {
+  if (State.settings.rigSyncInterval) {
+    setTimeout(syncRigDeamon, 1000 * State.settings.rigSyncInterval);
+    syncRig();
+  }
+}
 
 export function set_OP_MODE_OFF()     { sendCmd(toCmd('*S0')); }
 export function set_OP_MODE_RX()      { sendCmd(toCmd('*S1')); }

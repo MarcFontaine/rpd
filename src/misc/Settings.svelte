@@ -8,6 +8,9 @@ import {settings} from '../state.svelte';
 
 <div>
   <br>
+    <input type="checkbox" bind:checked={settings.expertMode}> ExpertMode
+  <br>
+  <br>
     <input type="checkbox" bind:checked={settings.showSearchBar}> Show Search Bar
   <br>
   <br>
@@ -26,35 +29,36 @@ import {settings} from '../state.svelte';
     <input type="checkbox" bind:checked={settings.smartPTT}> Smart PTT Button
   <br>
   <br>
-  Screen 1
-  <select bind:value={settings.screen1} >
+    <input type="number" bind:value={settings.rigSyncInterval}> Rig Sync Interval
+  <br>
+  <br>
+
+  {#snippet screen()}
+    <option value={'Config'} >Config</option>
     <option value={'RigControl'} >RigControl</option>
     <option value={'Debug'} >Debug</option>
     <option value={'Settings'} >Settings</option>
     <option value={'Empty'} >Empty</option>
+  {/snippet}
+
+  Screen 1
+  <select bind:value={settings.screen1} >
+    {@render screen()}
   </select>
+
   <br>
   Screen 2
   <select bind:value={settings.screen2} >
-    <option value={'RigControl'} >RigControl</option>
-    <option value={'Debug'} >Debug</option>
-    <option value={'Settings'} >Settings</option>
-    <option value={'Empty'} >Empty</option>
+    {@render screen()}
   </select>
   <br>
   Screen 3
   <select bind:value={settings.screen3} >
-    <option value={'RigControl'} >RigControl</option>
-    <option value={'Debug'} >Debug</option>
-    <option value={'Settings'} >Settings</option>
-    <option value={'Empty'} >Empty</option>
+    {@render screen()}
   </select>
   <br>
   Screen 4
   <select bind:value={settings.screen4} >
-    <option value={'RigControl'} >RigControl</option>
-    <option value={'Debug'} >Debug</option>
-    <option value={'Settings'} >Settings</option>
-    <option value={'Empty'} >Empty</option>
+    {@render screen()}
   </select>
 </div>
