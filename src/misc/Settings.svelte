@@ -14,10 +14,16 @@ import {settings} from '../state.svelte';
     <input type="checkbox" bind:checked={settings.showNavigationBar}> Show Navigation Bar
   <br>
   <br>
-    <input type="checkbox" bind:checked={settings.showDecadeButtons}> Show Up/Down Buttons in Frequency Decade
+    <input type="checkbox" bind:checked={settings.showDecadeButtons}> Show Up/Down Buttons for Frequency Decade
   <br>
   <br>
     <input type="checkbox" bind:checked={settings.showDecadeButtons}> Set Mobile Mode
+  <br>
+  <br>
+    <input type="checkbox" bind:checked={settings.showPTT}> Show PTT Button
+  <br>
+  <br>
+    <input type="checkbox" bind:checked={settings.smartPTT}> Smart PTT Button
   <br>
   <br>
   Screen 1

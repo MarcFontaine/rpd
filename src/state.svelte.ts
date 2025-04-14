@@ -90,5 +90,7 @@ export const settings = $state(
   , screen4: 'Empty'
   , showSearchBar: true
   , showNavigationBar: true
-  , showDecadeButtons: true
+  , showDecadeButtons: false
+  , showPTT: true
+  , smartPTT: true
   });

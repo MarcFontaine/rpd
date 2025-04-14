@@ -1,10 +1,23 @@
 <script lang="ts">
-import {rig} from '../state.svelte';
+import { XK852Power } from '../types';
+import {rig, settings} from '../state.svelte';
 import {setTxOff, setTxOn} from '../cat';
+
+let isSafe = $derived(
+   (  rig.power == XK852Power.Low
+   || rig.power == XK852Power.Mid
+   || rig.power == XK852Power.Full
+   )
+//  && isAmateurBand(rig.Frequency)
+);
+
+let isDisabled = $derived( settings.smartPTT && !isSafe) ;
+
 </script>
 
-<div class="ptt">
-  <button style="width:50%; font-size:3em;"
+{#if settings.showPTT}
+<div class="ptt" >
+  <button class={{ isDisabled }} style="width:50%; font-size:3em;"
     onpointerdown={setTxOn}
     onpointerup={setTxOff}
     onpointercancel={setTxOff} >
@@ -12,7 +25,7 @@ import {setTxOff, setTxOn} from '../cat';
   </button>
 </div>
 
-<div class="ptt">
+<div class="ptt" >
   <button style="width:20%; font-size:1em;"
     onclick={setTxOff}
   >
@@ -20,12 +33,14 @@ import {setTxOff, setTxOn} from '../cat';
   </button>
   <div style="width:20%;"></div>
 
-  <button style="width:10%; font-size:1em;"
+  <button class={{ isDisabled }} style="width:10%; font-size:1em;"
     onclick={setTxOn}
   >
     TX ON
   </button>
+
 </div>
+{/if}
 
 <style>
 .ptt {
@@ -34,4 +49,10 @@ import {setTxOff, setTxOn} from '../cat';
   width: 100%;
   height: 3.5em;
 }
+
+.isDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 </style>
