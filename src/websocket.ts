@@ -1,9 +1,9 @@
 import {setReturnMsg} from './setXK852Status';
-import {pushLog} from './state.svelte';
+import {pushLog, pushError} from './state.svelte';
 import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
-import {catOnConnect} from './cat';
+import {syncRigDeamon} from './cat';
 
 function matchReturnMsg(str: string) {
   const pattern = /(Reply: \x0a)(.+)/g;
@@ -22,7 +22,7 @@ export async function connect (url: string) {
 	  const xk852Status = matchReturnMsg(value);
 	  setReturnMsg(xk852Status);
 	  pushLog(
-	    { src:'hamlib_return(websocket)'
+	    { src: 'hamlib_return(websocket)'
 	    , msg: value
 	    });
 	},
@@ -32,15 +32,23 @@ export async function connect (url: string) {
   ws.onopen = (_evt: Event) => {
     State.setSendCmdCallback(mkCallback(ws));
     setGuiMode(GuiMode.Connected);
-    catOnConnect();
+    syncRigDeamon();
   };
-  ws.onerror = (_evt: Event) => {
-    State.setSendCmdCallback(undefined);
-    setGuiMode(GuiMode.SomeError);
+  ws.onerror = (evt: Event) => {
+    State.setSendCmdCallback(State.sendCmdCallbackError);
+    pushError({
+        src: 'websocket'
+      , msg: 'error Event'
+      });
+    console.log(evt);
   };
-  ws.onclose = (_evt: Event) => {
-    State.setSendCmdCallback(undefined);
-    setGuiMode(GuiMode.SomeError);
+  ws.onclose = (evt: Event) => {
+    State.setSendCmdCallback(State.sendCmdCallbackError);
+    pushError({
+        src: 'websocket'
+      , msg: 'close Event'
+      });
+    console.log(evt);
   };
 };
 
