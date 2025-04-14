@@ -65,8 +65,11 @@ export function sendRateLimitedCmd(c:Cmd) {
 
 export function syncRig() { sendCmd(toCmd('*O1')); }
 
+// TODO: changes of State.settings.rigSyncInterval only take effect too late
+// (after old Interval)
+// Cannot recover from long interval!
 export function syncRigDeamon() {
-  if (State.settings.rigSyncInterval) {
+  if (State.settings.rigSyncInterval && State.settings.rigSyncInterval!=0 ) {
     setTimeout(syncRigDeamon, 1000 * State.settings.rigSyncInterval);
     syncRig();
   }
