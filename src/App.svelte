@@ -7,7 +7,7 @@ import Router from 'svelte-spa-router';
 import WebRTC from './WebRTC.svelte';
 import {routes} from './routes';
 </script>
-<div style="flex-direction: column;">
+<div class="app">
   <div>
     <ReloadPromt />
   </div>
@@ -27,3 +27,12 @@ import {routes} from './routes';
     <WebRTC />
   </div>
 </div>
+
+<style>
+.app {
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 6vw;
+}
+</style>

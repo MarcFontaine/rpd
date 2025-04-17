@@ -11,6 +11,7 @@ import Auxiliary from './aux/Auxiliary.svelte';
 import HID from './misc/HID.svelte';
 import Row from './Row.svelte';
 import Col from './Col.svelte';
+import Col2 from './Col2.svelte';
 
 export const routes = {
   '/': LocalSerial
@@ -28,4 +29,5 @@ export const routes = {
 , '/test': Test
 , '/r': Row
 , '/c': Col
+, '/c2': Col2
 }

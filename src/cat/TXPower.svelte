@@ -7,7 +7,7 @@ import {set_OP_MODE_OFF, set_OP_MODE_RX ,set_OP_MODE_TX_LOW,
 <div class="txpower">
 <details>
   <summary>
-    <span style="font-size:2em;">
+    <span style="font-size:1em;">
       Transceiver Power Mode : { rig.power ? rig.power : "undefined"}
     </span>
   </summary>

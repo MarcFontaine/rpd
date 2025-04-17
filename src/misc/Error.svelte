@@ -10,7 +10,7 @@ function ackError(e) {
 
 {#if log.errors.length >0 }
 <div>
-  <h1>Error</h1>
+  Error
    <button
      onclick={() => log.errors=[] }
    >

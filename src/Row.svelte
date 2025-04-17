@@ -2,7 +2,7 @@
 import AllElements from './AllElements.svelte';
 import {settings} from './state.svelte'
 </script>
-<div style="display:flex; flex-direction: row; width: 100%;">
+<div style="display:flex; flex-direction: row; width: 100%; font-size: .5em;">
     <div style="border: 3px solid black;" >
     <AllElements element={settings.screen1} />
     </div>

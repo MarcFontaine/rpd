@@ -20,7 +20,6 @@ const formatter = new Intl.DateTimeFormat('en-US',{
 <div>
   <About />
 </div>
-
 <div>
   <RigStatusMessage />
   <SendXK852Cmd />

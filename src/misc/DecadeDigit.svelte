@@ -38,21 +38,21 @@ const pointerSpeed = 1/10;
 
 .frequency_confirmed {
   font-family: "Courier New";
-  font-size: 9em;
+  font-size: 1em;
   font-weight: normal;
   font-style: normal;
   white-space: pre;
 }
 .frequency_not_confirmed {
   font-family: "Courier New";
-  font-size: 9em;
+  font-size: 1em;
   font-weight: bold;
   font-style: normal;
   white-space: pre;
 }
 .updown {
   font-family: "Courier New";
-  font-size: 2em;
+  font-size: 0.25em;
   font-weight: bold;
   font-style: normal;
   white-space: pre;

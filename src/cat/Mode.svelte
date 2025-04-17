@@ -8,7 +8,7 @@ import {set_MODE_AME, set_MODE_USB ,set_MODE_LSB,
 <div class="mode">
 <details>
   <summary>
-    <span style="font-size:2em;">
+    <span style="font-size:1em;">
       Mode: {rig.mode}
     </span>
   </summary>

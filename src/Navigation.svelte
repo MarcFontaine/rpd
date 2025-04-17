@@ -6,7 +6,7 @@ import {settings} from './state.svelte';
 
 {#if settings.showNavigationBar}
 <nav>
-<div class="nav"> 
+<div style="font-size:0.5em;" >
 <ul>
   <li>
     <a href="/rigcontrol" use:link use:active={'/rigcontrol'} >CAT</a>
@@ -37,6 +37,9 @@ import {settings} from './state.svelte';
   </li>
   <li>
     <a href="/c" use:link use:active={'/c'} >Col</a>
+  </li>
+  <li>
+    <a href="/c2" use:link use:active={'/c'} >Col2</a>
   </li>
 </ul>
 </div>

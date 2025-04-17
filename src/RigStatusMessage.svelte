@@ -13,6 +13,6 @@ const formatter = new Intl.DateTimeFormat('en-US',{
 </script>
 
 <div>
-  <span><button style="font-size:2em;" onclick={syncRig}>Sync RigStatus</button></span>
-  <pre style="font-size:1em;">{rig.returnMsg}</pre>
+  <span><button onclick={syncRig}>Sync RigStatus</button></span>
+  <pre>{rig.returnMsg}</pre>
 </div>

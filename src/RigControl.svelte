@@ -5,7 +5,5 @@ import CAT from './CAT.svelte';
 </script>
 
 <div>
-  <div>
   <CAT />
-  </div>
 </div>
