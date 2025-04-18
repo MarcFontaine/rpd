@@ -94,7 +94,12 @@ export let latestSendCmdTime = Date.now ();
 
 export function sendCmd(cmd: Cmd) {
   latestSendCmdTime = Date.now ();
-  State.sendCmdCallback(cmd);
+  if (!State.settings.demoMode) {
+    State.sendCmdCallback(cmd);
+  } else  {
+    // TODO: setReturnMsg only parses status reports
+    setReturnMsg(cmd.string);
+  }
 }
 
 export function toCmd(cmd: string) {
@@ -104,9 +109,10 @@ export function toCmd(cmd: string) {
 function toCmdTimeout(cmd: string, timeout:number) {
   setReturnMsg('...wait...');
   return (
-    { xk852serialNative: toXK852Cmd(cmd)
-    , timeout: timeout
+    { string: cmd
+    , xk852serialNative: toXK852Cmd(cmd)
     , rigctld: toRigctld(cmd)
+    , timeout: timeout
     });
 }
 

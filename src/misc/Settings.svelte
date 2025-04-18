@@ -8,6 +8,9 @@ import {settings} from '../state.svelte';
 
 <div>
   <br>
+    <input type="checkbox" bind:checked={settings.demoMode}> demoMode
+  <br>
+  <br>
     <input type="checkbox" bind:checked={settings.expertMode}> ExpertMode
   <br>
   <br>
