@@ -6,7 +6,7 @@ import WebRTCToggle from './WebRTCToggle.svelte';
 import Wheel from './misc/Wheel.svelte';
 import Test from './misc/Test.svelte';
 import Frequency from './cat/Frequency.svelte';
-import Settings from './misc/Settings.svelte';
+import Settings from './settings/Settings.svelte';
 import Auxiliary from './aux/Auxiliary.svelte';
 import HID from './misc/HID.svelte';
 import Row from './Row.svelte';
