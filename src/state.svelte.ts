@@ -62,7 +62,8 @@ export const webRTCClient = $state(
   });
 
 export type Cmd =
-  { xk852serialNative: Uint8Array
+  { xk852String: string  // string without line breaks
+  , xk852serialNative: Uint8Array
   , rigctld: string
   , timeout: number
   };

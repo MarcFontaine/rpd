@@ -98,7 +98,7 @@ export function sendCmd(cmd: Cmd) {
     State.sendCmdCallback(cmd);
   } else  {
     // TODO: setReturnMsg only parses status reports
-    setReturnMsg(cmd.string);
+    setReturnMsg(cmd.xk852String);
   }
 }
 
@@ -109,7 +109,7 @@ export function toCmd(cmd: string) {
 function toCmdTimeout(cmd: string, timeout:number) {
   setReturnMsg('...wait...');
   return (
-    { string: cmd
+    { xk852String: cmd
     , xk852serialNative: toXK852Cmd(cmd)
     , rigctld: toRigctld(cmd)
     , timeout: timeout
