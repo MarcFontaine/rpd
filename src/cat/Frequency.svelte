@@ -57,8 +57,8 @@ function makeOnDelta(v:number) {
 
 </script>
 <div style="display:flex; flex-direction: column;">
-  <div style="display:flex; flex-direction: row; font-size: 3em;">
-    <DecadeDigit --fontsize="9em" isConfirmed={isConfirmed} d={digits[7]} onDelta={makeOnDelta(10000000)}/>
+  <div class="decade" >
+    <DecadeDigit isConfirmed={isConfirmed} d={digits[7]} onDelta={makeOnDelta(10000000)}/>
     <DecadeDigit isConfirmed={isConfirmed} d={digits[6]} onDelta={makeOnDelta(1000000)}/>
     <DecadeDigit isConfirmed={isConfirmed} d={digits[5]} onDelta={makeOnDelta(100000)}/>
     <DecadeDigit isConfirmed={isConfirmed} d={digits[4]} onDelta={makeOnDelta(10000)}/>
@@ -69,5 +69,11 @@ function makeOnDelta(v:number) {
   </div>
   test 1 2 t
 </div>
+
 <style>
+.decade {
+  display:flex;
+  flex-direction: row;
+  font-size: calc(4* 100% - 50px);
+}
 </style>
