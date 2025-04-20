@@ -74,6 +74,6 @@ function makeOnDelta(v:number) {
 .decade {
   display:flex;
   flex-direction: row;
-  font-size: calc(4* 100% - 50px);
+  font-size: 3em;
 }
 </style>

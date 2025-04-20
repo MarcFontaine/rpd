@@ -17,13 +17,22 @@
   disable={ item => item.isDisabled }
   bind:value={v}
 >
+
 <svelte:fragment slot="no-results">
-    No results found for 
-  </svelte:fragment>
+    No results found for {v}
+</svelte:fragment>
+
 </Typeahead>
 {/if}
+
 <style>
-  :global(input) {
-    margin: 0;
+:global([data-svelte-search] input) {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: none;
+    font-size: 0.5em;
+    border: 0;
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
   }
 </style>

@@ -33,6 +33,6 @@ import {routes} from './routes';
   display:flex;
   flex-direction: column;
   width: 100%;
-  font-size: 6vw;
+  font-size: 2rem;
 }
 </style>

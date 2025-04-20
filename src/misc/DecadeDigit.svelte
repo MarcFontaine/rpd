@@ -42,6 +42,9 @@ const pointerSpeed = 1/10;
   font-weight: normal;
   font-style: normal;
   white-space: pre;
+  padding: 0px 0px;
+  margin: 0px 0px 0px 0px;
+  border-width: 0px;
 }
 .frequency_not_confirmed {
   font-family: "Courier New";
@@ -49,6 +52,9 @@ const pointerSpeed = 1/10;
   font-weight: bold;
   font-style: normal;
   white-space: pre;
+  padding: 0px 0px;
+  margin: 0px 0px 0px 0px;
+  border-width: 0px;
 }
 .updown {
   font-family: "Courier New";
@@ -56,5 +62,8 @@ const pointerSpeed = 1/10;
   font-weight: bold;
   font-style: normal;
   white-space: pre;
+  padding: 0px 0px;
+  margin: 0px 0px 0px 0px;
+  border-width: 0px;
 }
 </style>

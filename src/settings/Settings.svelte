@@ -22,8 +22,8 @@ import SelectScreen from './SelectScreen.svelte';
   <br>
   <br>
 
-  <SelectScreen bind:o={settings.screen1} d={'Screen 1'} />
-  <SelectScreen bind:o={settings.screen2} d={'Screen 2'} />
-  <SelectScreen bind:o={settings.screen3} d={'Screen 3'} />
-  <SelectScreen bind:o={settings.screen4} d={'Screen 4'} />
+  <SelectScreen bind:o={settings.screen1} d={'Tile 1'} />
+  <SelectScreen bind:o={settings.screen2} d={'Tile 2'} />
+  <SelectScreen bind:o={settings.screen3} d={'Tile 3'} />
+  <SelectScreen bind:o={settings.screen4} d={'Tile 4'} />
 </div>
