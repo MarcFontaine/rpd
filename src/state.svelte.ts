@@ -89,6 +89,7 @@ export function setSendCmdCallback(fn: any) {
 export const settings = $state(
   { expertMode: false
   , demoMode: false
+  , mobileMode: false
   , screen1: 'RigControl'
   , screen2: 'Debug'
   , screen3: 'Settings'

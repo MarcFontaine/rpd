@@ -3,6 +3,7 @@ import * as State from './state.svelte';
 import {type Cmd} from './state.svelte';
 import {gui} from './state.svelte';
 import {setReturnMsg} from './setXK852Status';
+import { XK852Power, XK852Mode } from './types';
 
 const encoder = new TextEncoder();
 /**
@@ -75,11 +76,34 @@ export function syncRigDeamon() {
   }
 }
 
+export function setOpMode (m: XK852Power) {
+  switch (m) {
+    case 'Off'          : {set_OP_MODE_OFF(); break; }
+    case 'Receive Only' : {set_OP_MODE_RX(); break; }
+    case 'Low Power'    : {set_OP_MODE_TX_LOW(); break; }
+    case 'Medium Power' : {set_OP_MODE_TX_MID(); break; }
+    case 'Full Power'   : {set_OP_MODE_TX_FULL(); break; }
+  }
+}
+
 export function set_OP_MODE_OFF()     { sendCmd(toCmd('*S0')); }
 export function set_OP_MODE_RX()      { sendCmd(toCmd('*S1')); }
 export function set_OP_MODE_TX_LOW()  { sendCmd(toCmd('*S2')); }
 export function set_OP_MODE_TX_MID()  { sendCmd(toCmd('*S3')); }
 export function set_OP_MODE_TX_FULL() { sendCmd(toCmd('*S4')); }
+
+export function setMode (m: XK852Mode) {
+  switch (m) {
+    case 'AME'              : { set_MODE_AME(); break; }
+    case 'USB'              : { set_MODE_USB(); break; }
+    case 'LSB'              : { set_MODE_LSB(); break; }
+    case 'CW'               : { set_MODE_CW(); break; }
+    case 'ISB'              : { set_MODE_ISB(); break; }
+    case 'FSK Low Power'    : { set_MODE_FSK_LP(); break; }
+    case 'FSK Medium Power' : { set_MODE_FSK_MID(); break; }
+    case 'FSK High Power'   : { set_MODE_FSK_HP(); break; }
+  }
+}
 
 export function set_MODE_AME()     { sendCmd(toCmd('*I1')); }
 export function set_MODE_USB()     { sendCmd(toCmd('*I2')); }

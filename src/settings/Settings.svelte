@@ -10,6 +10,7 @@ import SelectScreen from './SelectScreen.svelte';
 
 <div style="display:flex; flex-direction: column; width: 100%;">
   <Option bind:o={settings.demoMode} d={'Demo Mode'} />
+  <Option bind:o={settings.mobileMode} d={'Mobile Mode'} />
   <Option bind:o={settings.expertMode} d={'ExpertMode'} />
   <Option bind:o={settings.showSearchBar} d={'Show Search Bar'} />
   <Option bind:o={settings.showNavigationBar} d={'Show Navigation Bar'} />
