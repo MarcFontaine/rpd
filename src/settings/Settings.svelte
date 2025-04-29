@@ -2,6 +2,7 @@
 import {settings} from '../state.svelte';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
+import { syncRigDeamon } from '../cat.ts';
 </script>
 
 <div>
@@ -19,7 +20,9 @@ import SelectScreen from './SelectScreen.svelte';
   <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
 
   <br>
-    <input type="number" bind:value={settings.rigSyncInterval}> Rig Sync Interval
+    <input type="number" bind:value={settings.rigSyncInterval}
+    onchange={syncRigDeamon}
+    > TRX Synchronisation Interval (0 = Disable Periodic Sync)
   <br>
     <input type="number" bind:value={settings.mouseWheelTuningSpeed}> Mouse Wheel Tunings Speed
   <br>

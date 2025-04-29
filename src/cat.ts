@@ -66,12 +66,18 @@ export function sendRateLimitedCmd(c:Cmd) {
 
 export function syncRig() { sendCmd(toCmd('*O1')); }
 
-// TODO: changes of State.settings.rigSyncInterval only take effect too late
-// (after old Interval)
-// Cannot recover from long interval!
+var syncRigDeamonId:number = 0
+
 export function syncRigDeamon() {
-  if (State.settings.rigSyncInterval && State.settings.rigSyncInterval!=0 ) {
-    setTimeout(syncRigDeamon, 1000 * State.settings.rigSyncInterval);
+  syncRigDeamonId++;
+  syncRigDeamonWorker(syncRigDeamonId);
+}
+
+function syncRigDeamonWorker(id:number) {
+  if ( State.settings.rigSyncInterval
+      && State.settings.rigSyncInterval != 0
+      && id == syncRigDeamonId ) {
+    setTimeout(syncRigDeamonWorker, 1000 * State.settings.rigSyncInterval, id);
     syncRig();
   }
 }
