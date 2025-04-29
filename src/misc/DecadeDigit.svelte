@@ -3,7 +3,7 @@ import {settings} from '../state.svelte';
 
 let { isConfirmed, d=0, onDelta } = $props();
 
-const wheelSpeed = 1/250;
+let wheelSpeed = $derived(settings.mouseWheelTuningSpeed/100/125);
 const pointerSpeed = 1/10;
 
 </script>

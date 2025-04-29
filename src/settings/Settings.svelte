@@ -21,6 +21,7 @@ import SelectScreen from './SelectScreen.svelte';
   <br>
     <input type="number" bind:value={settings.rigSyncInterval}> Rig Sync Interval
   <br>
+    <input type="number" bind:value={settings.mouseWheelTuningSpeed}> Mouse Wheel Tunings Speed
   <br>
 
   <SelectScreen bind:o={settings.screen1} d={'Tile 1'} />

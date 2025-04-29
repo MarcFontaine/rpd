@@ -100,4 +100,5 @@ export const settings = $state(
   , showPTT: true
   , smartPTT: true
   , rigSyncInterval: 20
+  , mouseWheelTuningSpeed: 100
   });
