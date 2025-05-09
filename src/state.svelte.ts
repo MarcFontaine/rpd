@@ -70,6 +70,8 @@ export type Cmd =
 
 export const espHomeEvent = $state(
   { data: ""
+  , powerForward: 0
+  , powerReverse: 0
   });
 
 export function sendCmdCallbackError(_cmd:any) {
@@ -100,5 +102,5 @@ export const settings = $state(
   , showPTT: true
   , smartPTT: true
   , rigSyncInterval: 20
-  , mouseWheelTuningSpeed: 100
+  , mouseWheelTuningSpeed: 50
   });
