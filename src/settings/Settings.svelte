@@ -3,6 +3,7 @@ import {settings} from '../state.svelte';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat.ts';
+import LevelDebug from '../level/LevelDebug.svelte';
 </script>
 
 <div>
@@ -31,4 +32,6 @@ import { syncRigDeamon } from '../cat.ts';
   <SelectScreen bind:o={settings.screen2} d={'Tile 2'} />
   <SelectScreen bind:o={settings.screen3} d={'Tile 3'} />
   <SelectScreen bind:o={settings.screen4} d={'Tile 4'} />
+  <br>
+  <LevelDebug />
 </div>
