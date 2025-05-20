@@ -10,6 +10,7 @@ import Test from './misc/Test.svelte';
 import Frequency from './cat/Frequency.svelte';
 import Auxiliary from './aux/Auxiliary.svelte';
 import HID from './misc/HID.svelte';
+import FT8 from './ft8/FT8.svelte';
 
 let p = $props();
 </script>
@@ -21,6 +22,8 @@ let p = $props();
   <Debug />
 {:else if p.element == 'Settings'}
   <Settings />
+{:else if p.element == 'FT8'}
+  <FT8 />
 <!--
 {:else if p.element == 'Empty'}
 -->

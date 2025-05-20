@@ -10,6 +10,7 @@ import Settings from './settings/Settings.svelte';
 import Auxiliary from './aux/Auxiliary.svelte';
 import HID from './misc/HID.svelte';
 import Row from './Row.svelte';
+import FT8 from './ft8/FT8.svelte';
 import Col from './Col.svelte';
 import Col2 from './Col2.svelte';
 
@@ -21,6 +22,7 @@ export const routes = {
 , '/debug': Debug
 , '/serial': LocalSerial
 , '/webrtc': WebRTCToggle
+, '/ft8': FT8
 , '/aux': Auxiliary
 , '/wheel': Wheel
 , '/hid': HID

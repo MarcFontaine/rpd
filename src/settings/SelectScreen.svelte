@@ -11,6 +11,7 @@ let { d, o = $bindable() } = $props();
     <option value={'RigControl'} >RigControl</option>
     <option value={'Debug'} >Debug</option>
     <option value={'Settings'} >Settings</option>
+    <option value={'FT8'} >FT8</option>
     <option value={'Empty'} >Empty</option>
   </select>
 </div>

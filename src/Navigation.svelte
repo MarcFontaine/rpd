@@ -33,6 +33,9 @@ import {settings} from './state.svelte';
     <a href="/aux" use:link use:active={'/aux'} >Aux</a>
   </li>
   <li>
+    <a href="/ft8" use:link use:active={'/ft8'} >FT8</a>
+  </li>
+  <li>
     <a href="/r" use:link use:active={'/r'} >Row</a>
   </li>
   <li>
