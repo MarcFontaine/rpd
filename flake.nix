@@ -8,7 +8,7 @@
   # This is what we test in CI with, but you can generally refer to any
   # recent nixpkgs commit here.
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
   };

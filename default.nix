@@ -11,8 +11,8 @@
   ];
 
   deps = {nixpkgs, ...}: {
-    npm = pkgs.nodejs_23;
-    nodejs = pkgs.nodejs_23;
+    npm = pkgs.nodejs_24;
+    nodejs = pkgs.nodejs_24;
     inherit
       (nixpkgs)
       gnugrep
