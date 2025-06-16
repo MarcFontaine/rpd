@@ -23,6 +23,13 @@ export function setTxOn() {
 }
 
 /**
+ * Trigger Automatic Antenna Tuner
+ */
+export function triggerAntennaTuner() {
+  sendCmd(toCmd('*Y '));
+}
+
+/**
  * Set the frequency
  @param {number} f the target frequncy
  @return {number} the frequency that was used
@@ -50,7 +57,7 @@ function setFrequencyCmd(f: number): State.Cmd {
 }
 
 const minSendCmdDelay = 150; // ms
-let sendCmdTimeOut : (null | number) = null;
+let sendCmdTimeOut : ReturnType<typeof setTimeout> | null = null;
 
 export function sendRateLimitedCmd(c:Cmd) {
   if (Date.now() - latestSendCmdTime > minSendCmdDelay) {

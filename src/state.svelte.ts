@@ -101,6 +101,7 @@ export const settings = $state(
   , showDecadeButtons: false
   , showPTT: true
   , smartPTT: true
+  , showAntennaTuner: true
   , rigSyncInterval: 20
   , mouseWheelTuningSpeed: 100
   });

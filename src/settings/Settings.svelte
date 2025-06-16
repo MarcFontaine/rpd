@@ -19,6 +19,7 @@ import LevelDebug from '../level/LevelDebug.svelte';
   <Option bind:o={settings.showDecadeButtons} d={'Show Up/Down Buttons for Frequency Decade'} />
   <Option bind:o={settings.showPTT} d={'Show PTT Button'} />
   <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
+  <Option bind:o={settings.showAntennaTuner} d={'Antenna Tuner Button'} />
 
   <br>
     <input type="number" bind:value={settings.rigSyncInterval}
