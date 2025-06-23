@@ -1,8 +1,9 @@
 <script lang="ts">
-import {gui,rig} from '../state.svelte';
+import {gui, rig, settings} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 
 const speed=10;
+
 // code-duplication with cat/Frequency !
 let editMode = $derived(Date.now() - gui.frequency.time < 5000);
 
@@ -22,31 +23,41 @@ function clamp(f:number) {
     else return f;
 }
 
-var oldWheel = 0;
+var wheelA = 0;
+var wheelB = 0;
 var isInit = false;
+
+function delta(a:number, b:number) {
+    const delta_raw = a - b; // 16 bit wrap around
+    if ( delta_raw > 40000)
+    {
+       return (delta_raw - 65537);
+    }
+    else if (delta_raw < -40000)
+    {
+      return (delta_raw + 65537);
+    }
+    else
+    {
+      return delta_raw;
+    }
+};
 
 function handleHidInput(event) {
   const { data, device, reportId } = event;
-  const wheel = data.getInt16(1, true);
-  if (isInit &&  wheel != oldWheel) {
-    var delta;
-    const dwrap = wheel - oldWheel // 16 bit wrap around
-    if ( dwrap > 40000)
-    {
-      delta = - 65537;
-    }
-    else if (dwrap < -40000)
-    {
-      delta = dwrap + 65537; 
-    }
-    else {
-      delta = dwrap;
-    }
-    oldWheel = wheel;
-    setFrequencyRateLimited(clamp(frequency + delta * speed));
+  const wa = data.getInt16(1, true);
+  const wb = data.getInt16(3, true);
+  if (isInit &&  (wheelA != wa || wheelB != wb)) {
+    setFrequencyRateLimited(clamp( frequency
+      + delta(wa, wheelA) * speed
+      + delta(wb, wheelB) * speed /10000 * settings.magnetTuningSpeed
+      ));
+    wheelA = wa;
+    wheelB = wb;
   }
   if (!isInit) {
-    oldWheel = wheel;
+    wheelA = wa;
+    wheelB = wb;
     isInit = true;
   }
 };

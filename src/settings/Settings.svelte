@@ -29,6 +29,10 @@ import LevelDebug from '../level/LevelDebug.svelte';
     <input type="number" bind:value={settings.mouseWheelTuningSpeed}> Mouse Wheel Tunings Speed
   <br>
 
+  <br>
+    <input type="number" bind:value={settings.magnetTuningSpeed}> Hall Rotary Encoder Tunings Speed
+  <br>
+
   <SelectScreen bind:o={settings.screen1} d={'Tile 1'} />
   <SelectScreen bind:o={settings.screen2} d={'Tile 2'} />
   <SelectScreen bind:o={settings.screen3} d={'Tile 3'} />
