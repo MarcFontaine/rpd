@@ -4,6 +4,7 @@ import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat.ts';
 import LevelDebug from '../level/LevelDebug.svelte';
+import { HIDsettings } from '../misc/HID.svelte';
 </script>
 
 <div>
@@ -19,7 +20,8 @@ import LevelDebug from '../level/LevelDebug.svelte';
   <Option bind:o={settings.showDecadeButtons} d={'Show Up/Down Buttons for Frequency Decade'} />
   <Option bind:o={settings.showPTT} d={'Show PTT Button'} />
   <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
-  <Option bind:o={settings.showAntennaTuner} d={'Antenna Tuner Button'} />
+  <Option bind:o={settings.showAntennaTuner} d={'Show Antenna Tuner Button'} />
+  {@render HIDsettings()}
 
   <br>
     <input type="number" bind:value={settings.rigSyncInterval}
@@ -27,10 +29,6 @@ import LevelDebug from '../level/LevelDebug.svelte';
     > TRX Synchronisation Interval (0 = Disable Periodic Sync)
   <br>
     <input type="number" bind:value={settings.mouseWheelTuningSpeed}> Mouse Wheel Tunings Speed
-  <br>
-
-  <br>
-    <input type="number" bind:value={settings.magnetTuningSpeed}> Hall Rotary Encoder Tunings Speed
   <br>
 
   <SelectScreen bind:o={settings.screen1} d={'Tile 1'} />

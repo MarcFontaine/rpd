@@ -1,7 +1,8 @@
-<script lang="ts">
+<script module lang="ts">
 import {gui, rig, settings} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
-
+import Option from '../settings/Options.svelte';
+export { HIDsettings };
 const speed=10;
 
 // code-duplication with cat/Frequency !
@@ -87,14 +88,22 @@ async function connectRigControl() {
 }
 </script>
 
+{#if settings.enableRotaryEncoder}
+  <div>
+  <button
+    onclick={connectRigControl}
+  >
+  Connect USB Rotary Encoder
+  </button>
+  </div>
+{/if}
+
+{#snippet HIDsettings()}
 <div>
-RigControl USB Device
-
-<br>
-<button
-  onclick={connectRigControl}
->
-Connect RigControl USB device
-</button>
-
+  <Option bind:o={settings.enableRotaryEncoder} d={'Enable USB Rotary Encoder'} />
+  {#if settings.enableRotaryEncoder}
+    <br>
+    <input type="number" bind:value={settings.magnetTuningSpeed}> Hall Rotary Encoder Tunings Speed
+  {/if}
 </div>
+{/snippet}

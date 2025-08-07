@@ -104,5 +104,6 @@ export const settings = $state(
   , showAntennaTuner: true
   , rigSyncInterval: 20
   , mouseWheelTuningSpeed: 100
+  , enableRotaryEncoder: true
   , magnetTuningSpeed: 100
   });

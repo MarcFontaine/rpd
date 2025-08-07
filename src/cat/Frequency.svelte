@@ -1,5 +1,6 @@
 <script lang="ts">
 import DecadeDigit from '../misc/DecadeDigit.svelte';
+import HID from '../misc/HID.svelte';
 import {gui,rig} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 
@@ -67,7 +68,7 @@ function makeOnDelta(v:number) {
     <DecadeDigit isConfirmed={isConfirmed} d={digits[2]} onDelta={makeOnDelta(100)}/>
     <DecadeDigit isConfirmed={isConfirmed} d={digits[1]} onDelta={makeOnDelta(10)}/>
   </div>
-  test 1 2 t
+  <HID/>
 </div>
 
 <style>

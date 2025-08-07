@@ -8,7 +8,6 @@ import Test from './misc/Test.svelte';
 import Frequency from './cat/Frequency.svelte';
 import Settings from './settings/Settings.svelte';
 import Auxiliary from './aux/Auxiliary.svelte';
-import HID from './misc/HID.svelte';
 import Row from './Row.svelte';
 import FT8 from './ft8/FT8.svelte';
 import Col from './Col.svelte';
@@ -25,7 +24,6 @@ export const routes = {
 , '/ft8': FT8
 , '/aux': Auxiliary
 , '/wheel': Wheel
-, '/hid': HID
 , '/frequency': Frequency
 , '/settings': Settings
 , '/test': Test
