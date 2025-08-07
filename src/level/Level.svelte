@@ -1,15 +1,17 @@
-<script lang="ts">
+<script module lang="ts">
+import Option from '../settings/Options.svelte';
 import PiGauge from './PiGauge.svelte';
-
 import {espHomeEvent} from '../state.svelte';
+export { SWRsettings };
 
 let forward = $derived(espHomeEvent.powerForward);
 let reverse = $derived(espHomeEvent.powerReverse);
 
+var showSWRMeter = $state(true);
 
-const u_min = 0.142;
-const u_max = 2.6;
-const p_max = 150;
+var u_min = $state(0.142);
+var u_max = $state(2.6);
+var p_max = $state(150);
 
 function cal (u:number) {
   const u_normal = (u - u_min) / (u_max - u_min);
@@ -19,13 +21,39 @@ function cal (u:number) {
 </script>
 
 <div style="display:flex; flex-direction: row; width: 100%;" >
+  {#if showSWRMeter}
   <div style="display:flex; flex-direction: column; width:50%;" >
     <PiGauge x={cal(forward)*100/p_max} />
-    <span> Power Forward: {cal(forward)}</span>
+    <span> Power Forward: {cal(forward)}W</span>
     <span> raw: {forward}</span>
   </div>
   <div style="display:flex; flex-direction: column; width:50%;" >
     <PiGauge x={cal(reverse)*100/p_max} />
-    <span> Power Reverse: {cal(reverse)}</span>
+    <span> Power Reverse: {cal(reverse)}W</span>
   </div>
+  {/if}
 </div>
+
+{#snippet SWRsettings()}
+<div>
+  <Option bind:o={showSWRMeter} d={'Show SWR Meter'} />
+  {#if showSWRMeter}
+    <br>
+    <input type="number" bind:value={u_min}> Min Sensor Voltage
+    <br>
+    <input type="number" bind:value={u_max}> Max Sensor Voltage
+    <br>
+    <input type="number" bind:value={p_max}> Max Reported Power
+    <br>
+    GUI-test: Reported Forward Power
+    <label>
+      <input type="range" bind:value={espHomeEvent.powerForward} min="{u_min}" max="{u_max+0.1}" step="0.1"/>
+    </label>
+    <br>
+    GUI-Test: Reported Reverse Power
+    <label>
+      <input type="range" bind:value={espHomeEvent.powerReverse} min="{u_min}" max="{u_max+0.1}" step="0.1"/>
+    </label>
+  {/if}
+</div>
+{/snippet}

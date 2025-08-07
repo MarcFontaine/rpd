@@ -3,8 +3,8 @@ import {settings} from '../state.svelte';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat.ts';
-import LevelDebug from '../level/LevelDebug.svelte';
 import { HIDsettings } from '../misc/HID.svelte';
+import { SWRsettings } from '../level/Level.svelte';
 </script>
 
 <div>
@@ -22,6 +22,7 @@ import { HIDsettings } from '../misc/HID.svelte';
   <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
   <Option bind:o={settings.showAntennaTuner} d={'Show Antenna Tuner Button'} />
   {@render HIDsettings()}
+  {@render SWRsettings()}  
 
   <br>
     <input type="number" bind:value={settings.rigSyncInterval}
@@ -36,5 +37,4 @@ import { HIDsettings } from '../misc/HID.svelte';
   <SelectScreen bind:o={settings.screen3} d={'Tile 3'} />
   <SelectScreen bind:o={settings.screen4} d={'Tile 4'} />
   <br>
-  <LevelDebug />
 </div>
