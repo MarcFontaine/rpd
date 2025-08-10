@@ -142,6 +142,40 @@ const xk852Extra_bookmarks =
   , xk852ExtraCmd('*H1','FSK STOP')
   ]
 
+export const am_broadcast = [
+  new Bookmark (
+      `CHN 1 Chinese National Radio AM Broadcast at 6140kHz`
+    , () => {
+        CAT.setFrequency(6140000);
+	CAT.set_MODE_AME();
+    }),
+  new Bookmark (
+      `CHN 6 Chinese National Radio AM Broadcast at 6160kHz`
+    , () => {
+        CAT.setFrequency(6160000);
+	CAT.set_MODE_AME();
+    }),
+  new Bookmark (
+      `ROU Romania Int. AM Broadcast at 1.1880kHz`
+    , () => {
+        CAT.setFrequency(11880000);
+	CAT.set_MODE_AME();
+    }),
+  new Bookmark (
+      `CHN Chinese National Radio AM Broadcast at 11.910kHz`
+    , () => {
+        CAT.setFrequency(11910000);
+	CAT.set_MODE_AME();
+    }),
+  new Bookmark (
+      `KRE NORTH Korea Radio AM Broadcast at 13.760kHz`
+    , () => {
+        CAT.setFrequency(13760000);
+	CAT.set_MODE_AME();
+    })
+
+]
+
 export const bookmarks
   = new Array().concat (
     [ frequency_kHz(14010) ]
@@ -151,4 +185,5 @@ export const bookmarks
   , mode_bookmarks
   , xk852Power
   , xk852Extra_bookmarks
+  , am_broadcast
   );
