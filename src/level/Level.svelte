@@ -1,17 +1,19 @@
-<script module lang="ts">
+<script context="module" lang="ts">
 import Option from '../settings/Options.svelte';
 import PiGauge from './PiGauge.svelte';
 import {espHomeEvent} from '../state.svelte';
 export { SWRsettings };
-
-let forward = $derived(espHomeEvent.powerForward);
-let reverse = $derived(espHomeEvent.powerReverse);
-
 var showSWRMeter = $state(true);
 
 var u_min = $state(0.142);
 var u_max = $state(2.6);
 var p_max = $state(150);
+</script>
+
+<script lang="ts">
+
+let forward = $derived(espHomeEvent.powerForward);
+let reverse = $derived(espHomeEvent.powerReverse);
 
 function cal (u:number) {
   const u_normal = (u - u_min) / (u_max - u_min);
@@ -24,12 +26,12 @@ function cal (u:number) {
   {#if showSWRMeter}
   <div style="display:flex; flex-direction: column; width:50%;" >
     <PiGauge x={cal(forward)*100/p_max} />
-    <span> Power Forward: {cal(forward)}W</span>
+    <span> Forward Power: {cal(forward)}W</span>
     <span> raw: {forward}</span>
   </div>
   <div style="display:flex; flex-direction: column; width:50%;" >
     <PiGauge x={cal(reverse)*100/p_max} />
-    <span> Power Reverse: {cal(reverse)}W</span>
+    <span> Reverse Power: {cal(reverse)}W</span>
   </div>
   {/if}
 </div>
