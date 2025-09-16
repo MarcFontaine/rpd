@@ -13,6 +13,7 @@ let { d, o = $bindable() } = $props();
     <option value={'Settings'} >Settings</option>
     <option value={'FT8'} >FT8</option>
     <option value={'Empty'} >Empty</option>
+    <option value={'Serial'} >Serial</option>
   </select>
 </div>
 

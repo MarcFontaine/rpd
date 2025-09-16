@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 import Option from '../settings/Options.svelte';
 import PiGauge from './PiGauge.svelte';
 import {espHomeEvent} from '../state.svelte';

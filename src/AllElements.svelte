@@ -24,6 +24,8 @@ let p = $props();
   <Settings />
 {:else if p.element == 'FT8'}
   <FT8 />
+{:else if p.element == 'Serial'}
+  <LocalSerial />
 <!--
 {:else if p.element == 'Empty'}
 -->

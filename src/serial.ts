@@ -276,3 +276,17 @@ export async function initWebSerial() {
     connectToPort();
   });
 }
+
+export function isConnected() {
+  if (port?.writable == null)
+    return false;
+    else return true
+}
+
+export async function setDTR(level: boolean) {
+  port?.setSignals({ dataTerminalReady: level });
+}
+
+export async function setRTS(level: boolean) {
+  port?.setSignals({ requestToSend: level });
+}
