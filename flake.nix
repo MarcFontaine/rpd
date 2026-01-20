@@ -1,14 +1,7 @@
 {
-  # This example flake.nix is pretty generic and the same for all
-  # examples, except when they define devShells or extra packages.
-  description = "serial-terminal flake build";
-
-  # We import the latest commit of dream2nix main branch and instruct nix to
-  # re-use the nixpkgs revision referenced by dream2nix.
-  # This is what we test in CI with, but you can generally refer to any
-  # recent nixpkgs commit here.
+  description = "Rigpage remote QTH flake build";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -18,8 +11,6 @@
     dream2nix,
     nixpkgs,
   }: let
-    # A helper that helps us define the attributes below for
-    # all systems we care about.
     eachSystem = nixpkgs.lib.genAttrs [
       "aarch64-darwin"
       "aarch64-linux"
@@ -28,9 +19,6 @@
     ];
   in {
     packages = eachSystem (system: {
-      # For each system, we define our default package
-      # by passing in our desired nixpkgs revision plus
-      # any dream2nix modules needed by it.
       default = dream2nix.lib.evalModules {
         packageSets.nixpkgs = nixpkgs.legacyPackages.${system};
         modules = [
