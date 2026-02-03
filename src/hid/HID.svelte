@@ -3,7 +3,7 @@ import {gui, rig, settings} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 import Option from '../settings/Options.svelte';
 export { HIDsettings };
-const speed=10;
+const speed = 10;
 
 // code-duplication with cat/Frequency !
 let editMode = $derived(Date.now() - gui.frequency.time < 5000);
@@ -15,7 +15,7 @@ let frequency = $derived.by(()=> {
   });
 
 let isConfirmed = $derived.by(() => {
-  return frequency == rig.frequency;
+    return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
 
 function clamp(f:number) {
@@ -23,10 +23,6 @@ function clamp(f:number) {
     else if (f > 29999999) return 29999999
     else return f;
 }
-
-var wheelA = 0;
-var wheelB = 0;
-var isInit = false;
 
 function delta(a:number, b:number) {
     const delta_raw = a - b; // 16 bit wrap around
@@ -44,23 +40,43 @@ function delta(a:number, b:number) {
     }
 };
 
-function handleHidInput(event) {
+var isInit = false;
+var prevHidData = null;
+
+function parseHidEvent(event) {
   const { data, device, reportId } = event;
-  const wa = data.getInt16(1, true);
-  const wb = data.getInt16(3, true);
-  if (isInit &&  (wheelA != wa || wheelB != wb)) {
-    setFrequencyRateLimited(clamp( frequency
-      + delta(wa, wheelA) * speed
-      + delta(wb, wheelB) * speed /10000 * settings.magnetTuningSpeed
-      ));
-    wheelA = wa;
-    wheelB = wb;
-  }
-  if (!isInit) {
-    wheelA = wa;
-    wheelB = wb;
-    isInit = true;
-  }
+  return {
+      buttons : data.getUint8(0),
+      axisA : data.getInt16(1, true),
+      axisB : data.getInt16(3, true)
+  };
+}
+
+function handleHidInput(event) {
+    const hidData = parseHidEvent(event);
+    if ( isInit ) {
+	handleWheel(prevHidData, hidData);
+	handleButtons(prevHidData, hidData);	
+    }
+    else
+    {
+	isInit = true;
+    };
+    prevHidData = hidData;
+};
+function handleButtons(prev, now){
+    if (prev.buttons != now.buttons) {
+	console.log(now.buttons);
+    }
+};
+function handleWheel(prev, now){
+    if (prev.axisA != now.axisA || prev.axisB != now.axisB ) {
+	setFrequencyRateLimited(clamp(
+	    frequency
+		+ delta(now.axisA, prev.axisA) * speed
+		+ delta(now.axisB, prev.axisB) * speed /10000 * settings.magnetTuningSpeed
+	));
+    };
 };
 
 // https://github.com/WICG/webhid/issues/105
@@ -82,10 +98,26 @@ async function connectRigControl() {
     if (devices && devices[0]) {
       const rigControl = devices[0];
       await rigControl.open();
+      dumpDeviceReport(rigControl);	
       rigControl.addEventListener("inputreport", handleHidInput);
     }
   }
 }
+
+function dumpDeviceReport(device) {
+  for (let collection of device.collections) {
+    console.log(`Usage Page: ${collection.usagePage}`); // 1 for Generic Desktop
+    console.log(`Usage: ${collection.usage}`);
+    for (let inputReport of collection.inputReports) {
+      console.log(`Report ID: ${inputReport.reportId}`);
+      for (let item of inputReport.items) {
+	console.log(`Bits: ${item.reportSize} x ${item.reportCount}`);
+	console.log(`Values: ${item.logicalMinimum} to ${item.logicalMaximum}`);
+      }
+    }
+  };
+}
+
 </script>
 
 {#if settings.enableRotaryEncoder}

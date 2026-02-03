@@ -9,7 +9,7 @@ import Wheel from './misc/Wheel.svelte';
 import Test from './misc/Test.svelte';
 import Frequency from './cat/Frequency.svelte';
 import Auxiliary from './aux/Auxiliary.svelte';
-import HID from './misc/HID.svelte';
+import HID from './hid/HID.svelte';
 import FT8 from './ft8/FT8.svelte';
 
 let p = $props();
