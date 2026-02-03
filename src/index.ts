@@ -1,7 +1,7 @@
 import {setGuiMode, GuiMode} from './gui';
 
 import { mount } from 'svelte'
-import App from './App.svelte'
+import App from './ui/App.svelte'
 
 document.addEventListener('DOMContentLoaded', async () => {
   mount(App, {

@@ -1,4 +1,4 @@
-import * as CAT from './cat'
+import * as CAT from '../cat'
 
 type Action = (() => any) | null
 

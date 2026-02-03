@@ -1,7 +1,7 @@
 <script lang="ts">
 import {link} from 'svelte-spa-router'
 import active from 'svelte-spa-router/active'
-import {settings} from './state.svelte';
+import {settings} from '../state.svelte';
 </script>
 
 {#if settings.showNavigationBar}

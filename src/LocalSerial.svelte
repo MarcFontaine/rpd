@@ -1,6 +1,6 @@
 <script lang="ts">
 import { currentProfile } from './state.svelte';
-import * as Config from './config';
+import * as Config from './config/config';
 import * as Profile from './profile';
 import { isConnected, setRTS, setDTR } from './serial';
 </script>

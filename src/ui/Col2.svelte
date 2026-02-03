@@ -1,6 +1,6 @@
 <script>
 import AllElements from './AllElements.svelte';
-import {settings} from './state.svelte'
+import {settings} from '../state.svelte'
 </script>
 <div style="display:flex; flex-direction: row; width: 100%;" >
   <div class="column" >

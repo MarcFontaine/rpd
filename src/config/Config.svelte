@@ -1,7 +1,7 @@
 <script lang="ts">
 import * as Config from './config';
-import * as Profile from './profile';
-import { currentProfile, settings } from './state.svelte';
+import * as Profile from '../profile';
+import { currentProfile, settings } from '../state.svelte';
 
 let {params} = $props();
 let profile = $state(currentProfile.p ? currentProfile.p : null);

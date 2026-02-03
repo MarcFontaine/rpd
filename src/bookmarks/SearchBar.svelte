@@ -1,6 +1,6 @@
 <script lang="ts">
   import Typeahead from "svelte-typeahead";
-  import {settings} from './state.svelte';
+  import {settings} from '../state.svelte';
   import {bookmarks} from "./bookmarks";
   let v = $state("");
 </script>

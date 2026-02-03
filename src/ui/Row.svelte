@@ -1,6 +1,6 @@
 <script>
 import AllElements from './AllElements.svelte';
-import {settings} from './state.svelte'
+import {settings} from '../state.svelte'
 </script>
 <div class="row" >
     <div class="tile" >

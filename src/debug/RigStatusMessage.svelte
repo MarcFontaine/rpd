@@ -1,6 +1,6 @@
 <script lang="ts">
-import {rig, log} from './state.svelte';
-import {syncRig} from './cat';
+import {rig, log} from '../state.svelte';
+import {syncRig} from '../cat';
 
 const formatter = new Intl.DateTimeFormat('en-US',{
   hourCycle: 'h24',

@@ -1,10 +1,10 @@
 <script lang="ts">
-import ReloadPromt from './misc/ReloadPromt.svelte';
-import Error from './misc/Error.svelte';
+import ReloadPromt from '../misc/ReloadPromt.svelte';
+import Error from '../misc/Error.svelte';
 import Navigation from './Navigation.svelte';
-import SearchBar from './SearchBar.svelte';
+import SearchBar from '../bookmarks/SearchBar.svelte';
 import Router from 'svelte-spa-router';
-import WebRTC from './WebRTC.svelte';
+import WebRTC from '../WebRTC.svelte';
 import {routes} from './routes';
 </script>
 <div class="app">
