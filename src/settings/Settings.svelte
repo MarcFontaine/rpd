@@ -2,7 +2,7 @@
 import {settings} from '../state.svelte';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
-import { syncRigDeamon } from '../cat.ts';
+import { syncRigDeamon } from '../cat';
 import { HIDsettings } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
 </script>

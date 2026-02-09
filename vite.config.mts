@@ -3,7 +3,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 //import eslint from 'vite-plugin-eslint'
 import { VitePWA } from 'vite-plugin-pwa'
 import webmanifest from './src/manifest.json';
-import BuildInfo from 'unplugin-info/vite';
+import Info from 'unplugin-info/vite';
 
 export default defineConfig({
   base: './',
@@ -15,6 +15,6 @@ export default defineConfig({
       injectRegister: 'auto',
       manifest: webmanifest,
     }),
-    BuildInfo({})
+    Info()
   ]
 })

@@ -1,11 +1,12 @@
 <script lang="ts">
 import {rig, settings} from '../state.svelte';
-import {startAntennaTuning} from '../cat';
+import {triggerAntennaTuner} from '../cat';
+</script>
 
 {#if settings.showAntennaTuner}
 <div>
   <button>
-    onclick={startAntennaTuning}
+    onclick={triggerAntennaTuner}
   >
     Start Antenna Tuning
   </button>

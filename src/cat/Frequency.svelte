@@ -17,7 +17,7 @@ let frequency = $derived.by(()=> {
   });
 
 let isConfirmed = $derived.by(() => {
-  return frequency == rig.frequency;
+    return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
 
 let digits = $derived.by(()=>{

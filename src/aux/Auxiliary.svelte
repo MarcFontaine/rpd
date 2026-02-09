@@ -8,7 +8,7 @@ import { currentProfile } from '../state.svelte';
  height="900"
  width="400"
  title="Tasmota"
- loading="auto"
+ loading="lazy"
  >
  </iframe>
  {/if}

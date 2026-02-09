@@ -1,7 +1,7 @@
 <script lang="ts">
 import {rig, log} from '../state.svelte';
 
-function ackError(e) {
+function ackError(e:any) {
   e.isErrorConfirmed = true;
   log.errors = log.errors.filter((elem) => elem !== e);
 };

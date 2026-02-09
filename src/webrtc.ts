@@ -3,9 +3,10 @@
 import * as Config from './config';
 import * as State from './state.svelte';
 import {webRTC, webRTCClient} from './state.svelte';
+import * as GstWebRTCAPI from 'gstwebrtc-api';
 
 // @filename: webrtc.ts
-export function initRemoteStreams(api:any) {
+export function initRemoteStreams(api) {
   const listener = {
     producerAdded: producerAdded(api),
     producerRemoved: producerRemoved

@@ -1,0 +1,14 @@
+{
+  "name": "gstwebrtc-api",
+  "version": "3.0.0",
+  "license": "MPL-2.0",
+  "author": {
+    "name": "Loïc Le Page",
+    "email": "llepage@igalia.com",
+    "url": "https://www.igalia.com/"
+  },
+  "type": "module",
+  "main": "./dist/gstwebrtc-api-3.0.0.min.js",
+  "module": "./dist/gstwebrtc-api-3.0.0.esm.js",
+  "types": "./types/index.d.ts"
+}

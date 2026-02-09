@@ -15,7 +15,7 @@ import FT8 from '../ft8/FT8.svelte';
 let p = $props();
 </script>
 {#if p.element == 'Config'}
-  <Config />
+  <Config params={{}} />
 {:else if p.element == 'RigControl'}
   <RigControl />
 {:else if p.element == 'Debug'}

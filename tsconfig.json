@@ -19,6 +19,10 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@kitajs/html",
-    "plugins": [{ "name": "@kitajs/ts-html-plugin" }]
+    "plugins": [{ "name": "@kitajs/ts-html-plugin" }],
+    "types": [
+	"vite-plugin-pwa/svelte",
+	"unplugin-info/client"
+    ]
   }
 }

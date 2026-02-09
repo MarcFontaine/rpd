@@ -14,7 +14,16 @@
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+     "types": [
+	"svelte",
+	"vite-plugin-pwa/svelte",
+	"unplugin-info/client"
+    ]
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
+    "include": [
+	"src/**/*.ts",
+	"src/**/*.d.ts",
+	"src/**/*.svelte"
+    ]
 }

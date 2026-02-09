@@ -43,11 +43,6 @@ RigControl USB diagnostic:
 wheel={wheel}
 <br>
 
-<button
-  onclick={connectRigControl}
->
-Connect HID device
-</button>
 </div>
 <style>
 .wheel {

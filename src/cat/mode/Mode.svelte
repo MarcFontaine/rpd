@@ -22,8 +22,3 @@ import ModeSelect from './ModeSelect.svelte';
   </details>
 {/if}
 </div>
-
-<style>
-.mode {
-}
-</style>
