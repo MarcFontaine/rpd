@@ -1,6 +1,12 @@
 // import * as Types from './types';
+import GstWebRTCAPI from 'gstwebrtc-api';
 
-export const currentProfile = $state( { p: {} } );
+import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
+export const currentProfile = $state( {
+p: {
+  gstWebRTCConfig: null as (null | GstWebRTCConfig)
+}
+} );
 
 const emptyLogs : Array<any> = [] //Todo: limit size
 
@@ -39,7 +45,7 @@ export const rig = $state(
   });
 
 export const webRTC = $state(
-  { api: null
+  { api: null as (GstWebRTCAPI | null)
   });
 
 export const webRTCCapture = $state(
@@ -48,7 +54,7 @@ export const webRTCCapture = $state(
   , session: null
   , starting: false
   , hasSession: false
-  , mediaElement: {}
+  , mediaElement: null as (HTMLVideoElement | null)
   , clientId: null
   , consumers: {}
   });
@@ -58,8 +64,19 @@ export const webRTCClient = $state(
   , enableVideo: false
   , showAllProducers: false
   , autoStartProducers: []
-  , producers: {}
+  , producers: ({} as Record<string, ProducerState>)
   });
+
+
+import ConsumerSession from 'gstwebrtc-api/types/consumer-session.js';
+import type {Peer} from 'gstwebrtc-api/types/gstwebrtc-api.js';
+export type ProducerState = {
+    session : ConsumerSession | null
+  , producer: Peer
+  , hasSession: Boolean
+  , streaming: Boolean
+  , hasRemoteControl: Boolean
+};
 
 export type Cmd =
   { xk852String: string  // string without line breaks

@@ -1,24 +1,23 @@
-/* eslint-disable */
-// @ts-nocheck
-import * as Config from './config';
 import * as State from './state.svelte';
-import {webRTC, webRTCClient} from './state.svelte';
-import * as GstWebRTCAPI from 'gstwebrtc-api';
+import {webRTCClient} from './state.svelte';
+import GstWebRTCAPI from 'gstwebrtc-api';
+import type {Peer} from 'gstwebrtc-api/types/gstwebrtc-api.js';
+import ConsumerSession from 'gstwebrtc-api/types/consumer-session.js';
+import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
 
-// @filename: webrtc.ts
-export function initRemoteStreams(api) {
+export function initRemoteStreams(api: GstWebRTCAPI) {
   const listener = {
-    producerAdded: producerAdded(api),
+    producerAdded: producerAdded,
     producerRemoved: producerRemoved
   };
 
-  api.registerProducersListener(listener);
+  api.registerPeerListener(listener);
   for (const producer of api.getAvailableProducers()) {
     listener.producerAdded(producer);
   }
 }
 
-function producerRemoved(producer) {
+function producerRemoved(producer: Peer) {
   const id = producer.id;
   if (webRTCClient.producers[id]) {
     if (webRTCClient.producers[id].session) {
@@ -28,24 +27,29 @@ function producerRemoved(producer) {
   }
 };
 
-function producerAdded(api) { return producer => {
+function producerAdded(producer: Peer) {
   const producerId = producer.id
   webRTCClient.producers[producerId] = {
-      producer: producer
+    producer: producer
     , hasSession: false
     , session: null
+    , streaming: false
+    , hasRemoteControl: false
     };
-  }
 };
 
-export function startSession(state, videoElement, session) {
+export function startSession(
+    state : State.ProducerState,
+    videoElement: HTMLVideoElement,
+    session: ConsumerSession) {
   state.session = session;
 
   session.mungeStereoHack = true;
 
-  session.addEventListener("error", (event) => {
+  session.addEventListener("error", (event: Event) => {
+    const custom = event as CustomEvent;
     if (state.session === session) {
-      console.error(event.message, event.error);
+      console.error(custom.detail);
     }
   });
 
@@ -76,8 +80,9 @@ export function startSession(state, videoElement, session) {
       if (remoteController) {
 	state.hasRemoteControl = true;
 	remoteController.attachVideoElement(videoElement);
-	remoteController.addEventListener("info", (e) => {
-	  console.log("Received info message from producer: ", e.detail);
+	remoteController.addEventListener("info", (event:Event) => {
+          const custom = event as CustomEvent;
+	  console.log("Received info message from producer: ", custom.detail);
 	});
       } else {
 	state.hasRemoteControl = false;
@@ -89,7 +94,8 @@ export function startSession(state, videoElement, session) {
   session.connect();
 };
 
-export function initWebRTC() {
-  const api = new GstWebRTCAPI(State.currentProfile.p.gstWebRTCConfig);
+export function initWebRTC() : GstWebRTCAPI {
+  const config = State.currentProfile.p.gstWebRTCConfig as GstWebRTCConfig;
+  const api: GstWebRTCAPI = new GstWebRTCAPI(config);
   return api;
 };
