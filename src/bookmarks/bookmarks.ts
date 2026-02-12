@@ -20,8 +20,14 @@ class Bookmark {
   }
 }
 
+export const nopBookmark = new Bookmark (
+  `No Operation`
+, () => {}
+);
+
 const magicFrequencyBookmark =
-  { getLabel: (v:string) => frequencyOptions(v).label
+  { label: 'Magic Frequency Bookmark Hack'
+  , getLabel: (v:string) => frequencyOptions(v).label
   , runAction: (v:string) => frequencyOptions(v).action()
   , isDisabled: false
   }
@@ -65,13 +71,6 @@ function guessFrequency(f:number): { f: number; s: string; } | null
     else return ({f:r, s:`${f} -> Rounded to ${r}Hz`})
   }
   else return(null)
-}
-
-function frequency_kHz(f:number) {
-  return new Bookmark (
-      `Set Frequency to ${f} kHz`
-    , () => { CAT.setFrequency(f*1000) }
-    )
 }
 
 function ft8_frequency(f:number) {
@@ -178,7 +177,7 @@ export const am_broadcast = [
 
 export const bookmarks
   = new Array().concat (
-    [ frequency_kHz(14010) ]
+    [ nopBookmark ]
   , [ magicFrequencyBookmark ]
   , ft8_bookmarks
   , band_bookmarks

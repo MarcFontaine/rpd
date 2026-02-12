@@ -1,4 +1,5 @@
 <script lang="ts">
+  import About from '../debug/About.svelte';
   import { useRegisterSW } from 'virtual:pwa-register/svelte';
 
   const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
@@ -23,6 +24,7 @@
     role="alert"
   >
     <div>
+      <About />
       {#if $offlineReady}
       <span>
         App ready to work offline

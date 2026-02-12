@@ -6,6 +6,7 @@
 </script>
 
 {#if settings.showSearchBar}
+<div class="searchbar">
 <Typeahead
   label="Bookmarks"
   hideLabel
@@ -23,13 +24,13 @@
 </svelte:fragment>
 
 </Typeahead>
+</div>
 {/if}
 
 <style>
-:global([data-svelte-search] input) {
+.searchbar :global([data-svelte-typeahead]) {
     width: 100%;
     padding: 0.5rem 0.75rem;
-    background: none;
     font-size: 0.5em;
     border: 0;
     border-radius: 0;

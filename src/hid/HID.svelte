@@ -2,6 +2,9 @@
 import {gui, rig, settings} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 import Option from '../settings/Options.svelte';
+import Typeahead from "svelte-typeahead";
+import {nopBookmark, bookmarks} from '../bookmarks/bookmarks';
+
 export { HIDsettings };
 const speed = 10;
 
@@ -40,8 +43,15 @@ function delta(a:number, b:number) {
     }
 };
 
-var isInit = false;
-var prevHidData = null;
+type HidData = {
+    buttons: number
+  , axisA: number
+  , axisB: number
+};
+
+var hidPrev = $state(null as HidData | null);
+var hidNow = $state(null as HidData | null);
+var buttonConfig = $state(new Array(16).fill(nopBookmark));
 
 function parseHidEvent(event) {
   const { data, device, reportId } = event;
@@ -54,21 +64,25 @@ function parseHidEvent(event) {
 
 function handleHidInput(event) {
     const hidData = parseHidEvent(event);
-    if ( isInit ) {
-	handleWheel(prevHidData, hidData);
-	handleButtons(prevHidData, hidData);	
+    if ( hidPrev !== null ) {
+	handleWheel(hidPrev, hidData);
+	handleButtons(hidPrev, hidData);
     }
-    else
-    {
-	isInit = true;
-    };
-    prevHidData = hidData;
+    hidPrev = hidNow
+    hidNow = hidData;
 };
-function handleButtons(prev, now){
-    if (prev.buttons != now.buttons) {
-	console.log(now.buttons);
+
+function handleButtons(prev, now) {
+    const newPressed = now.buttons & ~ prev.buttons;
+    if (newPressed != 0) {
+      buttonConfig.forEach( (button, i) => {
+        if ( newPressed & (1 << i) ) {
+            button.action();
+        }
+        })
     }
 };
+
 function handleWheel(prev, now){
     if (prev.axisA != now.axisA || prev.axisB != now.axisB ) {
 	setFrequencyRateLimited(clamp(
@@ -138,4 +152,60 @@ function dumpDeviceReport(device) {
     <input type="number" bind:value={settings.magnetTuningSpeed}> Hall Rotary Encoder Tunings Speed
   {/if}
 </div>
+
+<div class="button-settings">
+<table>
+  <thead>
+    <tr>
+      <th>Button</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {#each buttonConfig as _, i}
+	{@render ButtonSettings(
+	    i,
+	    (hidNow !==null && hidNow.buttons & (1 << i)) ? 'green' : 'black'
+	)}
+    {/each}
+  </tbody>
+</table>
+</div>
 {/snippet}
+
+{#snippet ButtonSettings(i, color)}
+  <tr>
+    <td style:width=10%;>
+      <span style:color={color} >
+       {i}
+      </span>
+    </td>
+  <td>
+    <Typeahead
+      value={ buttonConfig[i].label }
+      label="Button Shortcuts"
+      hideLabel
+      placeholder={'Action for Button'}
+      data={bookmarks}
+      extract={ item => item.label }
+      showDropdownOnFocus=true
+      on:select={ event => {buttonConfig[i]=event.detail.original}}
+    >
+    <svelte:fragment slot="no-results">
+	Command not found
+    </svelte:fragment>
+   </Typeahead>
+  </td>
+</tr>
+{/snippet}
+
+<style>
+.button-settings :global([data-svelte-search] input) {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1em;
+    border: 0;
+    border-radius: 0;
+    border: 1px solid;
+  }
+</style>
