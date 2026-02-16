@@ -56,9 +56,9 @@ var buttonConfig = $state(new Array(16).fill(nopBookmark));
 function parseHidEvent(event) {
   const { data, device, reportId } = event;
   return {
-      buttons : data.getUint8(0),
-      axisA : data.getInt16(1, true),
-      axisB : data.getInt16(3, true)
+      buttons : data.getUint16(0),
+      axisA : data.getInt16(2, true),
+      axisB : data.getInt16(4, true)
   };
 }
 
