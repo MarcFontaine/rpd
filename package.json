@@ -11,7 +11,8 @@
     "@types/w3c-web-serial": "^1.0.3",
     "web-serial-polyfill": "^1.0.14",
     "svelte-typeahead": "^5.0.0",
-    "gstwebrtc-api": "file:./libs/gstwebrtc-api"
+    "gstwebrtc-api": "file:./libs/gstwebrtc-api",
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.3",

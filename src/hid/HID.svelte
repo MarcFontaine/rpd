@@ -4,8 +4,10 @@ import {setFrequencyRateLimited} from '../cat';
 import Option from '../settings/Options.svelte';
 import Typeahead from "svelte-typeahead";
 import {nopBookmark, bookmarks} from '../bookmarks/bookmarks';
+import {buttonConfig} from './ButtonConfig.svelte';
 
-export { HIDsettings };
+export {HIDsettings};
+
 const speed = 10;
 
 // code-duplication with cat/Frequency !
@@ -49,9 +51,10 @@ type HidData = {
   , axisB: number
 };
 
-var hidPrev = $state(null as HidData | null);
-var hidNow = $state(null as HidData | null);
-var buttonConfig = $state(new Array(16).fill(nopBookmark));
+export const hidStore = $state({
+    current: null as HidData | null,
+    previous: null as HidData | null
+});
 
 function parseHidEvent(event) {
   const { data, device, reportId } = event;
@@ -64,12 +67,12 @@ function parseHidEvent(event) {
 
 function handleHidInput(event) {
     const hidData = parseHidEvent(event);
-    if ( hidPrev !== null ) {
-	handleWheel(hidPrev, hidData);
-	handleButtons(hidPrev, hidData);
+    if ( hidStore.previous !== null ) {
+	handleWheel(hidStore.previous, hidData);
+	handleButtons(hidStore.previous, hidData);
     }
-    hidPrev = hidNow
-    hidNow = hidData;
+    hidStore.previous = hidStore.current
+    hidStore.current = hidData;
 };
 
 function handleButtons(prev, now) {
@@ -152,60 +155,4 @@ function dumpDeviceReport(device) {
     <input type="number" bind:value={settings.magnetTuningSpeed}> Hall Rotary Encoder Tunings Speed
   {/if}
 </div>
-
-<div class="button-settings">
-<table>
-  <thead>
-    <tr>
-      <th>Button</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each buttonConfig as _, i}
-	{@render ButtonSettings(
-	    i,
-	    (hidNow !==null && hidNow.buttons & (1 << i)) ? 'green' : 'black'
-	)}
-    {/each}
-  </tbody>
-</table>
-</div>
 {/snippet}
-
-{#snippet ButtonSettings(i, color)}
-  <tr>
-    <td style:width=10%;>
-      <span style:color={color} >
-       {i}
-      </span>
-    </td>
-  <td>
-    <Typeahead
-      value={ buttonConfig[i].label }
-      label="Button Shortcuts"
-      hideLabel
-      placeholder={'Action for Button'}
-      data={bookmarks}
-      extract={ item => item.label }
-      showDropdownOnFocus=true
-      on:select={ event => {buttonConfig[i]=event.detail.original}}
-    >
-    <svelte:fragment slot="no-results">
-	Command not found
-    </svelte:fragment>
-   </Typeahead>
-  </td>
-</tr>
-{/snippet}
-
-<style>
-.button-settings :global([data-svelte-search] input) {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    font-size: 1em;
-    border: 0;
-    border-radius: 0;
-    border: 1px solid;
-  }
-</style>

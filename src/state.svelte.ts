@@ -2,6 +2,10 @@
 import GstWebRTCAPI from 'gstwebrtc-api';
 
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
+import { Document } from 'yaml';
+
+export const config = new Document({ rigpage: {current_config: {}} })
+
 export const currentProfile = $state( {
 p: {
   gstWebRTCConfig: null as (null | GstWebRTCConfig)
