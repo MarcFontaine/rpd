@@ -17,7 +17,7 @@ const pointerSpeed = 1/10;
    </button>
 {/snippet}
 
-{#if settings.showDecadeButtons}
+{#if settings.showDecadeButtons.value}
 <div style="display:flex; flex-direction: column;">
   <button class="updown"
   onclick={()=>onDelta(1)}

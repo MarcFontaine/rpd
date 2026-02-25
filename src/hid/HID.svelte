@@ -2,8 +2,6 @@
 import {gui, rig, settings} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 import Option from '../settings/Options.svelte';
-import Typeahead from "svelte-typeahead";
-import {nopBookmark, bookmarks} from '../bookmarks/bookmarks';
 import {buttonConfig} from './ButtonConfig.svelte';
 
 export {HIDsettings};
@@ -17,10 +15,6 @@ let frequency = $derived.by(()=> {
   if ( rig.time > gui.frequency.time && ! editMode)
     return rig.frequency;
     else return gui.frequency.value;
-  });
-
-let isConfirmed = $derived.by(() => {
-    return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
 
 function clamp(f:number) {
@@ -56,8 +50,8 @@ export const hidStore = $state({
     previous: null as HidData | null
 });
 
-function parseHidEvent(event) {
-  const { data, device, reportId } = event;
+function parseHidEvent(event: HIDInputReportEvent) {
+  const { data, device:_d, reportId:_r } = event;
   return {
       buttons : data.getUint16(0),
       axisA : data.getInt16(2, true),
@@ -65,7 +59,7 @@ function parseHidEvent(event) {
   };
 }
 
-function handleHidInput(event) {
+function handleHidInput(event: HIDInputReportEvent) {
     const hidData = parseHidEvent(event);
     if ( hidStore.previous !== null ) {
 	handleWheel(hidStore.previous, hidData);
@@ -75,7 +69,7 @@ function handleHidInput(event) {
     hidStore.current = hidData;
 };
 
-function handleButtons(prev, now) {
+function handleButtons(prev:HidData , now:HidData) {
     const newPressed = now.buttons & ~ prev.buttons;
     if (newPressed != 0) {
       buttonConfig.forEach( (button, i) => {
@@ -86,7 +80,7 @@ function handleButtons(prev, now) {
     }
 };
 
-function handleWheel(prev, now){
+function handleWheel(prev:HidData , now:HidData) {
     if (prev.axisA != now.axisA || prev.axisB != now.axisB ) {
 	setFrequencyRateLimited(clamp(
 	    frequency
@@ -110,7 +104,7 @@ async function connectRigControl() {
       filters : [
         { vendorId: 0x0483, productId: 0x5757, usagePage: 1 }
       ]
-    };
+    };    
     const devices = await navigator.hid.requestDevice(deviceFilter);
     if (devices && devices[0]) {
       const rigControl = devices[0];
@@ -121,7 +115,7 @@ async function connectRigControl() {
   }
 }
 
-function dumpDeviceReport(device) {
+function dumpDeviceReport(device:HIDDevice) {
   for (let collection of device.collections) {
     console.log(`Usage Page: ${collection.usagePage}`); // 1 for Generic Desktop
     console.log(`Usage: ${collection.usage}`);

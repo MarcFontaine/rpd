@@ -1,6 +1,5 @@
 <script lang="ts">
-import {rig, log} from '../state.svelte';
-import {syncRig} from '../cat';
+import {log} from '../state.svelte';
 import SendXK852Cmd from '../SendXK852Cmd.svelte';
 import RigStatusMessage from './RigStatusMessage.svelte';
 import About from './About.svelte';

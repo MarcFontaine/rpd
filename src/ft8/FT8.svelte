@@ -1,6 +1,6 @@
 <script lang="ts">
 import { onMount } from 'svelte';
-import {settings, currentProfile} from '../state.svelte';
+import {currentProfile} from '../state.svelte';
 import FT8Clock from './FT8Clock.svelte';
 
 let query = $state('wsjtx_extended?limit=10&order=time.desc');

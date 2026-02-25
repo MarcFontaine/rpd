@@ -1,5 +1,5 @@
 <script lang="ts">
-import {rig, settings} from '../state.svelte';
+import {settings} from '../state.svelte';
 import {triggerAntennaTuner} from '../cat';
 </script>
 

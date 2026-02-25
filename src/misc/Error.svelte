@@ -1,5 +1,5 @@
 <script lang="ts">
-import {rig, log} from '../state.svelte';
+import {log} from '../state.svelte';
 
 function ackError(e:any) {
   e.isErrorConfirmed = true;

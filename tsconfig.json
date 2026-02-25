@@ -8,6 +8,8 @@
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node",
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,  
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -22,7 +24,8 @@
     "plugins": [{ "name": "@kitajs/ts-html-plugin" }],
     "types": [
 	"vite-plugin-pwa/svelte",
-	"unplugin-info/client"
+	"unplugin-info/client",
+	"@types/w3c-web-hid"
     ]
   }
 }

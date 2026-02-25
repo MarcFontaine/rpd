@@ -1,6 +1,10 @@
-<script>
-import {settings} from '../state.svelte';
-let { d, o = $bindable() } = $props();
+<script lang="ts">
+interface Props {
+    o: boolean;
+    d: string;
+}
+
+let { o = $bindable(), d }: Props = $props();
 
 </script>
 <div>

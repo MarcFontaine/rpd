@@ -1,7 +1,6 @@
 <script module lang="ts">
 import Typeahead from "svelte-typeahead";
-import {nopBookmark, bookmarks} from '../bookmarks/bookmarks';
-import { config } from '../state.svelte';
+import {bookmarks} from '../bookmarks/bookmarks';
 import { buttonConfig } from './ButtonConfig.svelte';
 export { ButtonSettings };
 </script>
@@ -42,7 +41,7 @@ export { ButtonSettings };
       placeholder={'Action for Button'}
       data={bookmarks}
       extract={ item => item.label }
-      showDropdownOnFocus=true
+      showDropdownOnFocus={true}
       on:select={ event => {buttonConfig[i]=event.detail.original}}
     >
     <svelte:fragment slot="no-results">

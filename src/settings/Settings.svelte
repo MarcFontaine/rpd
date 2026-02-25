@@ -16,10 +16,10 @@ import { SWRsettings } from '../level/Level.svelte';
 <div style="display:flex; flex-direction: column; width: 100%;">
   <Option bind:o={settings.demoMode} d={'Demo Mode'} />
   <Option bind:o={settings.mobileMode} d={'Mobile Mode'} />
-  <Option bind:o={settings.expertMode} d={'ExpertMode'} />
+  <Option bind:o={settings.expertMode.value} d={'ExpertMode'} />
   <Option bind:o={settings.showSearchBar} d={'Show Search Bar'} />
   <Option bind:o={settings.showNavigationBar} d={'Show Navigation Bar'} />
-  <Option bind:o={settings.showDecadeButtons} d={'Show Up/Down Buttons for Frequency Decade'} />
+  <Option bind:o={settings.showDecadeButtons.value} d={'Show Up/Down Buttons for Frequency Decade'} />
   <Option bind:o={settings.showPTT} d={'Show PTT Button'} />
   <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
   <Option bind:o={settings.showAntennaTuner} d={'Show Antenna Tuner Button'} />
