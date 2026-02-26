@@ -1,4 +1,8 @@
 <script lang="ts">
+import { parseDocument, Document } from 'yaml';
+import {showDecadeButtons} from '../misc/DecadeDigit.svelte'; // testing
+
+import { setConfig } from '../state.svelte';
 import * as Config from './config';
 import * as Profile from '../profile';
 import { currentProfile, settings } from '../state.svelte';
@@ -40,20 +44,24 @@ async function loadProfile() {
   else return false;
 }
 
+let fileInput: HTMLInputElement;
 async function selectFile(e:Event) {
   const target = e.target as HTMLInputElement;
   if (!target || !target.files ) return;
   const file = target.files[0];
-  readJsonFile(file)
-    .then (json => {
-      profile = Config.validateProfile(json);
+  readYamlFile(file)
+    .then (doc => {
+      fileInput.value = "";
+      console.log(doc.toString());
+      setConfig(doc);
+      showDecadeButtons.fromYaml();
     })
 }
 
-function readJsonFile(file:File):Promise<JSON> {
+function readYamlFile( file:File ):Promise<Document> {
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
-    reader.onload = () => resolve(JSON.parse(reader.result as string));
+    reader.onload = () => resolve(parseDocument(reader.result as string));
     reader.onerror = reject;
     reader.readAsText(file);
   });
@@ -114,7 +122,12 @@ function readJsonFile(file:File):Promise<JSON> {
   <div>
    Load Profile from File
    <br>
-   <input type=file onchange={selectFile} accept=".json"/>
+   <input
+     type=file
+     bind:this={fileInput}
+     onchange={selectFile}
+     accept=".yaml"
+   />
   </div>
 
   {#if profile}

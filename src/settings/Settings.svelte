@@ -4,6 +4,7 @@ import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat';
 import { HIDsettings } from '../hid/HID.svelte';
+import { DecadeSettings } from '../misc/DecadeDigit.svelte';
 import { ButtonSettings } from '../hid/ButtonSettings.svelte';
 import { hidStore } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
@@ -16,10 +17,10 @@ import { SWRsettings } from '../level/Level.svelte';
 <div style="display:flex; flex-direction: column; width: 100%;">
   <Option bind:o={settings.demoMode} d={'Demo Mode'} />
   <Option bind:o={settings.mobileMode} d={'Mobile Mode'} />
-  <Option bind:o={settings.expertMode.value} d={'ExpertMode'} />
+  <Option bind:o={settings.expertMode} d={'ExpertMode'} />
   <Option bind:o={settings.showSearchBar} d={'Show Search Bar'} />
   <Option bind:o={settings.showNavigationBar} d={'Show Navigation Bar'} />
-  <Option bind:o={settings.showDecadeButtons.value} d={'Show Up/Down Buttons for Frequency Decade'} />
+  {@render DecadeSettings()}
   <Option bind:o={settings.showPTT} d={'Show PTT Button'} />
   <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
   <Option bind:o={settings.showAntennaTuner} d={'Show Antenna Tuner Button'} />

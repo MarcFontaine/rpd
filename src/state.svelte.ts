@@ -1,12 +1,14 @@
 // import * as Types from './types';
-import {ConfigVar} from './config/ConfigVar.svelte';
 import GstWebRTCAPI from 'gstwebrtc-api';
 
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
 import { Document } from 'yaml';
 
 
-export const config = new Document({ rigpage: {current_config: {}} })
+export var config = new Document({ rigpage: {current_config: {}} })
+export function setConfig(c:Document) {
+  config=c;
+}
 
 export const currentProfile = $state( {
 p: {
@@ -111,25 +113,21 @@ export function setSendCmdCallback(fn: any) {
   sendCmdCallback = fn;
 }
 
-
-class Settings {
-  expertMode = new ConfigVar( {default: false });
-  demoMode = false;
-  mobileMode = false;
-  screen1 = 'RigControl';
-  screen2 = 'Debug';
-  screen3 = 'Settings';
-  screen4 = 'Empty';
-  showSearchBar = true;
-  showNavigationBar = true;
-  showDecadeButtons = new ConfigVar( {default: false });
-  showPTT = true;
-  smartPTT = true;
-  showAntennaTuner = true;
-  rigSyncInterval = 20;
-  mouseWheelTuningSpeed = 100;
-  enableRotaryEncoder = true;
-  magnetTuningSpeed = 100;
-  };
-
-export const settings = new Settings();
+export const settings = $state(
+  { expertMode: true
+  , demoMode: false
+  , mobileMode: false
+  , screen1: 'RigControl'
+  , screen2: 'Debug'
+  , screen3: 'Settings'
+  , screen4: 'Empty'
+  , showSearchBar: true
+  , showNavigationBar: true
+  , showPTT: true
+  , smartPTT: true
+  , showAntennaTuner: true
+  , rigSyncInterval: 20
+  , mouseWheelTuningSpeed: 100
+  , enableRotaryEncoder: true
+  , magnetTuningSpeed: 100
+  });

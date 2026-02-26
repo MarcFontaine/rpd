@@ -1,5 +1,23 @@
+<script module lang="ts">
+  import Option from '../settings/Options.svelte';
+  import {ConfigVar} from '../config/ConfigVar.svelte';
+
+  export const showDecadeButtons = new ConfigVar(
+    { default: false
+    , path: [ 'rigpage', 'current_config', 'ui', 'decadeButtons' ]
+    });
+
+  export {DecadeSettings};
+</script>
+
+{#snippet DecadeSettings()}
+<div>
+  <Option bind:o={showDecadeButtons.value} d={'Show Up/Down Buttons for Frequency Decade'} />
+</div>
+{/snippet}
+
+
 <script lang="ts">
-import {settings} from '../state.svelte';
 
 let { isConfirmed, d=0, onDelta } = $props();
 
@@ -17,7 +35,7 @@ const pointerSpeed = 1/10;
    </button>
 {/snippet}
 
-{#if settings.showDecadeButtons.value}
+{#if showDecadeButtons.value}
 <div style="display:flex; flex-direction: column;">
   <button class="updown"
   onclick={()=>onDelta(1)}
