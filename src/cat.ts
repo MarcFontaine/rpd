@@ -1,6 +1,6 @@
 import {setGuiMode, GuiMode} from './gui';
-import * as State from './state.svelte';
-import {type Cmd} from './state.svelte';
+import {sendCmdCallback, demoMode, rigSyncInterval} from './state.svelte';
+import {type CmdType} from './state.svelte';
 import {gui} from './state.svelte';
 import {setReturnMsg} from './setXK852Status';
 import { XK852Power, XK852Mode } from './types';
@@ -42,7 +42,7 @@ export function setFrequencyRateLimited(f: number) {
   sendRateLimitedCmd(setFrequencyCmd(f));
 }
 
-function setFrequencyCmd(f: number): State.Cmd {
+function setFrequencyCmd(f: number): CmdType {
   gui.frequency = {
       value: f
     , confirmed: false
@@ -59,7 +59,7 @@ function setFrequencyCmd(f: number): State.Cmd {
 const minSendCmdDelay = 150; // ms
 let sendCmdTimeOut : ReturnType<typeof setTimeout> | null = null;
 
-export function sendRateLimitedCmd(c:Cmd) {
+export function sendRateLimitedCmd(c:CmdType) {
   if (Date.now() - latestSendCmdTime > minSendCmdDelay) {
     if (sendCmdTimeOut) clearTimeout(sendCmdTimeOut)
     sendCmdTimeOut = null;
@@ -81,10 +81,9 @@ export function syncRigDeamon() {
 }
 
 function syncRigDeamonWorker(id:number) {
-  if ( State.settings.rigSyncInterval
-      && State.settings.rigSyncInterval != 0
+  if ( rigSyncInterval.value != 0
       && id == syncRigDeamonId ) {
-    setTimeout(syncRigDeamonWorker, 1000 * State.settings.rigSyncInterval, id);
+    setTimeout(syncRigDeamonWorker, 1000 * rigSyncInterval.value, id);
     syncRig();
   }
 }
@@ -129,10 +128,10 @@ export function set_MODE_FSK_HP()  { sendCmd(toCmd('*I9')); }
 
 export let latestSendCmdTime = Date.now ();
 
-export function sendCmd(cmd: Cmd) {
+export function sendCmd(cmd: CmdType) {
   latestSendCmdTime = Date.now ();
-  if (!State.settings.demoMode) {
-    State.sendCmdCallback(cmd);
+  if (!demoMode.value) {
+    sendCmdCallback(cmd);
   } else  {
     // TODO: setReturnMsg only parses status reports
     setReturnMsg(cmd.xk852String);

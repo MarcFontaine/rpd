@@ -1,11 +1,11 @@
 <script lang="ts">
   import Typeahead from "svelte-typeahead";
-  import {settings} from '../state.svelte';
+  import {showSearchBar} from '../state.svelte';
   import {bookmarks} from "./bookmarks";
   let v = $state("");
 </script>
 
-{#if settings.showSearchBar}
+{#if showSearchBar.value}
 <div class="searchbar">
 <Typeahead
   label="Bookmarks"

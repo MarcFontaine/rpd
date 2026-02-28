@@ -1,7 +1,7 @@
 import {setReturnMsg} from './setXK852Status';
 import {pushLog, pushError} from './state.svelte';
 import * as State from './state.svelte';
-import {type Cmd} from './state.svelte';
+import {type CmdType} from './state.svelte';
 import {setGuiMode, GuiMode} from './gui';
 import {syncRigDeamon} from './cat';
 
@@ -53,10 +53,10 @@ export async function connect (url: string) {
 };
 
 function mkCallback(ws: WebSocket) {
-  return function(data: Cmd) { sendWsHamlib(ws,data) }
+  return function(data: CmdType) { sendWsHamlib(ws,data) }
 }
 
-function sendWsHamlib(ws: WebSocket, cmd: Cmd) {
+function sendWsHamlib(ws: WebSocket, cmd: CmdType) {
   ws.send(cmd.rigctld);
   console.log(cmd.rigctld);
 }

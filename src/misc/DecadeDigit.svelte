@@ -1,11 +1,8 @@
 <script module lang="ts">
   import Option from '../settings/Options.svelte';
-  import {ConfigVar} from '../config/ConfigVar.svelte';
+  import {ConfigVar, uiOption} from '../config/ConfigVar.svelte';
 
-  export const showDecadeButtons = new ConfigVar(
-    { default: false
-    , path: [ 'rigpage', 'current_config', 'ui', 'decadeButtons' ]
-    });
+  export const showDecadeButtons = uiOption(false, 'decadeButtons' );
 
   export {DecadeSettings};
 </script>

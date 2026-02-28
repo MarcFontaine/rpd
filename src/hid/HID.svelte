@@ -1,10 +1,26 @@
 <script module lang="ts">
-import {gui, rig, settings} from '../state.svelte';
+import {gui, rig } from '../state.svelte';
+import { ConfigVar } from '../config/ConfigVar.svelte';
 import {setFrequencyRateLimited} from '../cat';
 import Option from '../settings/Options.svelte';
 import {buttonConfig} from './ButtonConfig.svelte';
 
 export {HIDsettings};
+
+const enableRotaryEncoder = new ConfigVar(
+    { default: true
+    , path: [ 'rigpage', 'current_config', 'hid', 'rotaryEncoder', 'enable' ]
+    });
+
+const mouseWheelTuningSpeed = new ConfigVar(
+    { default: 100
+    , path: [ 'rigpage', 'current_config', 'vfo', 'mouseWheel', 'speed' ]
+    });
+
+const magnetTuningSpeed = new ConfigVar(
+    { default: 100
+    , path: [ 'rigpage', 'current_config', 'vfo', 'rotaryEncoder', 'speed' ]
+    });
 
 const speed = 10;
 
@@ -85,7 +101,7 @@ function handleWheel(prev:HidData , now:HidData) {
 	setFrequencyRateLimited(clamp(
 	    frequency
 		+ delta(now.axisA, prev.axisA) * speed
-		+ delta(now.axisB, prev.axisB) * speed /10000 * settings.magnetTuningSpeed
+		+ delta(now.axisB, prev.axisB) * speed /10000 * magnetTuningSpeed.value
 	));
     };
 };
@@ -131,7 +147,7 @@ function dumpDeviceReport(device:HIDDevice) {
 
 </script>
 
-{#if settings.enableRotaryEncoder}
+{#if enableRotaryEncoder.value}
   <div>
   <button
     onclick={connectRigControl}
@@ -143,10 +159,13 @@ function dumpDeviceReport(device:HIDDevice) {
 
 {#snippet HIDsettings()}
 <div>
-  <Option bind:o={settings.enableRotaryEncoder} d={'Enable USB Rotary Encoder'} />
-  {#if settings.enableRotaryEncoder}
+  <Option bind:o={enableRotaryEncoder.value} d={'Enable USB Rotary Encoder'} />
+  {#if enableRotaryEncoder.value}
     <br>
-    <input type="number" bind:value={settings.magnetTuningSpeed}> Hall Rotary Encoder Tunings Speed
+    <input type="number" bind:value={magnetTuningSpeed.value}> Hall Rotary Encoder Tunings Speed
   {/if}
+  <br>
+    <input type="number" bind:value={mouseWheelTuningSpeed.value}> Mouse Wheel Tunings Speed
+  <br>
 </div>
 {/snippet}

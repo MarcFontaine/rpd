@@ -5,7 +5,7 @@ import {showDecadeButtons} from '../misc/DecadeDigit.svelte'; // testing
 import { setConfig } from '../state.svelte';
 import * as Config from './config';
 import * as Profile from '../profile';
-import { currentProfile, settings } from '../state.svelte';
+import { currentProfile } from '../state.svelte';
 
 let {params} = $props();
 let profile = $state(currentProfile.p ? currentProfile.p : null);
@@ -103,7 +103,7 @@ function readYamlFile( file:File ):Promise<Document> {
     >
     <br>
     </form>
-    {#if !settings.expertMode}
+    {#if !expertMode.value}
       <button
 	onclick={loadStartProfile}
       >
@@ -118,7 +118,7 @@ function readYamlFile( file:File ):Promise<Document> {
       </button>
     {/if}
   </div>
-  {#if settings.expertMode}
+  {#if expertMode.value}
   <div>
    Load Profile from File
    <br>

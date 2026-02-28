@@ -1,6 +1,6 @@
 <script lang="ts">
 import { XK852Power } from '../types';
-import {rig, settings} from '../state.svelte';
+import {rig, showPTT, smartPTT} from '../state.svelte';
 import {setTxOff, setTxOn} from '../cat';
 
 let isSafe = $derived(
@@ -11,11 +11,11 @@ let isSafe = $derived(
 //  && isAmateurBand(rig.Frequency)
 );
 
-let isDisabled = $derived( settings.smartPTT && !isSafe) ;
+let isDisabled = $derived( smartPTT.value && !isSafe) ;
 
 </script>
 
-{#if settings.showPTT}
+{#if showPTT.value}
 <div class="ptt" >
   <button class={{ isDisabled }} style="width:50%; font-size:1em;"
     onpointerdown={setTxOn}

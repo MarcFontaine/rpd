@@ -1,10 +1,10 @@
 <script lang="ts">
 import {link} from 'svelte-spa-router'
 import active from 'svelte-spa-router/active'
-import {settings} from '../state.svelte';
+import {showNavigationBar} from '../state.svelte';
 </script>
 
-{#if settings.showNavigationBar}
+{#if showNavigationBar.value}
 <nav>
 <div style="font-size:0.5em;" >
 <ul>

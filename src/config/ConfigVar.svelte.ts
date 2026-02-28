@@ -6,6 +6,7 @@ export interface ConfigOptions<T> {
 }
 
 export class ConfigVar<T> {
+  static allInstances: ConfigVar<any>[] = [];
   #value = $state() as T;
   #isDirty = $state(false);
   #path = [] as string[];
@@ -13,6 +14,7 @@ export class ConfigVar<T> {
   constructor(o: ConfigOptions<T>) {
     this.#value = o.default;
     this.#path = o.path
+    ConfigVar.allInstances.push(this);
   }
 
   get value(): T {
@@ -26,7 +28,6 @@ export class ConfigVar<T> {
   set value(newValue: T) {
     this.#value = newValue;
     this.#isDirty = true;
-    this.toYaml(); // testing
   }
 
   toYaml() {
@@ -42,4 +43,16 @@ export class ConfigVar<T> {
       }
     }
   }
+}
+
+export function allToYaml() {
+  ConfigVar.allInstances.forEach(v => v.toYaml());
+}
+
+export function uiOption<T>(def:T, path: string):ConfigVar<T>
+{
+  return new ConfigVar(
+    { default: def
+    , path: [ 'rigpage', 'current_config', 'ui', path ]
+    });
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
-import {settings} from '../state.svelte';
+import {showAntennaTuner} from '../state.svelte';
 import {triggerAntennaTuner} from '../cat';
 </script>
 
-{#if settings.showAntennaTuner}
+{#if showAntennaTuner.value}
 <div>
   <button style="font-size:1em;"
     onclick={triggerAntennaTuner}

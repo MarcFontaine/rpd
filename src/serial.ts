@@ -20,7 +20,7 @@ import {
 
 import {setGuiMode, GuiMode} from './gui';
 import * as State from './state.svelte';
-import {type Cmd} from './state.svelte';
+import {type CmdType} from './state.svelte';
 import {pushError, pushLog} from './state.svelte';
 import {setReturnMsg} from './setXK852Status';
 
@@ -233,7 +233,7 @@ export async function disconnectFromPort(): Promise<void> {
 function sendSerialReadReply() {
   let readTask: ReturnType<typeof setTimeout>
   return (
-    (cmd: Cmd) => {
+    (cmd: CmdType) => {
       if (readTask) clearTimeout(readTask);
 
       sendSerial(cmd.xk852serialNative);

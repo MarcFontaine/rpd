@@ -1,19 +1,19 @@
 <script>
 import AllElements from './AllElements.svelte';
-import {settings} from '../state.svelte'
+import {screen1, screen2, screen3, screen4} from '../state.svelte'
 </script>
 <div class="row" >
     <div class="tile" >
-    <AllElements element={settings.screen1} />
+    <AllElements element={screen1.value} />
     </div>
     <div class="tile" >
-    <AllElements element={settings.screen2} />
+    <AllElements element={screen2.value} />
     </div>
     <div class="tile" >
-    <AllElements element={settings.screen3} />
+    <AllElements element={screen3.value} />
     </div>
     <div class="tile" >
-    <AllElements element={settings.screen4} />
+    <AllElements element={screen4.value} />
     </div>
 </div> 
 

@@ -1,5 +1,4 @@
 <script>
-import {settings} from '../state.svelte';
 let { d, o = $bindable() } = $props();
 
 </script>

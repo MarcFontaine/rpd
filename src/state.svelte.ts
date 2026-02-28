@@ -3,7 +3,7 @@ import GstWebRTCAPI from 'gstwebrtc-api';
 
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
 import { Document } from 'yaml';
-
+import { ConfigVar, uiOption } from './config/ConfigVar.svelte';
 
 export var config = new Document({ rigpage: {current_config: {}} })
 export function setConfig(c:Document) {
@@ -86,7 +86,7 @@ export type ProducerState = {
   , hasRemoteControl: Boolean
 };
 
-export type Cmd =
+export type CmdType =
   { xk852String: string  // string without line breaks
   , xk852serialNative: Uint8Array
   , rigctld: string
@@ -113,21 +113,28 @@ export function setSendCmdCallback(fn: any) {
   sendCmdCallback = fn;
 }
 
-export const settings = $state(
-  { expertMode: true
-  , demoMode: false
-  , mobileMode: false
-  , screen1: 'RigControl'
-  , screen2: 'Debug'
-  , screen3: 'Settings'
-  , screen4: 'Empty'
-  , showSearchBar: true
-  , showNavigationBar: true
-  , showPTT: true
-  , smartPTT: true
-  , showAntennaTuner: true
-  , rigSyncInterval: 20
-  , mouseWheelTuningSpeed: 100
-  , enableRotaryEncoder: true
-  , magnetTuningSpeed: 100
-  });
+export const demoMode = new ConfigVar(
+    { default: false
+    , path: [ 'rigpage', 'current_config', 'cat', 'demoMode' ]
+    });
+
+export const rigSyncInterval = new ConfigVar(
+    { default: 20
+    , path: [ 'rigpage', 'current_config', 'cat', 'remoteSyncInterval' ]
+    });
+
+export const expertMode = uiOption(true, 'expertMode');
+export const mobileMode = uiOption(false,  'mobileMode')
+export const screen1 = uiOption('RigControl', 'screen1')
+export const screen2 = uiOption('Debug', 'screen2');
+export const screen3 = uiOption('Settings', 'screen3');
+export const screen4 = uiOption('Empty', 'screen4');
+export const showSearchBar = uiOption(true, 'searchBar');
+export const showNavigationBar = uiOption(true, 'navigationBar');
+export const showPTT = uiOption(true, 'PttButton');
+export const showAntennaTuner = uiOption(true, 'AntennaTunerButton');
+
+export const smartPTT = new ConfigVar(
+    { default: true
+    , path: [ 'rigpage', 'current_config', 'cat', 'smartPTT' ]
+    });

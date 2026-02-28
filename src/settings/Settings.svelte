@@ -1,5 +1,8 @@
 <script lang="ts">
-import {settings} from '../state.svelte';
+import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
+  showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
+  rigSyncInterval
+  } from '../state.svelte';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat';
@@ -15,30 +18,27 @@ import { SWRsettings } from '../level/Level.svelte';
 </div>
 
 <div style="display:flex; flex-direction: column; width: 100%;">
-  <Option bind:o={settings.demoMode} d={'Demo Mode'} />
-  <Option bind:o={settings.mobileMode} d={'Mobile Mode'} />
-  <Option bind:o={settings.expertMode} d={'ExpertMode'} />
-  <Option bind:o={settings.showSearchBar} d={'Show Search Bar'} />
-  <Option bind:o={settings.showNavigationBar} d={'Show Navigation Bar'} />
+  <Option bind:o={demoMode.value} d={'Demo Mode'} />
+  <Option bind:o={mobileMode.value} d={'Mobile Mode'} />
+  <Option bind:o={expertMode.value} d={'ExpertMode'} />
+  <Option bind:o={showSearchBar.value} d={'Show Search Bar'} />
+  <Option bind:o={showNavigationBar.value} d={'Show Navigation Bar'} />
   {@render DecadeSettings()}
-  <Option bind:o={settings.showPTT} d={'Show PTT Button'} />
-  <Option bind:o={settings.smartPTT} d={'Smart PTT Button'} />
-  <Option bind:o={settings.showAntennaTuner} d={'Show Antenna Tuner Button'} />
+  <Option bind:o={showPTT.value} d={'Show PTT Button'} />
+  <Option bind:o={smartPTT.value} d={'Smart PTT Button'} />
+  <Option bind:o={showAntennaTuner.value} d={'Show Antenna Tuner Button'} />
   {@render HIDsettings()}
   {@render ButtonSettings(hidStore)}
   {@render SWRsettings()}  
 
   <br>
-    <input type="number" bind:value={settings.rigSyncInterval}
+    <input type="number" bind:value={rigSyncInterval.value}
     onchange={syncRigDeamon}
     > TRX Synchronisation Interval (0 = Disable Periodic Sync)
-  <br>
-    <input type="number" bind:value={settings.mouseWheelTuningSpeed}> Mouse Wheel Tunings Speed
-  <br>
 
-  <SelectScreen bind:o={settings.screen1} d={'Tile 1'} />
-  <SelectScreen bind:o={settings.screen2} d={'Tile 2'} />
-  <SelectScreen bind:o={settings.screen3} d={'Tile 3'} />
-  <SelectScreen bind:o={settings.screen4} d={'Tile 4'} />
+  <SelectScreen bind:o={screen1.value} d={'Tile 1'} />
+  <SelectScreen bind:o={screen2.value} d={'Tile 2'} />
+  <SelectScreen bind:o={screen3.value} d={'Tile 3'} />
+  <SelectScreen bind:o={screen4.value} d={'Tile 4'} />
   <br>
 </div>
