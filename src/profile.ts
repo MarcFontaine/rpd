@@ -6,7 +6,8 @@ import * as WebSocket from './websocket';
 import * as WebRTC from './webrtc';
 import * as WebRTCCapture from './capture';
 import * as EspHome from './esphome';
-import {webRTC, webRTCClient, webRTCCapture } from './state.svelte';
+import { webRTC, webRTCClient, webRTCCapture } from './state.svelte';
+import { espSwrMeterEnable, espSwrMeterURL } from './level/level-settings';
 
 async function initLink(l: any) {
   switch (l.type) {
@@ -49,6 +50,9 @@ async function initLink(l: any) {
 
 };
 export async function initProfile(p: any) {
+  if (espSwrMeterEnable.value) {
+    EspHome.connect(espSwrMeterURL.value);
+  };
   State.currentProfile.p = p;
   p.links.forEach(initLink)
   replace('/rigcontrol');
