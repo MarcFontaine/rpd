@@ -1,6 +1,6 @@
 <script lang="ts">
 import { parseDocument, Document } from 'yaml';
-import {showDecadeButtons} from '../misc/DecadeDigit.svelte'; // testing
+import { expertMode } from '../state.svelte';
 
 import { setConfig } from '../state.svelte';
 import * as Config from './config';

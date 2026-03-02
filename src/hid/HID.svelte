@@ -12,11 +12,6 @@ const enableRotaryEncoder = new ConfigVar(
     , path: [ 'rigpage', 'current_config', 'hid', 'rotaryEncoder', 'enable' ]
     });
 
-const mouseWheelTuningSpeed = new ConfigVar(
-    { default: 100
-    , path: [ 'rigpage', 'current_config', 'vfo', 'mouseWheel', 'speed' ]
-    });
-
 const magnetTuningSpeed = new ConfigVar(
     { default: 100
     , path: [ 'rigpage', 'current_config', 'vfo', 'rotaryEncoder', 'speed' ]
@@ -164,8 +159,5 @@ function dumpDeviceReport(device:HIDDevice) {
     <br>
     <input type="number" bind:value={magnetTuningSpeed.value}> Hall Rotary Encoder Tunings Speed
   {/if}
-  <br>
-    <input type="number" bind:value={mouseWheelTuningSpeed.value}> Mouse Wheel Tunings Speed
-  <br>
 </div>
 {/snippet}

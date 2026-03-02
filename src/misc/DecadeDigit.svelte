@@ -1,8 +1,12 @@
 <script module lang="ts">
   import Option from '../settings/Options.svelte';
   import {ConfigVar, uiOption} from '../config/ConfigVar.svelte';
-
   export const showDecadeButtons = uiOption(false, 'decadeButtons' );
+
+  const mouseWheelTuningSpeed = new ConfigVar(
+    { default: 100
+    , path: [ 'rigpage', 'current_config', 'vfo', 'mouseWheel', 'speed' ]
+    });
 
   export {DecadeSettings};
 </script>
@@ -10,7 +14,10 @@
 {#snippet DecadeSettings()}
 <div>
   <Option bind:o={showDecadeButtons.value} d={'Show Up/Down Buttons for Frequency Decade'} />
+  <br>
+    <input type="number" bind:value={mouseWheelTuningSpeed.value}> Mouse Wheel Tunings Speed
 </div>
+
 {/snippet}
 
 
@@ -18,7 +25,7 @@
 
 let { isConfirmed, d=0, onDelta } = $props();
 
-let wheelSpeed = $derived(settings.mouseWheelTuningSpeed/200/125);
+let wheelSpeed = $derived(mouseWheelTuningSpeed.value /200/125);
 const pointerSpeed = 1/10;
 
 </script>

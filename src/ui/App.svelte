@@ -6,6 +6,8 @@ import SearchBar from '../bookmarks/SearchBar.svelte';
 import Router from 'svelte-spa-router';
 import WebRTC from '../webrtc/WebRTC.svelte';
 import {routes} from './routes';
+import "../app.css";
+
 </script>
 <div class="app">
   <div>
