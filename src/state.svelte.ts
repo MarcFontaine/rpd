@@ -41,7 +41,6 @@ export const gui = $state(
     , time: Date.now ()
     , confirmed: false
     }
-  , showWebRTC: false
   });
 
 export const rig = $state(

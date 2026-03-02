@@ -4,7 +4,7 @@ import RigControl from './RigControl.svelte';
 import LocalSerial from '../LocalSerial.svelte';
 import Settings from '../settings/Settings.svelte';
 import Debug from '../debug/Debug.svelte';
-import WebRTCToggle from '../WebRTCToggle.svelte';
+import WebRTCToggle from '../webrtc/Toggle.svelte';
 import Wheel from '../misc/Wheel.svelte';
 import Test from '../misc/Test.svelte';
 import Frequency from '../cat/Frequency.svelte';

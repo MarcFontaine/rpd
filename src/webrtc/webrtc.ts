@@ -1,9 +1,78 @@
-import * as State from './state.svelte';
-import {webRTCClient} from './state.svelte';
+import * as State from '../state.svelte';
+import {webRTCClient} from '../state.svelte';
 import GstWebRTCAPI from 'gstwebrtc-api';
 import type {Peer} from 'gstwebrtc-api/types/gstwebrtc-api.js';
 import ConsumerSession from 'gstwebrtc-api/types/consumer-session.js';
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
+import { ConfigVar, uiOption } from '../config/ConfigVar.svelte';
+
+export const showWebRTC = uiOption(false, 'showWebRTC'); // TODO: this is not a config var
+
+export const metaName = new ConfigVar(
+    { default: 'XK852RigControl-1234567'
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'meta', 'name' ]
+    });
+
+export const metaProducerName = new ConfigVar(
+    { default: 'XK852-Halle-ingres'
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'meta', 'producerName' ]
+    });
+
+export const reconnectionTimeout = new ConfigVar(
+    { default: 30
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'reconnectionTimeout' ]
+    });
+
+export const signalingServer = new ConfigVar(
+    { default: 'wss://bla.blub.com:443/ice'
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'signalingServer' ]
+    });
+
+export const IceServerUrls = new ConfigVar(
+    { default: 'turn:ice.server.org:3478'
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'IceServer','urls' ]
+    });
+
+export const IceServerUsername = new ConfigVar(
+    { default: 'MyUserName'
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'IceServer', 'username' ]
+    });
+
+export const IceServerCredential = new ConfigVar(
+    { default: 'MySecret'
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'IceServer', 'credential' ]
+    });
+
+export const enableSink = new ConfigVar(
+    { default: false
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'sink', 'enable' ]
+    });
+
+export const enableSource = new ConfigVar(
+    { default: false
+    , path: [ 'rigpage', 'current_config', 'webrtc', 'source', 'enable' ]
+    });
+
+function getConfig() : GstWebRTCConfig
+{
+return {
+    "meta": {
+       "name": metaName.value,
+       "producerName": metaProducerName.value
+     },
+     "reconnectionTimeout": reconnectionTimeout.value,
+     "signalingServerUrl": signalingServer.value,
+     "webrtcConfig": {
+        "iceServers": [
+           {
+              "urls": IceServerUrls.value,
+              "username": IceServerUsername.value,
+              "credential": IceServerCredential.value
+            }
+          ]
+       }
+  }
+}
 
 export function initRemoteStreams(api: GstWebRTCAPI) {
   const listener = {
@@ -95,7 +164,6 @@ export function startSession(
 };
 
 export function initWebRTC() : GstWebRTCAPI {
-  const config = State.currentProfile.p.gstWebRTCConfig as GstWebRTCConfig;
-  const api: GstWebRTCAPI = new GstWebRTCAPI(config);
+  const api: GstWebRTCAPI = new GstWebRTCAPI(getConfig());
   return api;
 };

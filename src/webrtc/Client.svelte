@@ -1,5 +1,5 @@
 <script lang="ts">
-import {webRTC, webRTCClient} from './state.svelte';
+import {webRTC, webRTCClient} from '../state.svelte';
 import {startSession} from './webrtc';
 
 $effect( () => {

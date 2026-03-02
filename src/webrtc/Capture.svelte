@@ -1,5 +1,5 @@
 <script lang="ts">
-import {webRTC, webRTCCapture} from './state.svelte';
+import {webRTC, webRTCCapture} from '../state.svelte';
 import {startSession, stopSession} from './capture';
 
 let time = $state(0)

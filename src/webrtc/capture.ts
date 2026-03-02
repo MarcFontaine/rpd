@@ -1,6 +1,6 @@
 /* eslint-disable */
 // @ts-nocheck
-import {webRTC, webRTCCapture} from './state.svelte';
+import {webRTC, webRTCCapture} from '../state.svelte';
 
 export async function initCapture(api) {
   const listener = {

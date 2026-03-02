@@ -11,6 +11,7 @@ import { DecadeSettings } from '../misc/DecadeDigit.svelte';
 import { ButtonSettings } from '../hid/ButtonSettings.svelte';
 import { hidStore } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
+import { WebRtcSettings } from '../webrtc/Settings.svelte';
 </script>
 
 <div>
@@ -29,7 +30,8 @@ import { SWRsettings } from '../level/Level.svelte';
   <Option bind:o={showAntennaTuner.value} d={'Show Antenna Tuner Button'} />
   {@render HIDsettings()}
   {@render ButtonSettings(hidStore)}
-  {@render SWRsettings()}  
+  {@render SWRsettings()}
+  {@render WebRtcSettings()}
 
   <br>
     <input type="number" bind:value={rigSyncInterval.value}

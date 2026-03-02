@@ -4,7 +4,7 @@ import Error from '../misc/Error.svelte';
 import Navigation from './Navigation.svelte';
 import SearchBar from '../bookmarks/SearchBar.svelte';
 import Router from 'svelte-spa-router';
-import WebRTC from '../WebRTC.svelte';
+import WebRTC from '../webrtc/WebRTC.svelte';
 import {routes} from './routes';
 </script>
 <div class="app">

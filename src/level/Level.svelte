@@ -3,14 +3,13 @@ import Option from '../settings/Options.svelte';
 import PiGauge from './PiGauge.svelte';
 import {espHomeEvent} from '../state.svelte';
 import { ConfigVar } from '../config/ConfigVar.svelte';
-import './level-settings';
 
 export { SWRsettings };
 
 </script>
 
 <script lang="ts">
-
+import {u_min, u_max, p_max, showSwrMeter, espSwrMeterEnable, espSwrMeterUrl} from './level-settings';
 let forward = $derived(espHomeEvent.powerForward);
 let reverse = $derived(espHomeEvent.powerReverse);
 
@@ -48,7 +47,7 @@ function cal (u:number) {
     <br>
     <Option bind:o={espSwrMeterEnable.value} d={'Connect to ESP SWR Meter'} />
     <br>
-    <input type="text" bind:value={espSwrMeterURL.value}> ESP SWR Meter URL
+    <input type="text" bind:value={espSwrMeterUrl.value}> ESP SWR Meter URL
     <br>
     GUI-test: Reported Forward Power
     <label>

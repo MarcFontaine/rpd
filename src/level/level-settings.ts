@@ -25,7 +25,7 @@ export const espSwrMeterEnable = new ConfigVar(
     , path: [ 'rigpage', 'current_config', 'SwrMeter', 'ESPMeter', 'enable' ]
     });
 
-export const espSwrMeterURL = new ConfigVar(
+export const espSwrMeterUrl = new ConfigVar(
     { default: ''
     , path: [ 'rigpage', 'current_config', 'SwrMeter', 'ESPMeter', 'URL' ]
     });
