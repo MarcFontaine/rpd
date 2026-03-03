@@ -1,4 +1,4 @@
-import Config from '../config//Config.svelte';
+import DownloadConfig from '../config/Download.svelte';
 import LocalSerial from '../LocalSerial.svelte';
 import Debug from '../debug/Debug.svelte';
 import WebRTCToggle from '../webrtc/Toggle.svelte';
@@ -16,8 +16,7 @@ import Col2 from './Col2.svelte';
 export const routes = {
   '/': LocalSerial
 , '/rigcontrol': RigControl
-, '/config/*': Config
-, '/config': Config
+, '/config/*': DownloadConfig
 , '/debug': Debug
 , '/serial': LocalSerial
 , '/webrtc': WebRTCToggle

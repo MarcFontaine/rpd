@@ -7,20 +7,8 @@ import { setConfig, getConfig } from '../state.svelte';
 import * as Config from './config';
 import * as Profile from '../profile';
 
-//let {params} = $props();
-//let url = $state((params && params.wild) ? params.wild : null);
-
-let url = $state('');
-let username = $state('');
-let password = $state('');
-
-// https://remote-qth.oh0.duckdns.org/app/#/config/https://remote-qth.oh0.duckdns.org/config/f2.json
-// http://localhost:5173/#/config/https://remote-qth.oh0.duckdns.org/config/f2.json
-
-
-
-async function loadStartProfile() {
-  loadProfile()
+async function loadStartProfile(args) {
+  loadProfile(args)
   .then(_res => startProfile());
 };
 
@@ -28,11 +16,11 @@ async function startProfile() {
   Profile.initProfile();
 };
 
-async function loadProfile() {
-  const response = await fetch(url, {
+async function loadProfile(args) {
+  const response = await fetch(args.url, {
     method:'GET',
     headers: {
-      'Authorization': 'Basic ' + btoa(`${username}:${password}`),
+      'Authorization': 'Basic ' + btoa(`${args.username}:${args.password}`),
       'Accept': 'application/x-yaml'
     }
   });
@@ -101,17 +89,18 @@ function readYamlFile(file:File):Promise<Document> {
   </div>
 </div>
 
-{#snippet DownloadConfig()}
+{#snippet DownloadConfig(args)}
   <div>
   <form>
     Username:
     <br>  
-    <input bind:value="{username}"
+    <input
       id="username"
       type="text"
       name="username"
       autocomplete="username"
       required
+      bind:value="{args.username}"
     >
     <br>
     Password:
@@ -122,27 +111,27 @@ function readYamlFile(file:File):Promise<Document> {
       name="password"
       autocomplete="current-password"
       required
-      bind:value="{password}"
+      bind:value="{args.password}"
     >
     <br>
     Configuration Server URL:
     <br>
     <input
       size="60"
-      bind:value="{url}"
+      bind:value="{args.url}"
     >
     <br>
     </form>
     {#if !expertMode.value}
       <button
-	onclick={loadStartProfile}
+	onclick={()=>loadStartProfile(args)}
       >
       Start Profile
       </button>
       <br>
     {:else}
       <button
-	onclick={loadProfile}
+	onclick={()=>loadProfile(args)}
       >
       Load Config from Configuration Server (with Username Password)
       </button>
