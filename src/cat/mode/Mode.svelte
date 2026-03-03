@@ -9,7 +9,6 @@ import ModeSelect from './ModeSelect.svelte';
 	Mode: {rig.mode}
 </span>
 {#if mobileMode.value }
-
   <ModeSelect />
 {:else}
   <details>

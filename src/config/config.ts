@@ -1,6 +1,38 @@
-export function validateProfile(j:JSON) {
-  //TODO
-  return (j)
+import { parseDocument } from 'yaml';
+
+import * as Profile from '../profile';
+import { allReset } from './ConfigVar.svelte';
+import { setConfig, getConfig } from '../state.svelte';
+
+export async function startProfile() {
+  Profile.initProfile();
+};
+
+export function validateProfile(j: string) {
+  const doc = parseDocument(j);
+  return doc
+}
+
+export function reset() {
+  localStorage.clear()
+  allReset();
+}
+
+export function saveToLocalStorage() {
+  console.log('saveToLocalStorage');
+  localStorage.setItem('config', getConfig().toString())
+}
+
+export function loadFromLocalStorage() {
+  console.log('loadFromLocalStorage');
+  const cfg = localStorage.getItem('config')
+  if (cfg) {
+    setConfig(validateProfile(cfg));
+  }
+  else
+  {
+    console.log('loadFromLocalStorage : config not found');
+  }
 }
 
 export const localSerial = {
@@ -9,5 +41,3 @@ export const localSerial = {
   links:
     [ {type: 'WebSerial'} ]
 };
-
-export const profiles = [];

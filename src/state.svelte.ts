@@ -1,18 +1,23 @@
 // import * as Types from './types';
 import GstWebRTCAPI from 'gstwebrtc-api';
 
-import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
 import { Document } from 'yaml';
-import { ConfigVar, uiOption } from './config/ConfigVar.svelte';
+import { ConfigVar, uiOption, allFromYaml, allToYaml } from './config/ConfigVar.svelte';
 
-export var config = new Document({ rigpage: {current_config: {}} })
-export function setConfig(c:Document) {
-  config=c;
+var config = new Document({ rigpage: {current_config: {}} })
+
+export function setConfig( c:Document ) {
+  config = c;
+  allFromYaml(config);
+}
+
+export function getConfig() {
+  allToYaml(config);
+  return config;
 }
 
 export const currentProfile = $state( {
 p: {
-  gstWebRTCConfig: null as (null | GstWebRTCConfig)
 }
 } );
 

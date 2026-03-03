@@ -1,5 +1,5 @@
 <script lang="ts">
-import { config } from '../state.svelte';
+import { getConfig } from '../state.svelte';
 import { allToYaml } from '../config/ConfigVar.svelte';
 
 var yaml = $state('');
@@ -7,8 +7,7 @@ var yaml = $state('');
 <div>
   <button
     onclick={() => {
-      allToYaml();
-      yaml = config.toString();
+      yaml = getConfig().toString();
     }}
   >
   Update YAML

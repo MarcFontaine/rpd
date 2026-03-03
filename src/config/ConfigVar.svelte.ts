@@ -1,5 +1,4 @@
-import { config } from '../state.svelte';
-
+import { Document } from 'yaml';
 export interface ConfigOptions<T> {
   default: T;
   path: string[];
@@ -7,11 +6,13 @@ export interface ConfigOptions<T> {
 
 export class ConfigVar<T> {
   static allInstances: ConfigVar<any>[] = [];
+  #default : T;
   #value = $state() as T;
   #isDirty = $state(false);
-  #path = [] as string[];
+  #path : string[];
 
   constructor(o: ConfigOptions<T>) {
+    this.#default = o.default;
     this.#value = o.default;
     this.#path = o.path
     ConfigVar.allInstances.push(this);
@@ -30,23 +31,35 @@ export class ConfigVar<T> {
     this.#isDirty = true;
   }
 
-  toYaml() {
+  reset() {
+    this.#value = this.#default;
+  }
+
+  toYaml(config: Document) {
       config.setIn(this.#path, this.#value);
   }
 
-  fromYaml() {
+  fromYaml(config: Document) {
     const n = config.getIn(this.#path);
     if (n !== undefined && n !== null) {
       const v = (typeof n === 'object' && 'value' in n) ? n.value : n;
       if (typeof v === typeof this.#value) {
-        this.value = v as T;
+        this.#value = v as T;
       }
     }
   }
 }
 
-export function allToYaml() {
-  ConfigVar.allInstances.forEach(v => v.toYaml());
+export function allToYaml(config: Document) {
+  ConfigVar.allInstances.forEach(v => v.toYaml(config));
+}
+
+export function allFromYaml(config: Document) {
+  ConfigVar.allInstances.forEach(v => v.fromYaml(config));
+}
+
+export function allReset() {
+  ConfigVar.allInstances.forEach(v => v.reset());
 }
 
 export function uiOption<T>(def:T, path: string):ConfigVar<T>

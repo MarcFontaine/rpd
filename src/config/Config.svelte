@@ -1,14 +1,11 @@
 <script lang="ts">
-import { parseDocument, Document } from 'yaml';
 import { expertMode } from '../state.svelte';
 
-import { setConfig } from '../state.svelte';
+import { setConfig, getConfig } from '../state.svelte';
 import * as Config from './config';
 import * as Profile from '../profile';
-import { currentProfile } from '../state.svelte';
 
 let {params} = $props();
-let profile = $state(currentProfile.p ? currentProfile.p : null);
 let url = $state((params && params.wild) ? params.wild : null);
 let username = $state("");
 let password = $state("");
@@ -23,8 +20,7 @@ async function loadStartProfile() {
 
 async function startProfile() {
   if (profile) {
-    currentProfile.p = profile;
-    Profile.initProfile(profile);
+    Profile.initProfile();
   }
 };
 
@@ -33,12 +29,12 @@ async function loadProfile() {
     method:'GET',
     headers: {
       'Authorization': 'Basic ' + btoa(`${username}:${password}`),
-      'Accept': 'application/json'
+      'Accept': 'application/x-yaml'
     }
   });
-  const data = await response.json();
+  const data = await response.text();
   if (data) {
-    profile = Config.validateProfile(data);
+    setConfig(Config.validateProfile(data));
     return (true)
   }
   else return false;
@@ -50,18 +46,16 @@ async function selectFile(e:Event) {
   if (!target || !target.files ) return;
   const file = target.files[0];
   readYamlFile(file)
-    .then (doc => {
+    .then (text => {
       fileInput.value = "";
-      console.log(doc.toString());
-      setConfig(doc);
-      showDecadeButtons.fromYaml();
+      setConfig(Config.validateProfile(text));
     })
 }
 
-function readYamlFile( file:File ):Promise<Document> {
+function readYamlFile(file:File):Promise<Document> {
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
-    reader.onload = () => resolve(parseDocument(reader.result as string));
+    reader.onload = () => resolve(reader.result as string);
     reader.onerror = reject;
     reader.readAsText(file);
   });
@@ -70,7 +64,7 @@ function readYamlFile( file:File ):Promise<Document> {
 
 <div>
   <h2>
-    Remote QTH Configuration
+    RigControl Configuration
   </h2>
   <div>
   <form>
@@ -130,21 +124,28 @@ function readYamlFile( file:File ):Promise<Document> {
    />
   </div>
 
-  {#if profile}
-  <div>
-    <h2>
-    Current Profile : {profile.name}
-    </h2>
-  <br>
-  <textarea rows="30" cols="80" disabled>
-  {JSON.stringify(profile, null, 4)}
-  </textarea>
-  </div>
-  {/if}
-    {#if profile}
-      <button onclick={startProfile}>
+  <button onclick={startProfile}>
       Start Profile
-      </button>
-    {/if}
+  </button>
   {/if}
+  <br>
+  <div>
+  <button
+    onclick={ Config.reset }
+  >
+    Reset Config
+  </button>
+  <br>
+  <button
+    onclick={ Config.saveToLocalStorage }
+  >
+     Save to Local Storage
+  </button>
+  <br>
+  <button
+    onclick={ Config.loadFromLocalStorage }
+  >
+    Load from Local Storage
+  </button>
+  </div>
 </div>

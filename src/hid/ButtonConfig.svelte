@@ -1,6 +1,6 @@
 <script module lang="ts">
 import {nopBookmark, bookmarks} from '../bookmarks/bookmarks';
-import { config } from '../state.svelte';
+import { getConfig } from '../state.svelte';
 
 export { buttonConfig };
 
@@ -9,6 +9,7 @@ function pathForButton(i:Number) {
 };
 
 function initButtons() {
+  const config = getConfig();
   var buttons = new Array(16).fill(nopBookmark);
   buttons.forEach((_b, i) => {
     const path = pathForButton(i);
