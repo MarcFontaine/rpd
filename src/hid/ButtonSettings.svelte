@@ -35,14 +35,14 @@ export { ButtonSettings };
     </td>
   <td>
     <Typeahead
-      value={ buttonConfig[i].label }
+      value={ buttonConfig[i].value }
       label="Button Shortcuts"
       hideLabel
       placeholder={'Action for Button'}
       data={bookmarks}
       extract={ item => item.label }
       showDropdownOnFocus={true}
-      on:select={ event => {buttonConfig[i]=event.detail.original}}
+      on:select={ event => {buttonConfig[i].value = event.detail.original.label}}
     >
     <svelte:fragment slot="no-results">
 	Command not found

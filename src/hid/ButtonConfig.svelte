@@ -1,38 +1,31 @@
 <script module lang="ts">
-import {nopBookmark, bookmarks} from '../bookmarks/bookmarks';
-import { getConfig } from '../state.svelte';
+import { ConfigVar } from '../config/ConfigVar.svelte';
+import {Bookmark, nopBookmark, bookmarks} from '../bookmarks/bookmarks';
 
 export { buttonConfig };
+
+class ButtonConfig extends ConfigVar<string> {
+  #command: Bookmark
+  constructor(i:number, command: Bookmark){
+    super(
+      { default: command.label
+      , path: pathForButton(i)
+      })
+    this.#command = command
+  }
+  get command(): Bookmark {
+    return this.#command;
+  }
+}
+
+const buttonConfig : ButtonConfig[] = [];
 
 function pathForButton(i:Number) {
   return ['rigpage','current_config', 'hid' , 'buttons', String(i) ];
 };
 
-function initButtons() {
-  const config = getConfig();
-  var buttons = new Array(16).fill(nopBookmark);
-  buttons.forEach((_b, i) => {
-    const path = pathForButton(i);
-    const n = config.getIn(path);
-    if (n !== undefined && n !== null) {
-      const value = (typeof n === 'object' && 'value' in n) ? n.value : n;
-      if (typeof value === 'string') {
-	const match = bookmarks.find(opt => String(opt.value) === String(value))
-	if (match) {
-          buttons[i] = match;
-        } else {
-          console.warn(`Warning: Button ${i} command "${value}" does not exist`);
-          buttons[i] = nopBookmark
-        }
-      }
-    }
-    else {
-      config.setIn(path,nopBookmark.label );
-      buttons[i] = nopBookmark;
-    }
-  });
-  return buttons;
+for (let i = 0; i <=15; i++) {
+  buttonConfig.push( new ButtonConfig(i, nopBookmark) )
 }
 
-var buttonConfig = $state(initButtons());
 </script>
