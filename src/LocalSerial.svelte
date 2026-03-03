@@ -1,5 +1,4 @@
 <script lang="ts">
-import { currentProfile } from './state.svelte';
 import * as Config from './config/config';
 import * as Profile from './profile';
 import { isConnected, setRTS, setDTR } from './serial';
@@ -29,7 +28,6 @@ import { isConnected, setRTS, setDTR } from './serial';
   <div>
   <button
     onclick={() => {
-      currentProfile.p = Config.localSerial;
       Profile.initProfile(Config.localSerial)
     }}>
   Connect to a Local Serial Port

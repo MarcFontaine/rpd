@@ -16,11 +16,6 @@ export function getConfig() {
   return config;
 }
 
-export const currentProfile = $state( {
-p: {
-}
-} );
-
 const emptyLogs : Array<any> = [] //Todo: limit size
 
 export const log = $state(

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { currentProfile } from '../state.svelte';
+//import { currentProfile } from '../state.svelte';
 </script>
 
 <div>
