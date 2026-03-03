@@ -1,10 +1,10 @@
 <script lang="ts">
 import { onMount } from 'svelte';
-import {showWebRTC} from './webrtc';
+import { state } from './WebRTC.svelte';
 
 onMount(() => {
-  showWebRTC.value = true;
-  return () => showWebRTC.value = false
+  state.showWebRTC = true;
+  return () => state.showWebRTC = false
 });
 
 </script>

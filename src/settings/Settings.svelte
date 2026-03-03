@@ -1,7 +1,7 @@
 <script lang="ts">
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
-  rigSyncInterval
+  rigSyncInterval, rigctld_enable, rigctld_wss
   } from '../state.svelte';
 import * as Config from '../config/config';
 import Option from './Options.svelte';
@@ -52,11 +52,14 @@ import { DownloadConfig } from '../config/Config.svelte';
     <summary>
       CAT Control
     </summary>
-    <Option bind:o={demoMode.value} d={'Demo Mode'} />
+    <Option bind:o={demoMode.value} d={'No Cat Connection'} />
+    <Option bind:o={rigctld_enable.value} d={'Connect to rigctld Websocket Server'} />
+    <input type="text" bind:value={rigctld_wss.value}>
+    rigctld Server URL
     <br>
-      <input type="number" bind:value={rigSyncInterval.value}
+    <input type="number" bind:value={rigSyncInterval.value}
       onchange={syncRigDeamon}
-      > TRX Synchronisation Interval (0 = Disable Periodic Sync)
+    > TRX Synchronisation Interval (0 = Disable Periodic Sync)
 
     <br>
     <Option bind:o={showPTT.value} d={'Show PTT Button'} />

@@ -4,9 +4,7 @@ import GstWebRTCAPI from 'gstwebrtc-api';
 import type {Peer} from 'gstwebrtc-api/types/gstwebrtc-api.js';
 import ConsumerSession from 'gstwebrtc-api/types/consumer-session.js';
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
-import { ConfigVar, uiOption } from '../config/ConfigVar.svelte';
-
-export const showWebRTC = uiOption(false, 'showWebRTC'); // TODO: this is not a config var
+import { ConfigVar } from '../config/ConfigVar.svelte';
 
 export const metaName = new ConfigVar(
     { default: 'XK852RigControl-1234567'

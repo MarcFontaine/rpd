@@ -137,3 +137,13 @@ export const smartPTT = new ConfigVar(
     { default: true
     , path: [ 'rigpage', 'current_config', 'cat', 'smartPTT' ]
     });
+
+export const rigctld_enable = new ConfigVar(
+    { default: false
+    , path: [ 'rigpage', 'current_config', 'cat', 'rigctld' ]
+    });
+
+export const rigctld_wss = new ConfigVar(
+    { default: ''
+    , path: [ 'rigpage', 'current_config', 'cat', 'rigctld_WSS' ]
+    });

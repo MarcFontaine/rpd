@@ -1,11 +1,13 @@
 import {replace} from 'svelte-spa-router';
 
 // import * as WebSerial from './serial';
-// import * as WebSocket from './websocket';
+import * as WebSocket from './websocket';
 import * as WebRTC from './webrtc/webrtc';
 import * as WebRTCCapture from './webrtc/capture';
 import * as EspHome from './esphome';
-import { webRTC, webRTCClient, webRTCCapture } from './state.svelte';
+import { webRTC, webRTCClient, webRTCCapture,
+   rigctld_enable, rigctld_wss }
+   from './state.svelte';
 import { espSwrMeterEnable, espSwrMeterUrl } from './level/level-settings';
 
 /*
@@ -15,11 +17,6 @@ async function initLink(l: any) {
      {
        WebSerial.initWebSerial();
        WebSerial.connectToPort();
-       break;
-     }
-   case 'RigctldWS':
-     {
-       WebSocket.connect(l.wsServerURL);
        break;
      }
    case 'EspHomeEvent':
@@ -49,6 +46,9 @@ export async function initProfile() {
       };
       WebRTCCapture.initCapture(webRTC.api)
       webRTCCapture.enable = true;
+  }
+  if (rigctld_enable.value) {
+    WebSocket.connect(rigctld_wss.value);
   }
 //  p.links.forEach(initLink)
   replace('/rigcontrol');

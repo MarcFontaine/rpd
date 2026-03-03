@@ -25,9 +25,7 @@ async function loadStartProfile() {
 };
 
 async function startProfile() {
-  if (profile) {
-    Profile.initProfile();
-  }
+  Profile.initProfile();
 };
 
 async function loadProfile() {
