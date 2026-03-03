@@ -5,16 +5,13 @@ import ModeSelect from './ModeSelect.svelte';
 </script>
 
 <div class="mode">
-<span style="font-size:1em;">
-	Mode: {rig.mode}
-</span>
 {#if mobileMode.value }
   <ModeSelect />
 {:else}
   <details>
     <summary>
       <span style="font-size:1em;">
-	 Mode: {rig.mode}
+	 Mode: { rig.mode ? rig.mode : "Unknown Mode"}
       </span>
     </summary>
     <ModeButtons />

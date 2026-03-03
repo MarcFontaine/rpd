@@ -36,7 +36,7 @@ function parsePower(s: string) {
     case '2' : return XK852Power.Low;
     case '3' : return XK852Power.Mid;
     case '4' : return XK852Power.Full;
-    default  : return {}; // TODO
+    default  : return null;
   }
 }
 
@@ -50,6 +50,6 @@ function parseMode(s: string) {
     case '7' : return XK852Mode.FSK_LP;
     case '8' : return XK852Mode.FSK_MID;
     case '9' : return XK852Mode.FSK_HP;
-    default  : return {};
+    default  : return null;
   }
 }

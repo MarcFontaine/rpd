@@ -1,4 +1,4 @@
-// import * as Types from './types';
+import * as Type from './types';
 import GstWebRTCAPI from 'gstwebrtc-api';
 
 import { Document } from 'yaml';
@@ -52,8 +52,8 @@ export const rig = $state(
   { returnMsg: "no Message"
   , time: Date.now ()
   , frequency: 1500000
-  , power: {}
-  , mode: {}
+  , power: null as (Type.XK852Power | null)
+  , mode: null as (Type.XK852Mode | null)
   });
 
 export const webRTC = $state(
