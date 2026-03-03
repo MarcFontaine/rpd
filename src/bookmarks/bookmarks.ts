@@ -2,7 +2,7 @@ import * as CAT from '../cat'
 
 type Action = (() => any) | null
 
-class Bookmark {
+export class Bookmark {
   label: string;
   action: Action;
   isDisabled: boolean;

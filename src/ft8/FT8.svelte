@@ -1,12 +1,23 @@
+<script module lang="ts">
+import { ConfigVar } from '../config/ConfigVar.svelte';
+
+const baseURL = new ConfigVar(
+    { default: ''
+    , path: [ 'rigpage', 'current_config', 'ft8', 'DBServer' ]
+    });
+
+const query = new ConfigVar(
+    { default: 'wsjtx_extended?limit=10&order=time.desc'
+    , path: [ 'rigpage', 'current_config', 'ft8', 'query' ]
+    });
+</script>
+
 <script lang="ts">
 import { onMount } from 'svelte';
-import {currentProfile} from '../state.svelte';
 import FT8Clock from './FT8Clock.svelte';
 
-let query = $state('wsjtx_extended?limit=10&order=time.desc');
-let baseURL = $state(currentProfile.p.pgrestURL);
 let decoded = $state([]);
-let fullQuery = $derived(baseURL + '/' + query);
+let fullQuery = $derived(baseURL.value + '/' + query.value);
 
 async function getFT8Decoded() {
   const response = await fetch(fullQuery, {
@@ -49,9 +60,9 @@ FT8
 <div style="width: 4em;" >
 <FT8Clock />
 </div>
-<input size="60" bind:value={baseURL}> Postgrest base URL
+<input size="60" bind:value={baseURL.value}> Postgrest base URL
 <br>
-<input size="60" bind:value={query}> Query String
+<input size="60" bind:value={query.value}> Query String
 <br>
 <span> Full Query: {fullQuery}</span>
 <br>
