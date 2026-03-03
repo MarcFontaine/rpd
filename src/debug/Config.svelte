@@ -12,8 +12,8 @@ var yaml = $state('');
   >
   Update YAML
   </button>
-  <pre>
-    {yaml}
-  </pre>
+<pre>
+{yaml}
+</pre>
 </div>
 

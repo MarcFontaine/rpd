@@ -23,6 +23,11 @@ export function saveToLocalStorage() {
   localStorage.setItem('config', getConfig().toString())
 }
 
+export function autoSaveToLocalStorage() {
+  console.log('autoSaveToLocalStorage');
+  localStorage.setItem('config_auto_save', getConfig().toString())
+}
+
 export function loadFromLocalStorage() {
   console.log('loadFromLocalStorage');
   const cfg = localStorage.getItem('config')
