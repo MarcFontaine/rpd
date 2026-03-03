@@ -3,6 +3,7 @@ import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
   rigSyncInterval
   } from '../state.svelte';
+import * as Config from '../config/config';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat';
@@ -12,10 +13,11 @@ import { ButtonSettings } from '../hid/ButtonSettings.svelte';
 import { hidStore } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
 import { WebRtcSettings } from '../webrtc/Settings.svelte';
+import { DownloadConfig } from '../config/Config.svelte';
 </script>
 
 <div>
-  Settings
+  Config
 </div>
 
 <div style="display:flex; flex-direction: column; width: 100%;">
@@ -67,4 +69,18 @@ import { WebRtcSettings } from '../webrtc/Settings.svelte';
     </summary>
     {@render WebRtcSettings()}
   </details>
+  <details>
+    <summary>
+      Import Export Configuration
+    </summary>
+    {@render DownloadConfig()}
+  </details>
+  <br>
+  <button
+    onclick={ Config.saveToLocalStorage }
+  >
+     Save Config
+  </button>
+  <br>
+
 </div>

@@ -1,17 +1,23 @@
-<script lang="ts">
+<script module lang="ts">
+export { DownloadConfig };
+
 import { expertMode } from '../state.svelte';
 
 import { setConfig, getConfig } from '../state.svelte';
 import * as Config from './config';
 import * as Profile from '../profile';
 
-let {params} = $props();
-let url = $state((params && params.wild) ? params.wild : null);
-let username = $state("");
-let password = $state("");
+//let {params} = $props();
+//let url = $state((params && params.wild) ? params.wild : null);
+
+let url = $state('');
+let username = $state('');
+let password = $state('');
 
 // https://remote-qth.oh0.duckdns.org/app/#/config/https://remote-qth.oh0.duckdns.org/config/f2.json
 // http://localhost:5173/#/config/https://remote-qth.oh0.duckdns.org/config/f2.json
+
+
 
 async function loadStartProfile() {
   loadProfile()
@@ -66,6 +72,38 @@ function readYamlFile(file:File):Promise<Document> {
   <h2>
     RigControl Configuration
   </h2>
+  {#if expertMode.value}
+  <div>
+   Load Profile from File
+   <br>
+   <input
+     type=file
+     bind:this={fileInput}
+     onchange={selectFile}
+     accept=".yaml"
+   />
+  </div>
+
+  <button onclick={startProfile}>
+      Start Profile
+  </button>
+  {/if}
+  <br>
+  <div>
+  <button
+    onclick={ Config.reset }
+  >
+    Reset Config
+  </button>
+  <button
+    onclick={ Config.loadFromLocalStorage }
+  >
+    Load from Local Storage
+  </button>
+  </div>
+</div>
+
+{#snippet DownloadConfig()}
   <div>
   <form>
     Username:
@@ -108,44 +146,8 @@ function readYamlFile(file:File):Promise<Document> {
       <button
 	onclick={loadProfile}
       >
-      Load Profile from URL (with Username Password)
+      Load Config from Configuration Server (with Username Password)
       </button>
     {/if}
   </div>
-  {#if expertMode.value}
-  <div>
-   Load Profile from File
-   <br>
-   <input
-     type=file
-     bind:this={fileInput}
-     onchange={selectFile}
-     accept=".yaml"
-   />
-  </div>
-
-  <button onclick={startProfile}>
-      Start Profile
-  </button>
-  {/if}
-  <br>
-  <div>
-  <button
-    onclick={ Config.reset }
-  >
-    Reset Config
-  </button>
-  <br>
-  <button
-    onclick={ Config.saveToLocalStorage }
-  >
-     Save to Local Storage
-  </button>
-  <br>
-  <button
-    onclick={ Config.loadFromLocalStorage }
-  >
-    Load from Local Storage
-  </button>
-  </div>
-</div>
+{/snippet}
