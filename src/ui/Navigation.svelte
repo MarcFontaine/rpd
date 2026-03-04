@@ -15,7 +15,7 @@ import {showNavigationBar} from '../state.svelte';
     <a href="/serial" use:link use:active={'/serial'} >Serial Port</a>
   </li>
   <li>
-    <a href="/config" use:link use:active={'/config'} >Config</a>
+    <a href="/download" use:link use:active={'/download'} >Download Config</a>
   </li>
   <li>
     <a href="/settings" use:link use:active={'/settings'} >Settings</a>

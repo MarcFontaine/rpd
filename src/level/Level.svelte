@@ -47,7 +47,7 @@ function cal (u:number) {
     <br>
     <Option bind:o={espSwrMeterEnable.value} d={'Connect to ESP SWR Meter'} />
     <br>
-    <input type="text" bind:value={espSwrMeterUrl.value}> ESP SWR Meter URL
+    <input type="text" size="80" bind:value={espSwrMeterUrl.value}> ESP SWR Meter URL
     <br>
     GUI-test: Reported Forward Power
     <label>

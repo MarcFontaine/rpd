@@ -1,5 +1,5 @@
 <script>
-import Config from '../config/Config.svelte';
+import Config from '../config/Download.svelte';
 import RigControl from './RigControl.svelte';
 import LocalSerial from '../LocalSerial.svelte';
 import Settings from '../settings/Settings.svelte';

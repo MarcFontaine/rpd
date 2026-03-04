@@ -1,9 +1,9 @@
 <script module lang="ts">
+import { replace } from 'svelte-spa-router'
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
   rigSyncInterval, rigctld_enable, rigctld_wss
   } from '../state.svelte';
-import { ConfigVar } from '../config/ConfigVar.svelte';
 import * as Config from '../config/config';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
@@ -14,15 +14,6 @@ import { ButtonSettings } from '../hid/ButtonSettings.svelte';
 import { hidStore } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
 import { WebRtcSettings } from '../webrtc/Settings.svelte';
-import { DownloadConfig } from '../config/Config.svelte';
-
-export const configURL = new ConfigVar(
-    { default: ''
-    , path: [ 'rigpage', 'current_config', 'config', 'downloadURL' ]
-    });
-
-let configDownload = $state({ url: configURL.value, username: '', password: '' });
-
 </script>
 
 <div>
@@ -61,9 +52,9 @@ let configDownload = $state({ url: configURL.value, username: '', password: '' }
     <summary>
       CAT Control
     </summary>
-    <Option bind:o={demoMode.value} d={'No Cat Connection'} />
+    <Option bind:o={demoMode.value} d={'No Cat Connection / Demo Mode'} />
     <Option bind:o={rigctld_enable.value} d={'Connect to rigctld Websocket Server'} />
-    <input type="text" bind:value={rigctld_wss.value}>
+    <input type="text" size="80" bind:value={rigctld_wss.value}>
     rigctld Server URL
     <br>
     <input type="number" bind:value={rigSyncInterval.value}
@@ -85,7 +76,11 @@ let configDownload = $state({ url: configURL.value, username: '', password: '' }
     <summary>
       Import Export Configuration
     </summary>
-    {@render DownloadConfig(configDownload)}
+    <button
+      onclick={ () => replace('/download') }
+    >
+       Download Configuration from Server
+    </button>
   </details>
   <br>
   <button
