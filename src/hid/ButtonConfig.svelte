@@ -21,7 +21,7 @@ class ButtonConfig extends ConfigVar<string> {
 const buttonConfig : ButtonConfig[] = [];
 
 function pathForButton(i:Number) {
-  return ['rigpage','current_config', 'hid' , 'buttons', String(i) ];
+  return [ 'hid' , 'buttons', String(i) ];
 };
 
 for (let i = 0; i <=15; i++) {

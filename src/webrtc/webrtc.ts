@@ -4,51 +4,51 @@ import GstWebRTCAPI from 'gstwebrtc-api';
 import type {Peer} from 'gstwebrtc-api/types/gstwebrtc-api.js';
 import ConsumerSession from 'gstwebrtc-api/types/consumer-session.js';
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
-import { ConfigVar } from '../config/ConfigVar.svelte';
+import { PasswordConfig, ConfigVar } from '../config/ConfigVar.svelte';
 
 export const metaName = new ConfigVar(
     { default: 'XK852RigControl-1234567'
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'meta', 'name' ]
+    , path: [ 'webrtc', 'meta', 'name' ]
     });
 
 export const metaProducerName = new ConfigVar(
     { default: 'XK852-Halle-ingres'
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'meta', 'producerName' ]
+    , path: [ 'webrtc', 'meta', 'producerName' ]
     });
 
 export const reconnectionTimeout = new ConfigVar(
     { default: 30
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'reconnectionTimeout' ]
+    , path: [ 'webrtc', 'reconnectionTimeout' ]
     });
 
 export const signalingServer = new ConfigVar(
     { default: 'wss://bla.blub.com:443/ice'
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'signalingServer' ]
+    , path: [ 'webrtc', 'signalingServer' ]
     });
 
 export const IceServerUrls = new ConfigVar(
     { default: 'turn:ice.server.org:3478'
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'IceServer','urls' ]
+    , path: [ 'webrtc', 'IceServer','urls' ]
     });
 
 export const IceServerUsername = new ConfigVar(
     { default: 'MyUserName'
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'IceServer', 'username' ]
+    , path: [ 'webrtc', 'IceServer', 'username' ]
     });
 
-export const IceServerCredential = new ConfigVar(
+export const IceServerCredential = new PasswordConfig(
     { default: 'MySecret'
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'IceServer', 'credential' ]
+    , path: [ 'webrtc', 'IceServer', 'credential' ]
     });
 
 export const enableSink = new ConfigVar(
     { default: false
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'sink', 'enable' ]
+    , path: [ 'webrtc', 'sink', 'enable' ]
     });
 
 export const enableSource = new ConfigVar(
     { default: false
-    , path: [ 'rigpage', 'current_config', 'webrtc', 'source', 'enable' ]
+    , path: [ 'webrtc', 'source', 'enable' ]
     });
 
 function getConfig() : GstWebRTCConfig
@@ -65,7 +65,7 @@ return {
            {
               "urls": IceServerUrls.value,
               "username": IceServerUsername.value,
-              "credential": IceServerCredential.value
+              "credential": IceServerCredential.password
             }
           ]
        }

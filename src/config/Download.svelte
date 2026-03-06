@@ -2,7 +2,7 @@
 import { ConfigVar } from '../config/ConfigVar.svelte';
 export const configURL = new ConfigVar(
     { default: ''
-    , path: [ 'rigpage', 'current_config', 'config', 'downloadURL' ]
+    , path: [ 'config', 'downloadURL' ]
     });
 </script>
 

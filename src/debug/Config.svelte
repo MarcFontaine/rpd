@@ -1,6 +1,5 @@
 <script lang="ts">
 import { getConfig } from '../state.svelte';
-import { allToYaml } from '../config/ConfigVar.svelte';
 
 var yaml = $state('');
 </script>

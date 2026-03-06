@@ -5,7 +5,7 @@
 
   const mouseWheelTuningSpeed = new ConfigVar(
     { default: 100
-    , path: [ 'rigpage', 'current_config', 'vfo', 'mouseWheel', 'speed' ]
+    , path: [ 'vfo', 'mouseWheel', 'speed' ]
     });
 
   export {DecadeSettings};

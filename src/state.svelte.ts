@@ -1,3 +1,4 @@
+import { isMap } from 'yaml';
 import * as Type from './types';
 import GstWebRTCAPI from 'gstwebrtc-api';
 
@@ -8,11 +9,17 @@ var config = new Document({ rigpage: {current_config: {}} })
 
 export function setConfig( c:Document ) {
   config = c;
-  allFromYaml(config);
+  const n = config.getIn(['rigpage','current_config']);
+  if (isMap(n)) {
+    allFromYaml(n);
+  }
 }
 
 export function getConfig() {
-  allToYaml(config);
+  const n = config.getIn(['rigpage','current_config']);
+  if (isMap(n)) {
+    allToYaml(n);
+  }
   return config;
 }
 
@@ -114,12 +121,12 @@ export function setSendCmdCallback(fn: any) {
 
 export const demoMode = new ConfigVar(
     { default: false
-    , path: [ 'rigpage', 'current_config', 'cat', 'demoMode' ]
+    , path: [ 'cat', 'demoMode' ]
     });
 
 export const rigSyncInterval = new ConfigVar(
     { default: 20
-    , path: [ 'rigpage', 'current_config', 'cat', 'remoteSyncInterval' ]
+    , path: [ 'cat', 'remoteSyncInterval' ]
     });
 
 export const expertMode = uiOption(true, 'expertMode');
@@ -135,15 +142,15 @@ export const showAntennaTuner = uiOption(true, 'AntennaTunerButton');
 
 export const smartPTT = new ConfigVar(
     { default: true
-    , path: [ 'rigpage', 'current_config', 'cat', 'smartPTT' ]
+    , path: [ 'cat', 'smartPTT' ]
     });
 
 export const rigctld_enable = new ConfigVar(
     { default: false
-    , path: [ 'rigpage', 'current_config', 'cat', 'rigctld' ]
+    , path: [ 'cat', 'rigctld' ]
     });
 
 export const rigctld_wss = new ConfigVar(
     { default: ''
-    , path: [ 'rigpage', 'current_config', 'cat', 'rigctld_WSS' ]
+    , path: [ 'cat', 'rigctld_WSS' ]
     });

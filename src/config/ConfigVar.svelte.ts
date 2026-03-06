@@ -1,17 +1,26 @@
-import { Document } from 'yaml';
+import { YAMLMap } from 'yaml';
 export interface ConfigOptions<T> {
   default: T;
   path: string[];
 }
 
-export class ConfigVar<T> {
-  static allInstances: ConfigVar<any>[] = [];
+export abstract class AConfig<_T> {
+  static allInstances: AConfig<YAMLMap>[] = [];
+  abstract get isDirty(): boolean;
+  abstract reset(): void;
+  
+  abstract toYaml(config: YAMLMap): void;
+  abstract fromYaml(config: YAMLMap): void;
+};
+
+export class ConfigVar<T> extends AConfig<T> {
   #default : T;
   #value = $state() as T;
   #isDirty = $state(false);
   #path : string[];
 
   constructor(o: ConfigOptions<T>) {
+    super();
     this.#default = o.default;
     this.#value = o.default;
     this.#path = o.path
@@ -35,11 +44,11 @@ export class ConfigVar<T> {
     this.#value = this.#default;
   }
 
-  toYaml(config: Document) {
+  toYaml(config: YAMLMap) {
       config.setIn(this.#path, this.#value);
   }
 
-  fromYaml(config: Document) {
+  fromYaml(config: YAMLMap) {
     const n = config.getIn(this.#path);
     if (n !== undefined && n !== null) {
       const v = (typeof n === 'object' && 'value' in n) ? n.value : n;
@@ -50,11 +59,11 @@ export class ConfigVar<T> {
   }
 }
 
-export function allToYaml(config: Document) {
+export function allToYaml(config: YAMLMap) {
   ConfigVar.allInstances.forEach(v => v.toYaml(config));
 }
 
-export function allFromYaml(config: Document) {
+export function allFromYaml(config: YAMLMap) {
   ConfigVar.allInstances.forEach(v => v.fromYaml(config));
 }
 
@@ -66,6 +75,51 @@ export function uiOption<T>(def:T, path: string):ConfigVar<T>
 {
   return new ConfigVar(
     { default: def
-    , path: [ 'rigpage', 'current_config', 'ui', path ]
+    , path: [ 'ui', path ]
     });
+}
+
+export class PasswordConfig extends AConfig<string> {
+  #passwordPlain = $state() as string;
+  #path : string[];
+  #isDirty : boolean;
+
+  constructor(o: ConfigOptions<string>) {
+    super();
+    this.#passwordPlain = o.default;
+    this.#path = o.path
+    this.#isDirty = false;
+    ConfigVar.allInstances.push(this);
+  }
+
+  get password(): string {
+    return this.#passwordPlain;
+  }
+
+  get isDirty(): boolean {
+    return this.#isDirty;
+  }
+
+  set password(newValue: string) {
+    this.#passwordPlain = newValue;
+    this.#isDirty = true;
+  }
+
+  reset() {
+    this.#passwordPlain = '<Unset Password>';
+  }
+
+  toYaml(config: YAMLMap) {
+      config.setIn([...this.#path, 'pt'] , this.#passwordPlain);
+  }
+
+  fromYaml(config: YAMLMap) {
+    const n = config.getIn([...this.#path, 'enc_pw']);
+    if (n !== undefined && n !== null) {
+      const v = (typeof n === 'object' && 'value' in n) ? n.value : n;
+      if (typeof v === "string") {
+        this.#passwordPlain = v as string;
+      }
+    }
+  }
 }

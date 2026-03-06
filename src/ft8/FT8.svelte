@@ -3,12 +3,12 @@ import { ConfigVar } from '../config/ConfigVar.svelte';
 
 const baseURL = new ConfigVar(
     { default: ''
-    , path: [ 'rigpage', 'current_config', 'ft8', 'DBServer' ]
+    , path: [ 'ft8', 'DBServer' ]
     });
 
 const query = new ConfigVar(
     { default: 'wsjtx_extended?limit=10&order=time.desc'
-    , path: [ 'rigpage', 'current_config', 'ft8', 'query' ]
+    , path: [ 'ft8', 'query' ]
     });
 </script>
 

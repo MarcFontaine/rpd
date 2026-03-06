@@ -9,12 +9,12 @@ export {HIDsettings};
 
 const enableRotaryEncoder = new ConfigVar(
     { default: true
-    , path: [ 'rigpage', 'current_config', 'hid', 'rotaryEncoder', 'enable' ]
+    , path: [ 'hid', 'rotaryEncoder', 'enable' ]
     });
 
 const magnetTuningSpeed = new ConfigVar(
     { default: 100
-    , path: [ 'rigpage', 'current_config', 'vfo', 'rotaryEncoder', 'speed' ]
+    , path: [ 'vfo', 'rotaryEncoder', 'speed' ]
     });
 
 const speed = 10;
