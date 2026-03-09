@@ -1,7 +1,10 @@
-{
+import type { ManifestOptions } from 'vite-plugin-pwa';
+
+export const webmanifest: Partial<ManifestOptions> = {
   "short_name": "XK852 rig control",
   "name": "XK852 rig control",
   "theme_color": "#ffffff",
+    "display": "standalone",
   "icons": [
     {
       "src": "images/icons-1024.png",
@@ -25,4 +28,4 @@
   "start_url": "./?source=pwa",
   "scope": "./",
   "id": "./"
-}
+} as const;
