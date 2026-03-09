@@ -1,5 +1,5 @@
 <script lang="ts">
-import {log} from '../state.svelte';
+import * as State from '../state.svelte';
 import SendXK852Cmd from '../SendXK852Cmd.svelte';
 import RigStatusMessage from './RigStatusMessage.svelte';
 import About from './About.svelte';
@@ -29,7 +29,7 @@ const formatter = new Intl.DateTimeFormat('en-US',{
   <br>
   <input type="checkbox" bind:checked={isVerbose}> Verbose
   <br>
-  {#each log.objs.slice(-20).reverse() as l}
+  {#each State.log.objs.slice(-20).reverse() as l}
     <span>{formatter.format(l.date)}@{l.src}</span>
     <span>{l.msg}</span>
     {#if l.data && isVerbose} <pre> {l.data} </pre>{/if}

@@ -4,7 +4,7 @@ import GstWebRTCAPI from 'gstwebrtc-api';
 import type {Peer} from 'gstwebrtc-api/types/gstwebrtc-api.js';
 import ConsumerSession from 'gstwebrtc-api/types/consumer-session.js';
 import {type GstWebRTCConfig} from 'gstwebrtc-api/types/config.js';
-import { PasswordConfig, ConfigVar } from '../config/ConfigVar.svelte';
+import { ConfigVar } from '../config/ConfigVar.svelte';
 
 export const metaName = new ConfigVar(
     { default: 'XK852RigControl-1234567'
@@ -36,7 +36,8 @@ export const IceServerUsername = new ConfigVar(
     , path: [ 'webrtc', 'IceServer', 'username' ]
     });
 
-export const IceServerCredential = new PasswordConfig(
+//export const IceServerCredential = new PasswordConfig(
+export const IceServerCredential = new ConfigVar(
     { default: 'MySecret'
     , path: [ 'webrtc', 'IceServer', 'credential' ]
     });
@@ -65,7 +66,7 @@ return {
            {
               "urls": IceServerUrls.value,
               "username": IceServerUsername.value,
-              "credential": IceServerCredential.password
+              "credential": IceServerCredential.value
             }
           ]
        }

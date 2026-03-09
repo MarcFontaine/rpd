@@ -1,8 +1,27 @@
-import { parseDocument } from 'yaml';
+import { parseDocument, isMap } from 'yaml';
 
 import * as Profile from '../profile';
-import { allReset } from './ConfigVar.svelte';
-import { setConfig, getConfig } from '../state.svelte';
+
+import { Document } from 'yaml';
+import { allFromYaml, allToYaml, allReset } from './ConfigVar.svelte';
+
+var config = new Document({ rigpage: {current_config: {}} })
+
+export function setConfig( c:Document ) {
+  config = c;
+  const n = config.getIn([ 'rigpage','current_config' ]);
+  if (isMap(n)) {
+    allFromYaml(n);
+  }
+}
+
+export function getConfig() {
+  const n = config.getIn([ 'rigpage','current_config' ]);
+  if (isMap(n)) {
+    allToYaml(n);
+  }
+  return config;
+}
 
 export async function startProfile() {
   Profile.initProfile();

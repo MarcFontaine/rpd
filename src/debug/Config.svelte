@@ -1,9 +1,14 @@
 <script lang="ts">
-import { getConfig } from '../state.svelte';
+import { getConfig } from '../config/config';
+import { profileName } from '../state.svelte';
 
 var yaml = $state('');
 </script>
+
 <div>
+  <h4>
+  Profile Name: {profileName.value}
+  </h4>
   <button
     onclick={() => {
       yaml = getConfig().toString();

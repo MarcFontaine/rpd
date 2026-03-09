@@ -2,12 +2,16 @@
 import {link} from 'svelte-spa-router'
 import active from 'svelte-spa-router/active'
 import {showNavigationBar} from '../state.svelte';
+import { profileName } from '../state.svelte';
 </script>
 
 {#if showNavigationBar.value}
 <nav>
 <div style="font-size:0.5em;" >
 <ul>
+  <li>
+    {profileName.value}
+  </li>
   <li>
     <a href="/rigcontrol" use:link use:active={'/rigcontrol'} >CAT</a>
   </li>

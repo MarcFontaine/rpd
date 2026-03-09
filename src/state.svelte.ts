@@ -1,27 +1,6 @@
-import { isMap } from 'yaml';
 import * as Type from './types';
 import GstWebRTCAPI from 'gstwebrtc-api';
-
-import { Document } from 'yaml';
-import { ConfigVar, uiOption, allFromYaml, allToYaml } from './config/ConfigVar.svelte';
-
-var config = new Document({ rigpage: {current_config: {}} })
-
-export function setConfig( c:Document ) {
-  config = c;
-  const n = config.getIn(['rigpage','current_config']);
-  if (isMap(n)) {
-    allFromYaml(n);
-  }
-}
-
-export function getConfig() {
-  const n = config.getIn(['rigpage','current_config']);
-  if (isMap(n)) {
-    allToYaml(n);
-  }
-  return config;
-}
+import { ConfigVar, uiOption} from './config/ConfigVar.svelte';
 
 const emptyLogs : Array<any> = [] //Todo: limit size
 
@@ -145,6 +124,11 @@ export const smartPTT = new ConfigVar(
     , path: [ 'cat', 'smartPTT' ]
     });
 
+export const webserial_enable = new ConfigVar(
+    { default: false
+    , path: [ 'cat', 'webserial' ]
+    });
+
 export const rigctld_enable = new ConfigVar(
     { default: false
     , path: [ 'cat', 'rigctld' ]
@@ -153,4 +137,9 @@ export const rigctld_enable = new ConfigVar(
 export const rigctld_wss = new ConfigVar(
     { default: ''
     , path: [ 'cat', 'rigctld_WSS' ]
+    });
+
+export const profileName = new ConfigVar(
+    { default: 'DefaultProfile'
+    , path: [ 'config', 'name' ]
     });

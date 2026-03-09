@@ -8,7 +8,6 @@ export const configURL = new ConfigVar(
 
 <script lang="ts">
 import { replace } from 'svelte-spa-router'
-import { setConfig } from '../state.svelte';
 import * as Config from './config';
 import * as Profile from '../profile';
 
@@ -95,7 +94,7 @@ async function loadConfig() {
   </h2>
     <button
       onclick = { () => {
-        setConfig(Config.validateProfile(config));
+        Config.setConfig(Config.validateProfile(config));
         Config.saveToLocalStorage;
         replace('/settings');
       }}
@@ -105,7 +104,7 @@ async function loadConfig() {
     <br>
     <button
       onclick = { () => {
-        setConfig(Config.validateProfile(config));
+        Config.setConfig(Config.validateProfile(config));
         Config.saveToLocalStorage;
         Profile.initProfile();
         replace('/rigcontrol');

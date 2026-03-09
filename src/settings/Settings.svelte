@@ -2,7 +2,7 @@
 import { replace } from 'svelte-spa-router'
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
-  rigSyncInterval, rigctld_enable, rigctld_wss
+  rigSyncInterval, webserial_enable, rigctld_enable, rigctld_wss, profileName
   } from '../state.svelte';
 import * as Config from '../config/config';
 import Option from './Options.svelte';
@@ -21,6 +21,13 @@ import { WebRtcSettings } from '../webrtc/Settings.svelte';
 </div>
 
 <div style="display:flex; flex-direction: column; width: 100%;">
+  <details>
+    <summary>
+      Profile
+    </summary>
+    <input type="text" size="40" bind:value={profileName.value}>
+    Profile Name
+  </details>
   <details>
     <summary>
       User Interface Look and Feel
@@ -53,6 +60,7 @@ import { WebRtcSettings } from '../webrtc/Settings.svelte';
       CAT Control
     </summary>
     <Option bind:o={demoMode.value} d={'No Cat Connection / Demo Mode'} />
+    <Option bind:o={webserial_enable.value} d={'Connect Local Serial Port'} />
     <Option bind:o={rigctld_enable.value} d={'Connect to rigctld Websocket Server'} />
     <input type="text" size="80" bind:value={rigctld_wss.value}>
     rigctld Server URL
