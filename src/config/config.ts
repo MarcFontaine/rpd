@@ -1,26 +1,54 @@
-import { parseDocument, isMap } from 'yaml';
+import { parseDocument, isMap, YAMLMap } from 'yaml';
 
 import * as Profile from '../profile';
 
 import { Document } from 'yaml';
 import { allFromYaml, allToYaml, allReset } from './ConfigVar.svelte';
 
-var config = new Document({ rigpage: {current_config: {}} })
-
-export function setConfig( c:Document ) {
-  config = c;
-  const n = config.getIn([ 'rigpage','current_config' ]);
-  if (isMap(n)) {
-    allFromYaml(n);
+var config = new Document(
+  { rigpage: {
+    profiles: {
+      DemoMode: {
+	cat: {
+	  demoMode: true,
+	  webserial: false,
+	  rigctld: false
+	  },
+	config: { name: 'Demo Mode'},
+      },
+      SerialPort: {
+	cat: {
+	  demoMode: false,
+	  webserial: true,
+	  rigctld: false
+	  },
+	config: { name: 'Serial Port'},
+      }
+    }
+   }
   }
+);
+
+export function setConfig(c: Document) {
+  config = c;
 }
 
 export function getConfig() {
-  const n = config.getIn([ 'rigpage','current_config' ]);
-  if (isMap(n)) {
-    allToYaml(n);
-  }
   return config;
+}
+
+export var profile = new YAMLMap();
+
+export function setProfile(p: unknown) {
+  profile = p as YAMLMap;
+  if (isMap(p)) {
+    allFromYaml(p);
+    allToYaml(p);
+  }
+}
+
+export function getProfiles(): unknown {
+  return (config.getIn([ 'rigpage','profiles' ]) as unknown);
 }
 
 export async function startProfile() {

@@ -5,34 +5,33 @@ import * as Profile from '../profile';
 import * as WebSerial from '../serial';
 </script>
 
-<div>
+{#snippet StartProfile(pair)}
   <button
-    onclick={ () => Profile.initProfile() }
+    onclick={()=> {
+      Config.setProfile(pair.value);
+      Config.startProfile();
+    }}
   >
-    <h2>
-      Connect To Remote QTH
-    </h2>
+  <h2>
+    Start Profile `{pair.key}`
+  </h2>
   </button>
-  <br>
-  <button
-      onclick={ () => {
-        WebSerial.initWebSerial();
-        WebSerial.connectToPort();
-        replace('/rigpage')}
-      }
-   >
-    <h2>
-      Connect To Serial Port
-    </h2>
-  </button>
-  <br>
-  <button
-      onclick={ () => {
-        replace('/profile')}
-      }
-   >
-    <h2>
+{/snippet}
+
+<div>
+  <h2>
+    Profiles
+  </h2>
+  <table>
+  {#each Config.getProfiles().items as pair}
+    {@render StartProfile(pair)}
+  {/each}
+  </table>
+</div>
+<div>
+  <button>
+  <h2>
       Profile Manager
-    </h2>
+  </h2>
   </button>
 </div>

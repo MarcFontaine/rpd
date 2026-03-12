@@ -94,7 +94,7 @@ async function loadConfig() {
   </h2>
     <button
       onclick = { () => {
-        Config.setConfig(Config.validateProfile(config));
+        Config.setProfile(Config.validateProfile(config).getIn([]));
         Config.saveToLocalStorage;
         replace('/settings');
       }}
@@ -104,7 +104,7 @@ async function loadConfig() {
     <br>
     <button
       onclick = { () => {
-        Config.setConfig(Config.validateProfile(config));
+        Config.setProfile(Config.validateProfile(config).getIn([]));
         Config.saveToLocalStorage;
         Profile.initProfile();
         replace('/rigcontrol');
