@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Config from './config/config';
+import * as Config from './config/config.svelte';
 import * as Profile from './profile';
 import { isConnected, setRTS, setDTR } from './serial';
 </script>

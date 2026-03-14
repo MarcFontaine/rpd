@@ -1,8 +1,9 @@
 <script lang="ts">
 import { replace } from 'svelte-spa-router'
-import * as Config from './config';
+import * as Config from './config.svelte';
 import * as Profile from '../profile';
 import * as WebSerial from '../serial';
+
 </script>
 
 {#snippet StartProfile(pair)}
@@ -12,26 +13,26 @@ import * as WebSerial from '../serial';
       Config.startProfile();
     }}
   >
-  <h2>
-    Start Profile `{pair.key}`
-  </h2>
+    Start `{pair.key }`
   </button>
+  <br>
 {/snippet}
 
 <div>
   <h2>
-    Profiles
+    Start Profile
   </h2>
-  <table>
-  {#each Config.getProfiles().items as pair}
+
+<table>
+  {#each (Config.updateYaml.trigger ? Config.getProfiles().items : null) as pair}
     {@render StartProfile(pair)}
   {/each}
   </table>
 </div>
 <div>
-  <button>
-  <h2>
-      Profile Manager
-  </h2>
+  <button
+    onclick={ () => replace('/profiles') }
+  >
+     Go to Profile Manager
   </button>
 </div>

@@ -4,7 +4,7 @@ import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
   rigSyncInterval, webserial_enable, rigctld_enable, rigctld_wss, profileName
   } from '../state.svelte';
-import * as Config from '../config/config';
+import * as Config from '../config/config.svelte';
 import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat';

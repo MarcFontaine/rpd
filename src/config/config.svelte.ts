@@ -5,6 +5,8 @@ import * as Profile from '../profile';
 import { Document } from 'yaml';
 import { allFromYaml, allToYaml, allReset } from './ConfigVar.svelte';
 
+export const updateYaml =  $state({trigger : 1});
+
 var config = new Document(
   { rigpage: {
     profiles: {
@@ -37,18 +39,28 @@ export function getConfig() {
   return config;
 }
 
-export var profile = new YAMLMap();
+export var profile = null as null | YAMLMap;
 
 export function setProfile(p: unknown) {
-  profile = p as YAMLMap;
-  if (isMap(p)) {
-    allFromYaml(p);
-    allToYaml(p);
+  profile = p as YAMLMap
+  ;
+  if (isMap(profile)) {
+    allFromYaml(profile);
+    allToYaml(profile);
   }
+  updateYaml.trigger++;
 }
 
-export function getProfiles(): unknown {
-  return (config.getIn([ 'rigpage','profiles' ]) as unknown);
+export function mergeProfile(p: unknown) {
+  if (isMap(p)) {
+    allFromYaml(p as YAMLMap);
+    allToYaml(profile as YAMLMap);
+  }
+  updateYaml.trigger++;
+}
+
+export function getProfiles() {
+  return (config.getIn([ 'rigpage','profiles' ]));
 }
 
 export async function startProfile() {
@@ -86,10 +98,3 @@ export function loadFromLocalStorage() {
     console.log('loadFromLocalStorage : config not found');
   }
 }
-
-export const localSerial = {
-  name: 'WebSerial using local serial port',
-  decription: 'WebSerial using local serial port',
-  links:
-    [ {type: 'WebSerial'} ]
-};

@@ -1,5 +1,5 @@
 import { setGuiMode, GuiMode } from './gui';
-import { loadFromLocalStorage , autoSaveToLocalStorage } from './config/config';
+import { loadFromLocalStorage , autoSaveToLocalStorage } from './config/config.svelte';
 import { mount } from 'svelte'
 import App from './ui/App.svelte'
 

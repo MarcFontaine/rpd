@@ -1,4 +1,5 @@
 import StartProfile from '../config/StartProfile.svelte';
+import ProfileManager from '../config/ProfileManager.svelte';
 import Download from '../config/Download.svelte';
 import LocalSerial from '../LocalSerial.svelte';
 import Debug from '../debug/Debug.svelte';
@@ -19,7 +20,7 @@ export const routes = {
 , '/rigcontrol': RigControl
 , '/download': Download
 , '/download/*': Download
-, '/profile': Download
+, '/profiles': ProfileManager
 , '/debug': Debug
 , '/serial': LocalSerial
 , '/webrtc': WebRTCToggle
