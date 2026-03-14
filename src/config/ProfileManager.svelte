@@ -2,9 +2,20 @@
 import * as Config from './config.svelte';
 import { YAMLMap, Pair } from 'yaml';
 
+const config = Config.getConfig();
 const profiles = Config.getProfiles().items;
 let selected = $state(null | YAMLMap);
 let msg = $state('ok');
+
+function newProfile() {
+  const p = config.createNode();
+  const newPair = config.createPair(
+     `New_Profile_${crypto.randomUUID().slice(0,8)}`,
+     p);
+   profiles.push(newPair);
+   Config.updateYaml.trigger++;
+   selected = newPair;
+}
 
 </script>
 
@@ -24,6 +35,11 @@ let msg = $state('ok');
     {@render SelectProfile(p)}
     <br>
   {/each}
+  <button
+    onclick={newProfile}
+  >
+    Create New Profile
+  </button>
 </div>
 
 
@@ -67,9 +83,9 @@ let msg = $state('ok');
   </button>
   <button
     onclick={ () => {
-      const newPair = new Pair(
+      const newPair = config.createPair(
         `Clone_of_${selected.key}_${crypto.randomUUID().slice(0,8)}`,
-	selected.value);
+	selected.value.clone());
       profiles.push(newPair);
       Config.updateYaml.trigger++;
       selected = newPair;

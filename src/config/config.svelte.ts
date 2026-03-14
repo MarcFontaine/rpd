@@ -42,8 +42,7 @@ export function getConfig() {
 export var profile = null as null | YAMLMap;
 
 export function setProfile(p: unknown) {
-  profile = p as YAMLMap
-  ;
+  profile = p as YAMLMap;
   if (isMap(profile)) {
     allFromYaml(profile);
     allToYaml(profile);
