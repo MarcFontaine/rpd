@@ -1,10 +1,15 @@
 <script lang="ts">
+import { replace } from 'svelte-spa-router'
 import * as Config from './config.svelte';
 import { YAMLMap, Pair } from 'yaml';
 
+let { preselect } = $props();
+
 const config = Config.getConfig();
 const profiles = Config.getProfiles().items;
-let selected = $state(null | YAMLMap);
+
+let selected = $state(preselect as null | YAMLMap);
+
 let msg = $state('ok');
 
 function newProfile() {
@@ -31,17 +36,30 @@ function newProfile() {
   <h2>
     Edit Profile
   </h2>
-  {#each Config.updateYaml.trigger ? profiles :null as p}
-    {@render SelectProfile(p)}
-    <br>
-  {/each}
   <button
     onclick={newProfile}
   >
     Create New Profile
   </button>
+  <br>
+  <button
+    onclick={ ()=> {
+        Config.saveToLocalStorage();
+        replace('/')
+      }
+    }
+  >
+    Save and Exit
+  </button>
+  <br>
+  Current Profiles:
+  <br>
+  {#each Config.updateYaml.trigger ? profiles :null as p}
+    {@render SelectProfile(p)}
+    <br>
+  {/each}
+  <br>
 </div>
-
 
 {#if selected}
 <div>
@@ -71,16 +89,7 @@ function newProfile() {
       }
       }
   >
-<br>
-  <button
-    onclick={()=> {
-      Config.setProfile(selected.value);
-      Config.startProfile();
-      }
-      }
-  >
-    Start
-  </button>
+  <br>
   <button
     onclick={ () => {
       const newPair = config.createPair(
@@ -94,13 +103,7 @@ function newProfile() {
   >
     Clone
   </button>
-
-  <input
-    type="checkbox"
-    onchange={e => {
-      }
-    }
-  />
+  <br>
   {#if profiles.length > 1}
     <button
 	onclick={

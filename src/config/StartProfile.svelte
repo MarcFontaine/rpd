@@ -22,12 +22,9 @@ import * as WebSerial from '../serial';
   <h2>
     Start Profile
   </h2>
-
-<table>
   {#each (Config.updateYaml.trigger ? Config.getProfiles().items : null) as pair}
     {@render StartProfile(pair)}
   {/each}
-  </table>
 </div>
 <div>
   <button

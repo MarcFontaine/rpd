@@ -28,7 +28,7 @@ import { isConnected, setRTS, setDTR } from './serial';
   <div>
   <button
     onclick={() => {
-      Profile.initProfile(Config.localSerial)
+      Profile.initProfile()
     }}>
   Connect to a Local Serial Port
   </button>

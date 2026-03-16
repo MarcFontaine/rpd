@@ -1,4 +1,5 @@
 <script module lang="ts">
+import ProfileManager from './ProfileManager.svelte';
 import { ConfigVar } from '../config/ConfigVar.svelte';
 export const configURL = new ConfigVar(
     { default: ''
@@ -15,7 +16,8 @@ let {params} = $props();
 let url = $state((params && params.wild && params.wild !='') ? params.wild : configURL.value);
 let username = $state('');
 let password = $state('');
-let config = $state('');
+let config_txt = $state('');
+let preselect = $state(null);
 
 let view = $state('download');
 
@@ -29,11 +31,24 @@ async function loadConfig() {
   });
   const data = await response.text();
   if (data) {
-    config = data;
-    view = 'config'
-    return (true)
+    view = 'config';
+    config_txt = data;
+    createProfile(data);
+    return (true);
   }
   else return false;
+}
+
+function createProfile(txt) {
+  const profile = Config.validateProfile(txt);
+  const name =
+      (profile.toJSON().config.name ?? 'Downloaded_Config')
+    + '_'
+    + crypto.randomUUID().slice(0,8);
+  const newPair = Config.getConfig().createPair(name, profile.getIn([]));
+  Config.getProfiles().items.push(newPair);
+  Config.updateYaml.trigger++;
+  preselect = newPair;
 }
 
 </script>
@@ -89,42 +104,16 @@ async function loadConfig() {
   </div>
 {/if}
 {#if view == 'config' }
-  <h2>
-    New Configuration
-  </h2>
-    <button
-      onclick = { () => {
-        Config.mergeProfile(Config.validateProfile(config).getIn([]));
-        Config.saveToLocalStorage;
-        replace('/settings');
-      }}
-    >
-    Import
-    </button>
-    <br>
-    <button
-      onclick = { () => {
-        Config.mergeProfile(Config.validateProfile(config).getIn([]));
-        Config.saveToLocalStorage;
-        Profile.initProfile();
-        replace('/rigcontrol');
-      }}
-    >
-    Import and Start
-    </button>
-    <br>
-    <button
-      onclick={ () => replace('/') }
-    >
-    Discard
-    </button>
-    <details>
+<div>
+  <ProfileManager preselect={preselect} />
+  <details>
     <summary>
-      View Configuration
+      Downloaded Configuration
     </summary>
       <pre>
-        {config}
+{config_txt}
       </pre>
-    </details>
-{/if}  
+  </details>
+</div>
+{/if}
 </div>
