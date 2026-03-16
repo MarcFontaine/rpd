@@ -42,7 +42,7 @@ export { ButtonSettings };
       data={bookmarks}
       extract={ item => item.label }
       showDropdownOnFocus={true}
-      on:select={ event => {buttonConfig[i].value = event.detail.original.label}}
+      on:select={ event => {buttonConfig[i].command = event.detail.original}}
     >
     <svelte:fragment slot="no-results">
 	Command not found

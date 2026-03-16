@@ -58,6 +58,13 @@ export function mergeProfile(p: unknown) {
   updateYaml.trigger++;
 }
 
+export function updateSettings() {
+  if (isMap(profile)) {
+    allToYaml(profile as YAMLMap);
+  }
+  updateYaml.trigger++;
+}
+
 export function getProfiles() {
   return (config.getIn([ 'rigpage','profiles' ]));
 }

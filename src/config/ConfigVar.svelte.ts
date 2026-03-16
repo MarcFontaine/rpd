@@ -4,8 +4,9 @@ export interface ConfigOptions<T> {
   path: string[];
 }
 
+export const allInstances : AConfig<any>[] = [];
+
 export abstract class AConfig<_T> {
-  static allInstances: AConfig<YAMLMap>[] = [];
   abstract get isDirty(): boolean;
   abstract reset(): void;
   
@@ -24,7 +25,7 @@ export class ConfigVar<T> extends AConfig<T> {
     this.#default = o.default;
     this.#value = o.default;
     this.#path = o.path
-    ConfigVar.allInstances.push(this);
+    allInstances.push(this);
   }
 
   get value(): T {
@@ -60,15 +61,15 @@ export class ConfigVar<T> extends AConfig<T> {
 }
 
 export function allToYaml(config: YAMLMap) {
-  ConfigVar.allInstances.forEach(v => v.toYaml(config));
+  allInstances.forEach(v => v.toYaml(config));
 }
 
 export function allFromYaml(config: YAMLMap) {
-  ConfigVar.allInstances.forEach(v => v.fromYaml(config));
+  allInstances.forEach(v => v.fromYaml(config));
 }
 
 export function allReset() {
-  ConfigVar.allInstances.forEach(v => v.reset());
+  allInstances.forEach(v => v.reset());
 }
 
 export function uiOption<T>(def:T, path: string):ConfigVar<T>
@@ -89,7 +90,7 @@ export class PasswordConfig extends AConfig<string> {
     this.#passwordPlain = o.default;
     this.#path = o.path
     this.#isDirty = false;
-    ConfigVar.allInstances.push(this);
+    allInstances.push(this);
   }
 
   get password(): string {

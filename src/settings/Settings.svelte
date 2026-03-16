@@ -92,7 +92,11 @@ import { WebRtcSettings } from '../webrtc/Settings.svelte';
   </details>
   <br>
   <button
-    onclick={ Config.saveToLocalStorage }
+    onclick= { () => {
+      Config.updateSettings();
+      Config.saveToLocalStorage();
+      }
+    }
   >
      Save Config
   </button>

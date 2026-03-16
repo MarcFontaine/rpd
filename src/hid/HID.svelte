@@ -72,12 +72,13 @@ function parseHidEvent(event: HIDInputReportEvent) {
 
 function handleHidInput(event: HIDInputReportEvent) {
     const hidData = parseHidEvent(event);
-    if ( hidStore.previous !== null ) {
-	handleWheel(hidStore.previous, hidData);
-	handleButtons(hidStore.previous, hidData);
-    }
+    const prev = hidStore.previous;
     hidStore.previous = hidStore.current
     hidStore.current = hidData;
+    if ( prev !== null ) {
+	handleWheel(prev, hidData);
+	handleButtons(prev, hidData);
+    }
 };
 
 function handleButtons(prev:HidData , now:HidData) {
