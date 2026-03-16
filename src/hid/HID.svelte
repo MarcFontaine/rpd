@@ -85,7 +85,7 @@ function handleButtons(prev:HidData , now:HidData) {
     if (newPressed != 0) {
       buttonConfig.forEach( (button, i) => {
         if ( newPressed & (1 << i) ) {
-            button.command().action();
+            button.command.action();
         }
         })
     }
