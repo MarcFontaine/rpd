@@ -1,5 +1,5 @@
 <script lang="ts">
-import DecadeDigit from '../misc/DecadeDigit.svelte';
+import DecadeDigit from '../misc/DecadeDigitSplit.svelte';
 import HID from '../hid/HID.svelte';
 import {gui,rig} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';

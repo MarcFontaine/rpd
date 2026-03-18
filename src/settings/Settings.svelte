@@ -9,7 +9,7 @@ import Option from './Options.svelte';
 import SelectScreen from './SelectScreen.svelte';
 import { syncRigDeamon } from '../cat';
 import { HIDsettings } from '../hid/HID.svelte';
-import { DecadeSettings } from '../misc/DecadeDigit.svelte';
+import { DecadeSettings } from '../misc/DecadeDigitSplit.svelte';
 import { ButtonSettings } from '../hid/ButtonSettings.svelte';
 import { hidStore } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
