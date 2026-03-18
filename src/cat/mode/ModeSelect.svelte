@@ -26,3 +26,19 @@ let selected = $derived(rig.mode);
   <option value={XK852Mode.FSK_MP} > FSK Medium Power </option>
   <option value={XK852Mode.FSK_HP} > FSK High Power </option>
 </select>
+<style>
+select {
+/*  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+*/
+  font-size:1em;
+/*
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  min-height: 48px;
+*/
+}
+</style>
