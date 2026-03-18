@@ -1,13 +1,28 @@
 <script lang="ts">
+import { XK852Mode } from '../../types';
+import { rig } from '../../state.svelte';
+import { setMode } from '../../cat';
+
+let selected = $derived(rig.mode);
+
 </script>
 
-<select>
-<option value={'AME'} > AME </option>
-<option value={'USB'} > USB </option>
-<option value={'LSB'} > LSB </option>
-<option value={'CW'} > CW </option>
-<option value={'ISB'} > ISB </option>
-<option value={'FSK Low Power'} > FSK Low Power </option>
-<option value={'FSK Medium Power'} > FSK Medium Power </option>
-<option value={'FSK High Power'} > FSK High Power </option>
+<select
+  bind:value={selected}
+  onchange={() => {
+    setMode(selected);
+    }
+  }
+>
+  <option value={null} selected disabled hidden>
+    Unknown mode
+  </option>
+  <option value={XK852Mode.AME} > AME </option>
+  <option value={XK852Mode.USB} > USB </option>
+  <option value={XK852Mode.LSB} > LSB </option>
+  <option value={XK852Mode.CW} > CW </option>
+  <option value={XK852Mode.ISB} > ISB </option>
+  <option value={XK852Mode.FSK_LP} > FSK Low Power </option>
+  <option value={XK852Mode.FSK_MP} > FSK Medium Power </option>
+  <option value={XK852Mode.FSK_HP} > FSK High Power </option>
 </select>

@@ -32,7 +32,6 @@ class ButtonConfig extends AConfig<string> {
   set value( txt:string ) {
     const cmd = bookmarks.find(i => i.label == txt);
     if (cmd) {
-      console.log('set Bookmark ',txt);
       this.#value = txt;
       this.#command = cmd;
     }

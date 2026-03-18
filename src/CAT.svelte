@@ -1,7 +1,7 @@
 <script lang="ts">
 import Frequency from './cat/Frequency.svelte';
 import PTT from './cat/PTT.svelte';
-import TXPower from './cat/TXPower.svelte';
+import TXPower from './cat/txpower/TXPower.svelte';
 import Mode from './cat/mode/Mode.svelte';
 import Level from './level/Level.svelte';
 import AntennaTuner from './cat/AntennaTuner.svelte';

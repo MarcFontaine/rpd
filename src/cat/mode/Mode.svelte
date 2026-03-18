@@ -18,3 +18,11 @@ import ModeSelect from './ModeSelect.svelte';
   </details>
 {/if}
 </div>
+<style>
+
+.mode {
+  display:flex;
+  flex-direction: row;
+  width: 100%;
+}
+</style>
