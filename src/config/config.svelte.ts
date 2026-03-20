@@ -1,3 +1,4 @@
+import { replace } from 'svelte-spa-router'
 import { parseDocument, isMap, YAMLMap } from 'yaml';
 
 import * as Profile from '../profile';
@@ -7,7 +8,7 @@ import { allFromYaml, allToYaml, allReset } from './ConfigVar.svelte';
 
 export const updateYaml =  $state({trigger : 1});
 
-var config = new Document(
+const emptyConfig = new Document(
   { rigpage: {
     profiles: {
       DemoMode: {
@@ -30,6 +31,8 @@ var config = new Document(
    }
   }
 );
+
+var config = emptyConfig.clone();
 
 export function setConfig(c: Document) {
   config = c;
@@ -75,12 +78,18 @@ export async function startProfile() {
 
 export function validateProfile(j: string) {
   const doc = parseDocument(j);
-  return doc
+  if ( ! doc.getIn([ 'rigpage','profiles' ])) {
+    return emptyConfig.clone(); //TODO: test this case
+  }
+  return doc;
 }
 
 export function reset() {
-  localStorage.clear()
+  localStorage.clear();
+  config = emptyConfig.clone();
+  replace('/');
   allReset();
+  updateYaml.trigger++;
 }
 
 export function saveToLocalStorage() {

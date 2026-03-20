@@ -1,4 +1,5 @@
 import * as CAT from '../cat'
+import { reset } from '../config/config.svelte'
 
 type Action = (() => any) | null
 
@@ -31,6 +32,11 @@ const magicFrequencyBookmark =
   , runAction: (v:string) => frequencyOptions(v).action()
   , isDisabled: false
   }
+
+export const resetSettings = new Bookmark (
+  `Reset all Settings`
+, () => { reset(); console.log('Reset all Settings'); }
+);
 
 function frequencyOptions(v:string):{ label: string; action: () => any; }
 {
@@ -179,6 +185,7 @@ export const bookmarks
   = new Array().concat (
     [ nopBookmark ]
   , [ magicFrequencyBookmark ]
+  , [ resetSettings ]
   , ft8_bookmarks
   , band_bookmarks
   , mode_bookmarks
