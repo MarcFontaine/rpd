@@ -76,11 +76,18 @@ export async function startProfile() {
   Profile.initProfile();
 };
 
-export function validateProfile(j: string) {
+// Validate the config stored in local storage.
+export function validateConfig(j: string) {
   const doc = parseDocument(j);
   if ( ! doc.getIn([ 'rigpage','profiles' ])) {
-    return emptyConfig.clone(); //TODO: test this case
+    return emptyConfig.clone();
   }
+  return doc;
+}
+
+// Validate a single profile (from Download)
+export function validateProfile(j: string) {
+  const doc = parseDocument(j);
   return doc;
 }
 
@@ -106,7 +113,7 @@ export function loadFromLocalStorage() {
   console.log('loadFromLocalStorage');
   const cfg = localStorage.getItem('config')
   if (cfg) {
-    setConfig(validateProfile(cfg));
+    setConfig(validateConfig(cfg));
   }
   else
   {
