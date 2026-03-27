@@ -91,6 +91,8 @@ const pointerSpeed = 1/10;
 .button_container {
     display: flex;
     flex-direction: column;
+    touch-action: none;
+    overflow: hidden;
 }
 
 .upper_half_text {
@@ -98,7 +100,6 @@ const pointerSpeed = 1/10;
     display: flex;
     line-height: 1em;
     align-items: flex-start;
-    overflow: hidden;
 }
 
 .lower_half_text {
@@ -106,7 +107,6 @@ const pointerSpeed = 1/10;
     display: flex;
     line-height: 1em;
     align-items: flex-end;
-    overflow: hidden;
 }
   
 </style>

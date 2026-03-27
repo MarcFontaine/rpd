@@ -9,6 +9,7 @@ import { webRTC, webRTCClient, webRTCCapture,
    rigctld_enable, rigctld_wss, webserial_enable }
    from './state.svelte';
 import { espSwrMeterEnable, espSwrMeterUrl } from './level/level-settings';
+import * as HamLink from './hamlink/hamlink.ts'
 
 export async function initProfile() {
   if (espSwrMeterEnable.value) {
@@ -35,5 +36,6 @@ export async function initProfile() {
     WebSerial.initWebSerial();
     WebSerial.connectToPort();
   }
+  HamLink.initHamLink();
   replace('/rigcontrol');
 };

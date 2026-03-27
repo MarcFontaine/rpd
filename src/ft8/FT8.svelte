@@ -6,18 +6,47 @@ const baseURL = new ConfigVar(
     , path: [ 'ft8', 'DBServer' ]
     });
 
-const query = new ConfigVar(
-    { default: 'wsjtx_extended?limit=10&order=time.desc'
-    , path: [ 'ft8', 'query' ]
+const filter = new ConfigVar(
+    { default: 'limit=10&order=time.desc'
+    , path: [ 'ft8', 'filter' ]
     });
+
+const enableRemoteDB = new ConfigVar(
+    { default: true
+    , path: [ 'ft8', 'enableRemoteDB' ]
+    });
+
 </script>
 
 <script lang="ts">
+import { SvelteMap } from 'svelte/reactivity';
 import { onMount } from 'svelte';
-import FT8Clock from './FT8Clock.svelte';
+import FT8Clock from'./FT8Clock.svelte';
 
-let decoded = $state([]);
-let fullQuery = $derived(baseURL.value + '/' + query.value);
+let decoded = new SvelteMap([]);
+
+let filterLatest = $state('');
+let fullQuery = $derived.by(joinFullQuery)
+
+function joinFullQuery() {
+  var url = baseURL.value;
+  var sep = '?';
+  if (filter.value) {
+    url += `${sep}${filter.value}`;
+    sep = '&';
+  }
+  if (filterLatest) {
+    url += `${sep}${filterLatest}`;
+    sep = '&';
+  }
+  return url;
+}
+
+function addDecodeFromDB(p) {
+  let d = p.decode;
+  d['time'] = p.time;
+  if (p.tag == 'PDecode') decoded.set(p.time, d);
+};
 
 async function getFT8Decoded() {
   const response = await fetch(fullQuery, {
@@ -28,31 +57,47 @@ async function getFT8Decoded() {
   });
   const data = await response.json();
   if (data) {
-//    console.log(data);
-    decoded = data;
-    return (true)
+    data.toReversed().forEach((p) => addDecodeFromDB(p) );
+    if (data[0].time) {
+      const t = new Date(data[0].time);
+      filterLatest=`time=gt.${t.toISOString()}`
+    };
+    return (true);
   }
   else return false;
 }
 
 onMount(() => {
-  const interval = setInterval(() => {
-    getFT8Decoded();
-  }, 4000);
-
+  let interval = null;
+  if (enableRemoteDB.value) {
+    interval = setInterval(() => {
+      getFT8Decoded();
+    }, 4000);
+  }
+  window.addEventListener('wsjtx-receive', wsjtxListener);
   return () => {
-    clearInterval(interval);
+    window.removeEventListener('wsjtx-receive', wsjtxListener);
+    if (interval) clearInterval(interval);
   };
 });
+
+function wsjtxListener(event) {
+  if (event.detail.tag == 'PDecode') {
+    const t = new Date().toISOString();
+    let d = event.detail.contents;
+    d['time'] = t;
+    decoded.set(t,d);
+  }
+}
 
 </script>
 
 {#snippet decodedRow(d)}
-  <th>{d.decode.decode_client_id}</th>
+  <th>{d.decode_client_id}</th>
   <th>{d.time.slice(11, 19)}</th>
-  <th>{d.decode.decode_message}</th>
-  <th>{d.decode.decode_snr}</th>
-  <th>{d.decode.decode_delta_time}</th>
+  <th>{d.decode_message}</th>
+  <th>{d.decode_snr}</th>
+  <th>{d.decode_delta_time}</th>
 {/snippet}
 
 <div>
@@ -62,12 +107,12 @@ FT8
 </div>
 <input size="60" bind:value={baseURL.value}> Postgrest base URL
 <br>
-<input size="60" bind:value={query.value}> Query String
+<input size="60" bind:value={filter.value}> Query String
 <br>
 <span> Full Query: {fullQuery}</span>
 <br>
 <button
-onclick={()=> decoded = []}
+onclick={()=> { decoded.clear(); } }
 >
 Clear
 </button>
@@ -84,7 +129,7 @@ Clear
   </thead>
     <tbody>
     <tbody>
-    {#each Object.values(decoded) as row}
+    {#each [...decoded.values()] as row}
       <tr>
 	{@render decodedRow(row)}
       </tr>

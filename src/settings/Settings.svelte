@@ -14,6 +14,7 @@ import { ButtonSettings } from '../hid/ButtonSettings.svelte';
 import { hidStore } from '../hid/HID.svelte';
 import { SWRsettings } from '../level/Level.svelte';
 import { WebRtcSettings } from '../webrtc/Settings.svelte';
+import HamLinkSettings from '../hamlink/Settings.svelte';
 </script>
 
 <div>
@@ -70,6 +71,7 @@ import { WebRtcSettings } from '../webrtc/Settings.svelte';
     > TRX Synchronisation Interval (0 = Disable Periodic Sync)
 
     <br>
+    <HamLinkSettings />
     <Option bind:o={showPTT.value} d={'Show PTT Button'} />
     <Option bind:o={smartPTT.value} d={'Smart PTT Button'} />
     <Option bind:o={showAntennaTuner.value} d={'Show Antenna Tuner Button'} />
