@@ -5,7 +5,8 @@ export const enableHamLink = new ConfigVar(
     , path: [ 'cat', 'enableHamLink' ]
     });
 
-let port = null;
+let port: chrome.runtime.Port | null = null;
+
 const EXTENSION_ID = "lkoajfagppjiemkcapkonlmekekncdei"
 
 export function initHamLink() {
@@ -15,7 +16,7 @@ export function initHamLink() {
 function connectToExtension() {
   if (!port) port = chrome.runtime.connect(EXTENSION_ID);
 
-  port.onMessage.addListener((msg) => {
+  port.onMessage.addListener((msg:any) => {
     window.dispatchEvent(msgToEvent(msg));
     console.log("JSON empfangen:", msg);
   });
@@ -27,7 +28,7 @@ function connectToExtension() {
   });
 }
 
-function msgToEvent(msg) : CustomEvent {
+function msgToEvent(msg:any) : CustomEvent {
   switch (msg.type) {
     case "wsjtx-receive":
       return new CustomEvent('wsjtx-receive', {
@@ -35,6 +36,7 @@ function msgToEvent(msg) : CustomEvent {
       })
     default:
       console.error('Cannot route message', msg);
+      throw new Error('Cannot route message', msg);
     break;
   }
 }

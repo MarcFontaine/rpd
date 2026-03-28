@@ -25,7 +25,8 @@
     "types": [
 	"vite-plugin-pwa/svelte",
 	"unplugin-info/client",
-	"@types/w3c-web-hid"
+	"@types/w3c-web-hid",
+	"chrome"
     ]
   }
 }

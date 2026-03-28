@@ -18,6 +18,7 @@
     "@kitajs/html": "^4.2.6",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tsconfig/svelte": "^5.0.4",
+    "@types/chrome": "^0.1.38",
     "@types/w3c-web-hid": "^1.0.6",
     "@types/web": "0.0.71",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
