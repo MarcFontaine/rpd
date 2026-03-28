@@ -1,3 +1,16 @@
+<script module lang="ts">
+  import Option from '../settings/Options.svelte';
+  import {ConfigVar, uiOption} from '../config/ConfigVar.svelte';
+  export const decadeButtonSplit = uiOption(0, 'decadeButtonSplit' );
+
+  const mouseWheelTuningSpeed = new ConfigVar(
+    { default: 100
+    , path: [ 'vfo', 'mouseWheel', 'speed' ]
+    });
+
+  export {DecadeSettings};
+</script>
+
 <script lang="ts">
 import DecadeDigit from '../misc/DecadeDigitSplit.svelte';
 import HID from '../hid/HID.svelte';
@@ -55,8 +68,24 @@ function makeOnDelta(v:number) {
       }
   }
 }
-
 </script>
+
+{#snippet DecadeSettings()}
+<div>
+  <input
+    type="number"
+    bind:value={decadeButtonSplit.value}
+    min="0"
+    max="20"
+  >
+  Gap between upper and lower decade digits
+  <br>
+  <input type="number" bind:value={mouseWheelTuningSpeed.value}>
+  Mouse Wheel Tunings Speed
+</div>
+
+{/snippet}
+
 <div style="display:flex; flex-direction: column;">
   <div class="decade" >
     <DecadeDigit isConfirmed={isConfirmed} d={digits[7]} onDelta={makeOnDelta(10000000)}/>
