@@ -17,11 +17,13 @@ import HID from '../hid/HID.svelte';
 import {gui,rig} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 
-// When editMode== true, the GUI shows the frequency as being edited.
+// When editMode == true, the GUI shows the frequency as being edited.
 // The GUI stays in editMode for 5000ms == 5 seconds after last the edit.
 // After 5 seconds the GUI shows the frequency as it is reported by the rig.
-
 let editMode = $derived(Date.now() - gui.frequency.time < 5000);
+
+let wheelSpeed = $derived(mouseWheelTuningSpeed.value /200/125);
+const pointerSpeed = 1/10;
 
 let frequency = $derived.by(()=> {
   if ( rig.time > gui.frequency.time && ! editMode)
@@ -44,7 +46,7 @@ let digits = $derived.by(()=>{
   }
   );
 
-function round(v:number,f:number) {
+function round(v:number, f:number) {
   return (Math.round(f/v)*v)
 }
 
@@ -54,7 +56,14 @@ function clamp(f:number) {
     else return f;
 }
 
-function makeOnDelta(v:number) {
+function onDelta(v:number) {
+  // This is very tricky and overcomplicated
+  // because onDelta uses shared state
+  // There must be extactly on onDelta for each digit !!
+  // This was done to get smooth tuning.
+  // All the deltas should be accumulated.
+  // Small deltas that do no switch the digit should not get lost when
+  // the digits actually switches
   let accum_scroll = 0;
   let last_update = 0;
   const initialFrequency = frequency;
@@ -83,19 +92,38 @@ function makeOnDelta(v:number) {
   <input type="number" bind:value={mouseWheelTuningSpeed.value}>
   Mouse Wheel Tunings Speed
 </div>
+{/snippet}
 
+{#snippet myDigit(d, onDelta)}
+  <DecadeDigit
+    isConfirmed = {isConfirmed}
+    d = {d}
+    onDeltaWheel = { (e) => {
+      e.preventDefault();
+      onDelta(- e.deltaY * wheelSpeed)
+    }}
+
+    onDeltaPointer = { (e) => {
+       e.preventDefault();
+       onDelta(e.movementY * pointerSpeed)
+    }}
+
+    onDeltaClick = { (dir) => onDelta(dir) }
+
+    gap = {decadeButtonSplit.value}
+  />
 {/snippet}
 
 <div style="display:flex; flex-direction: column;">
   <div class="decade" >
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[7]} onDelta={makeOnDelta(10000000)}/>
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[6]} onDelta={makeOnDelta(1000000)}/>
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[5]} onDelta={makeOnDelta(100000)}/>
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[4]} onDelta={makeOnDelta(10000)}/>
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[3]} onDelta={makeOnDelta(1000)}/>
+    {@render myDigit(digits[7], onDelta(10000000))}
+    {@render myDigit(digits[6], onDelta(1000000))}
+    {@render myDigit(digits[5], onDelta(100000))}
+    {@render myDigit(digits[4], onDelta(10000))}
+    {@render myDigit(digits[3], onDelta(1000))}
     <div> . </div>
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[2]} onDelta={makeOnDelta(100)}/>
-    <DecadeDigit isConfirmed={isConfirmed} d={digits[1]} onDelta={makeOnDelta(10)}/>
+    {@render myDigit(digits[2], onDelta(100))}
+    {@render myDigit(digits[1], onDelta(10))}
   </div>
   <HID/>
 </div>

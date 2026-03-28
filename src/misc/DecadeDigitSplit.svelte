@@ -1,39 +1,6 @@
-<script module lang="ts">
-  import Option from '../settings/Options.svelte';
-  import {ConfigVar, uiOption} from '../config/ConfigVar.svelte';
-  export const decadeButtonSplit = uiOption(0, 'decadeButtonSplit' );
-
-  const mouseWheelTuningSpeed = new ConfigVar(
-    { default: 100
-    , path: [ 'vfo', 'mouseWheel', 'speed' ]
-    });
-
-  export {DecadeSettings};
-</script>
-
-{#snippet DecadeSettings()}
-<div>
-  <input
-    type="number"
-    bind:value={decadeButtonSplit.value}
-    min="0"
-    max="20"
-  >
-  Gap between upper and lower decade digits
-  <br>
-  <input type="number" bind:value={mouseWheelTuningSpeed.value}>
-  Mouse Wheel Tunings Speed
-</div>
-
-{/snippet}
-
-
 <script lang="ts">
 
-let { isConfirmed, d=0, onDelta } = $props();
-
-let wheelSpeed = $derived(mouseWheelTuningSpeed.value /200/125);
-const pointerSpeed = 1/10;
+let { isConfirmed, d=0, onDeltaWheel, onDeltaPointer, onDeltaClick, gap } = $props();
 
 </script>
 
@@ -45,13 +12,10 @@ const pointerSpeed = 1/10;
 	 upperLower && 'upper_half_text',
 	 !upperLower && 'lower_half_text'	 
        ]}
-     onwheel={(e)=> {
-       e.preventDefault();onDelta(- e.deltaY * wheelSpeed)}
-     }
-     onpointerdown={(e)=> {
-       e.preventDefault();onDelta(e.movementY * pointerSpeed)}
-     }
-     onclick={ ()=>onDelta(upperLower ? 1: -1) }
+
+    onwheel = {onDeltaWheel}
+    onpointerdown = {onDeltaPointer}
+    onclick = { () => onDeltaClick(upperLower ? 1: -1) }
    >
    {d}
    </button>
@@ -59,7 +23,7 @@ const pointerSpeed = 1/10;
 
 <div
   class="button_container"
-  style:gap="{decadeButtonSplit.value}px"
+  style:gap="{gap}px"
 >
   {@render digit(true)}
   {@render digit(false)}  
@@ -100,6 +64,7 @@ const pointerSpeed = 1/10;
     display: flex;
     line-height: 1em;
     align-items: flex-start;
+    overflow: hidden;
 }
 
 .lower_half_text {
@@ -107,6 +72,7 @@ const pointerSpeed = 1/10;
     display: flex;
     line-height: 1em;
     align-items: flex-end;
+    overflow: hidden;
 }
   
 </style>
