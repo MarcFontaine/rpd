@@ -8,7 +8,7 @@ import ModeSelect from './ModeSelect.svelte';
 {#if mobileMode.value }
   <ModeSelect />
 {:else}
-  <details>
+  <details style="display: block;width: 100%;">
     <summary>
       <span style="font-size:1em;">
 	 Mode: { rig.mode ? rig.mode : "Unknown Mode"}

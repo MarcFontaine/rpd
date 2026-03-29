@@ -16,27 +16,24 @@ let isDisabled = $derived( smartPTT.value && !isSafe) ;
 </script>
 
 {#if showPTT.value}
-<div class="ptt" >
-  <button class={{ isDisabled }} style="width:50%; font-size:1em;"
+<div class="ptt">
+  <button class={{ isDisabled }} style="width:40%; font-size:1em;"
     onpointerdown={setTxOn}
     onpointerup={setTxOff}
     onpointercancel={setTxOff} >
     PTT
   </button>
-</div>
-
-<div class="ptt" >
-  <button style="width:20%; font-size:0.5em;"
-    onclick={setTxOff}
-  >
-    TX OFF
-  </button>
-  <div style="width:20%;"></div>
-
-  <button class={{ isDisabled }} style="width:10%; font-size:0.5em;"
+  <div style="width:10%"></div>
+  <button class={{ isDisabled }} style="width:10%; font-size:1em;"
     onclick={setTxOn}
   >
     TX ON
+  </button>
+  <div style="width:10%"></div>
+  <button style="width:30%; font-size:1em;"
+    onclick={setTxOff}
+  >
+    TX OFF
   </button>
 
 </div>
@@ -47,7 +44,6 @@ let isDisabled = $derived( smartPTT.value && !isSafe) ;
   display:flex;
   flex-direction: row;
   width: 100%;
-  height: 1.5em;
 }
 
 .isDisabled {

@@ -28,10 +28,10 @@
 {/if}
 
 <style>
-.searchbar :global([data-svelte-typeahead]) {
+.searchbar :global([data-svelte-typeahead] input) {
     width: 100%;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.5em;
+    padding: 0.5rem 0.5rem;
+    font-size: 1em;
     border: 0;
     border-radius: 0;
     border: 1px solid #e5e5e5;

@@ -3,7 +3,7 @@ import {set_MODE_AME, set_MODE_USB ,set_MODE_LSB,
   set_MODE_CW, set_MODE_ISB,
   set_MODE_FSK_LP, set_MODE_FSK_MID, set_MODE_FSK_HP } from '../../cat';
 </script>
-
+<div class="grid-container">
 <button onclick={set_MODE_AME} >
   AME
 </button>
@@ -35,9 +35,16 @@ import {set_MODE_AME, set_MODE_USB ,set_MODE_LSB,
 <button onclick={set_MODE_FSK_HP} >
   FSK High Power
 </button>
+</div>
 
 <style>
 button {
  font-size:1em;
+}
+.grid-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 </style>

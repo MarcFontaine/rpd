@@ -9,7 +9,7 @@ import TXPowerSelect from './Select.svelte';
 {#if mobileMode.value }
   <TXPowerSelect />
 {:else}
-<details>
+  <details style="display: block;width: 100%;">
   <summary>
     <span style="font-size:1em;">
       Transmit Power: { rig.power ? rig.power : "Unknown Power"}

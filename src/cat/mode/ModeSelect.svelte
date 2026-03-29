@@ -28,17 +28,11 @@ let selected = $derived(rig.mode);
 </select>
 <style>
 select {
-/*  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-*/
   font-size:1em;
-/*
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  line-height: 2;
+  padding: 0px;
+  border: 0px solid #ccc;
+  border-radius: 0px;
   background-color: white;
-  min-height: 48px;
-*/
 }
 </style>
