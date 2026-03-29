@@ -9,7 +9,7 @@ export const log = $state(
   , errors: emptyLogs
   });
 
-export function pushError(obj:any) {
+export function pushError(obj: any) {
   obj.isError = true;
   obj.isErrorConfirmed = false;
   log.errors.push(obj)
@@ -147,3 +147,34 @@ export const profileName = new ConfigVar(
     { default: 'DefaultProfile'
     , path: [ 'config', 'name' ]
     });
+
+export const enableCatchAllErrors = new ConfigVar(
+    { default: false
+    , path: [ 'config' ,'catchAllErrors' ]
+    });
+
+export function initCatchAllErrors() {
+  if (enableCatchAllErrors.value) {
+    window.addEventListener('error', (event) => {
+       const { message } = event;
+       const stack = event.error?.stack;
+       const str = `[JS ERROR] ${message} ${stack}`;
+       const msg = {
+         src : "catchAllErrors",
+	 msg : str
+       };
+       console.log("catchAllErrors:", str);
+       pushError(msg);
+    }, true);
+    window.addEventListener('unhandledrejection', (event) => {
+      console.log("Promise Rejected:", event.reason);
+      const msg = {
+	src : "Promise Rejected",
+	msg : event.toString()
+      };
+      pushError(msg);
+      event.preventDefault();
+    });
+    console.log("CatchAllErrors handler installed");
+  }
+};

@@ -2,7 +2,8 @@
 import { replace } from 'svelte-spa-router'
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
-  rigSyncInterval, webserial_enable, rigctld_enable, rigctld_wss, profileName
+  rigSyncInterval, webserial_enable, rigctld_enable, rigctld_wss, profileName,
+  enableCatchAllErrors
   } from '../state.svelte';
 import * as Config from '../config/config.svelte';
 import Option from './Options.svelte';
@@ -28,6 +29,7 @@ import HamLinkSettings from '../hamlink/Settings.svelte';
     </summary>
     <input type="text" size="40" bind:value={profileName.value}>
     Profile Name
+    <Option bind:o={enableCatchAllErrors.value} d={'Show all Errors in UI'} />
   </details>
   <details>
     <summary>

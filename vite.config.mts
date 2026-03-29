@@ -7,6 +7,9 @@ import Info from 'unplugin-info/vite';
 
 export default defineConfig({
   base: './',
+  build: {
+    sourcemap: true // .js.map file
+  },
   plugins: [
 //    eslint(),
     svelte(),

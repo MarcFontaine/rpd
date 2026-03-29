@@ -22,7 +22,7 @@ function connectToExtension() {
     });
 
     port.onDisconnect.addListener(() => {
-      console.warn("Connection Lost. retrying");
+      console.warn("Connection Lost. Retrying");
       port = null;
       setTimeout(connectToExtension, 1000);
     });
