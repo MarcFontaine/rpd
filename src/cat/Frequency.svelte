@@ -84,8 +84,10 @@ function setValue(isRounding) {
     gap = {DecadeSettings.buttonSplit.value}
   />
 {/snippet}
-
-<div class="decade" >
+<div
+<div
+  class="decade"
+>
   {@render myDigit(10000000)}
   {@render myDigit(1000000)}
   {@render myDigit(100000)}
@@ -105,9 +107,9 @@ function setValue(isRounding) {
 
 <style>
 .decade {
+  font-size: clamp(1em, calc(14cqw * 1.5), 7em);
   display:flex;
   flex-direction: row;
-  font-size: 3em;
   flex-wrap: nowrap;
   overflow-x: hidden;
   width: 100%;

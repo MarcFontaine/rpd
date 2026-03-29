@@ -23,10 +23,6 @@ let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10
       e.preventDefault();
       accum(- e.deltaY * wheelSpeed);
     }}
-    onpointerdown = {(e) => {
-      e.preventDefault();
-      accum(e.movementY * pointerSpeed)
-    }}
     onclick = { () => {
       accum(upperLower ? clickSpeed: -clickSpeed)
     }}
@@ -81,7 +77,6 @@ let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10
 .button_container {
     display: flex;
     flex-direction: column;
-    touch-action: none;
     overflow: hidden;
     flex: 0 0 auto;
     min-width: fit-content;

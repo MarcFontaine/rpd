@@ -20,8 +20,9 @@ let isDisabled = $derived( smartPTT.value && !isSafe) ;
   <button class={{ isDisabled }} style="width:40%; font-size:1em;"
     onpointerdown={setTxOn}
     onpointerup={setTxOff}
-    onpointercancel={setTxOff} >
+    onpointercancel={setTxOff}
     oncontextmenu={e => {e.preventDefault; e.stopPropagation} }
+    >
     PTT
   </button>
   <div style="width:10%"></div>
