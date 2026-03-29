@@ -83,6 +83,8 @@ let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10
     flex-direction: column;
     touch-action: none;
     overflow: hidden;
+    flex: 0 0 auto;
+    min-width: fit-content;
 }
 
 .upper_half_text {

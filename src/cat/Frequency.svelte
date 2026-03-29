@@ -108,5 +108,8 @@ function setValue(isRounding) {
   display:flex;
   flex-direction: row;
   font-size: 3em;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+  width: 100%;
 }
 </style>
