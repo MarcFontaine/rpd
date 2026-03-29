@@ -1,9 +1,9 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import * as DecadeSettings from './DecadeSettings.svelte';
-import DecadeDigit from '../misc/DecadeDigitSplit.svelte';
+import DecadeDigit, {renderSign } from '../misc/DecadeDigitSplit.svelte';
 import {gui, rig} from '../state.svelte';
-import {setFrequencyRateLimited} from '../cat';
+import {} from '../cat';
 
 const debug = false;
 
@@ -19,7 +19,7 @@ $effect(() => {
   return () => clearInterval(interval);
 });
 
-let editMode = $derived(now - gui.frequency.time < 5000);
+let editMode = $derived(now - gui.bfo.time < 5000);
 
 // When editMode == true, the GUI shows the frequency as being edited.
 // there should be three styles:
@@ -28,9 +28,9 @@ let editMode = $derived(now - gui.frequency.time < 5000);
 // 3) error: the value is outdated. connection lost
 
 let frequency = $derived.by(()=> {
-  if ( rig.time > gui.frequency.time && ! editMode)
-    return rig.frequency;
-    else return gui.frequency.value;
+  if ( rig.time > gui.bfo.time && ! editMode)
+    return rig.bfo;
+    else return gui.bfo.value;
   });
 
 var rounded = $state(0);
@@ -52,8 +52,8 @@ function round(v:number, f:number) {
 }
 
 function clamp(f:number) {
-  if (f < 1500000) return 1500000
-    else if (f > 29999999) return 29999999
+  if (f < -999) return -999
+    else if (f > 999) return 999
     else return f;
 }
 
@@ -61,7 +61,7 @@ let old = undefined as undefined | number;
 function setValue(isRounding) {
   const newValue = isRounding ? clamp(rounded) : clamp(frequency);
   if (!old || old != newValue) {
-    setFrequencyRateLimited(newValue);
+//    setFrequencyRateLimited(newValue);
     old = newValue;
   }
 }
@@ -70,30 +70,26 @@ function setValue(isRounding) {
 {#snippet myDigit(exp)}
   <DecadeDigit
     isConfirmed = {isConfirmed}
-    v = { DecadeSettings.rounding.value ? rounded : frequency }
+    v = { frequency }
     exp = {exp}
     accum = { d => {
       accum(d);
       setRounded(exp);
-      setValue(DecadeSettings.rounding.value);
+      setValue(false);
       }
     }
     wheelSpeed = {DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 * exp}
     pointerSpeed = {1/10 * exp}
     clickSpeed = {1 * exp}
-    gap = {DecadeSettings.buttonSplit.value}
+    gap = {0}
   />
 {/snippet}
 
 <div class="decade" >
-  {@render myDigit(10000000)}
-  {@render myDigit(1000000)}
-  {@render myDigit(100000)}
-  {@render myDigit(10000)}
-  {@render myDigit(1000)}
-  <div> . </div>
+  {@render renderSign((frequency>0) ? '+' : '-' )}
   {@render myDigit(100)}
   {@render myDigit(10)}
+  {@render myDigit(1)}
 </div>
 {#if debug}
 <div>

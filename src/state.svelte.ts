@@ -25,7 +25,10 @@ export const gui = $state(
   { frequency:
     { value: 1500000
     , time: Date.now ()
-    , confirmed: false
+    },
+    bfo:
+    { value: 0
+    , time: Date.now ()
     }
   });
 
@@ -33,6 +36,7 @@ export const rig = $state(
   { returnMsg: "no Message"
   , time: Date.now ()
   , frequency: 1500000
+  , bfo: 0
   , power: null as (Type.XK852Power | null)
   , mode: null as (Type.XK852Mode | null)
   });

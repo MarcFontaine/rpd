@@ -45,7 +45,6 @@ export function setFrequencyRateLimited(f: number) {
 function setFrequencyCmd(f: number): CmdType {
   gui.frequency = {
       value: f
-    , confirmed: false
     , time: Date.now ()
   };
   let x = Math.round(f / 10);

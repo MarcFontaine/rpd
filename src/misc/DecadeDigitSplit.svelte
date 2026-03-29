@@ -1,3 +1,7 @@
+<script module>
+  export { renderSign };
+</script>
+
 <script lang="ts">
 let { isConfirmed, v, exp, accum, wheelSpeed, pointerSpeed, clickSpeed
     , gap }= $props();
@@ -31,10 +35,22 @@ let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10
    </button>
 {/snippet}
 
-<div
-  class="button_container"
-  style:gap="{gap}px"
->
+{#snippet renderSign(s)}
+<div class="button_container">
+  <button
+    class={ ['frequency_confirmed' ,'upper_half_text'] }
+  >
+  {s}
+  </button>
+  <button
+    class={ ['frequency_confirmed' ,'lower_half_text'] }
+  >
+  {s}
+  </button>
+</div>
+{/snippet}
+
+<div class="button_container">
   {@render digit(true)}
   {@render digit(false)}
 </div>

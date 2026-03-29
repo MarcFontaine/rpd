@@ -1,0 +1,54 @@
+* beim tunen mit magnet encoder bleit die frequenzanzeige beim  bold font
+* bein magnet encoder kann es zum flackern der frequenz kommen
+* beim schalten von usb oder lsb zu cw sollte die frequenz so springen
+dass die BFO frequenz automatisch abgezogen oder adiert wird
+* feature: bfo frequenz einstellen
+* feature VU anzeige eingang/ausgang
+* feature VU ausgang remote
+* feature mehere tranceiver in einem fenster
+* feature remote CW encoder
+* feature optional video
+
+move to buildNpmPackage
+
+* use window.on error to forward errors to errorlogs
+
+feature:
+<svelte:options customElement="mein-widget" />
+* use events instead of functions (for cat functions set-freq etc)
+
+
+Ein sauberer reaktiver Kreislauf sieht oft so aus:
+
+    Parent setzt ein Attribut am Child (z. B. value="5").
+    Child reagiert intern (z. B. zeigt eine „5“ an).
+    Nutzer klickt im Child auf „Plus“.
+    Child berechnet intern „6“, ändert aber nicht sein eigenes Attribut (Single Source of Truth!), sondern sendet ein Event (change, detail: 6).
+    Parent empfängt das Event und entscheidet, ob es das Attribut des Childs nun auf „6“ aktualisiert.
+
+<script>
+  let count = $state(0); // Zentraler reaktiver State
+</script>
+
+<!-- Kein "on:change={...}", sondern eine einfache Prop -->
+<Child value={count} onchange={(v) => count = v} />
+
+In TypeScript ist die größte Gefahr bei Context, dass
+getContext standardmäßig unknown zurückgibt oder man einen falschen Key verwendet. Mit Svelte 5 und Runen nutzt man am besten ein Pattern mit Symbol-Keys und Helper-Funktionen, um volle Typsicherheit zu garantieren.
+Hier ist der "Clean Code" Weg:
+
+Wenn der Tab sichtbar ist (auch wenn er nicht den Fokus hat), verhindert der Wake Lock, dass das System in den Energiesparmodus geht oder den CPU-Takt für diesen Tab massiv senkt.
+
+
+let wakeLock = null;
+async function requestLock() {
+    if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+    }
+}
+
+Ein
+Web Worker ist ein separates Skript, das in einem eigenen Hintergrund-Thread läuft, völlig losgelöst vom Haupt-Thread (UI-Thread) deiner Webseite.
+Das ist für deine App die Lebensversicherung gegen den Tab-Freeze, denn:Ein
+Web Worker ist ein separates Skript, das in einem eigenen Hintergrund-Thread läuft, völlig losgelöst vom Haupt-Thread (UI-Thread) deiner Webseite.
+Das ist für deine App die Lebensversicherung gegen den Tab-Freeze, denn:
