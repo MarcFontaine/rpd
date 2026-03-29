@@ -15,17 +15,18 @@ export function initHamLink() {
 
 function connectToExtension() {
   if (!port) port = chrome.runtime.connect(EXTENSION_ID);
+  if (port) {
+    port.onMessage.addListener((msg:any) => {
+      window.dispatchEvent(msgToEvent(msg));
+      console.log("JSON empfangen:", msg);
+    });
 
-  port.onMessage.addListener((msg:any) => {
-    window.dispatchEvent(msgToEvent(msg));
-    console.log("JSON empfangen:", msg);
-  });
-
-  port.onDisconnect.addListener(() => {
-    console.warn("Connection Lost. retrying");
-    port = null;
-    setTimeout(connectToExtension, 1000);
-  });
+    port.onDisconnect.addListener(() => {
+      console.warn("Connection Lost. retrying");
+      port = null;
+      setTimeout(connectToExtension, 1000);
+    });
+  }
 }
 
 function msgToEvent(msg:any) : CustomEvent {
