@@ -8,22 +8,41 @@
     , path: [ 'vfo', 'mouseWheel', 'speed' ]
     });
 
+  const decadeRounding = new ConfigVar(
+    { default: true
+    , path: [ 'vfo', 'decade', 'rounding' ]
+    });
+
   export {DecadeSettings};
 </script>
 
 <script lang="ts">
+import { onMount } from 'svelte';
 import DecadeDigit from '../misc/DecadeDigitSplit.svelte';
-import HID from '../hid/HID.svelte';
 import {gui,rig} from '../state.svelte';
 import {setFrequencyRateLimited} from '../cat';
 
-// When editMode == true, the GUI shows the frequency as being edited.
-// The GUI stays in editMode for 5000ms == 5 seconds after last the edit.
-// After 5 seconds the GUI shows the frequency as it is reported by the rig.
-let editMode = $derived(Date.now() - gui.frequency.time < 5000);
+const debug = false;
 
-let wheelSpeed = $derived(mouseWheelTuningSpeed.value /200/125);
-const pointerSpeed = 1/10;
+function accum(d:number):void {
+  frequency = clamp (frequency + d);
+}
+
+let now = $state(Date.now());
+$effect(() => {
+  const interval = setInterval(() => {
+    now = Date.now();
+  }, 1000);
+  return () => clearInterval(interval);
+});
+
+let editMode = $derived(now - gui.frequency.time < 5000);
+
+// When editMode == true, the GUI shows the frequency as being edited.
+// there should be three styles:
+// 1) the value is confirmed
+// 2) the value is being edited/updated
+// 3) error: the value is outdated. connection lost
 
 let frequency = $derived.by(()=> {
   if ( rig.time > gui.frequency.time && ! editMode)
@@ -31,20 +50,19 @@ let frequency = $derived.by(()=> {
     else return gui.frequency.value;
   });
 
+var rounded = $state(0);
+onMount(() => {
+  rounded = frequency;
+});
+
+function setRounded(exp) {
+    rounded = Math.sign(frequency) * Math.floor(Math.abs(frequency)/exp) * exp;
+}
+
+
 let isConfirmed = $derived.by(() => {
     return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
-
-let digits = $derived.by(()=>{
-  let d = [];
-  let f = frequency;
-  for (let i = 0; i<8; i++) {
-    d.push(f % 10);
-    f = Math.floor(f/10);
-  }
-  return d;
-  }
-  );
 
 function round(v:number, f:number) {
   return (Math.round(f/v)*v)
@@ -56,25 +74,12 @@ function clamp(f:number) {
     else return f;
 }
 
-function onDelta(v:number) {
-  // This is very tricky and overcomplicated
-  // because onDelta uses shared state
-  // There must be extactly on onDelta for each digit !!
-  // This was done to get smooth tuning.
-  // All the deltas should be accumulated.
-  // Small deltas that do no switch the digit should not get lost when
-  // the digits actually switches
-  let accum_scroll = 0;
-  let last_update = 0;
-  const initialFrequency = frequency;
-  return (delta:number) => {
-    accum_scroll += delta * v;
-    const delta_scroll = accum_scroll - last_update;
-    if (Math.abs(delta_scroll) >= v) {
-      const newFreq = round(v, initialFrequency + delta_scroll);
-      last_update += (newFreq - initialFrequency);
-      setFrequencyRateLimited(clamp(newFreq));
-      }
+let old = undefined as undefined | number;
+function setValue(isRounding) {
+  const newValue = isRounding ? clamp(rounded) : clamp(frequency);
+  if (!old || old != newValue) {
+    setFrequencyRateLimited(newValue);
+    old = newValue;
   }
 }
 </script>
@@ -91,42 +96,45 @@ function onDelta(v:number) {
   <br>
   <input type="number" bind:value={mouseWheelTuningSpeed.value}>
   Mouse Wheel Tunings Speed
+  <Option bind:o={decadeRounding.value} d={'Auto Rounding of VFO frequency '} />
 </div>
 {/snippet}
 
-{#snippet myDigit(d, onDelta)}
+{#snippet myDigit(exp)}
   <DecadeDigit
     isConfirmed = {isConfirmed}
-    d = {d}
-    onDeltaWheel = { (e) => {
-      e.preventDefault();
-      onDelta(- e.deltaY * wheelSpeed)
-    }}
-
-    onDeltaPointer = { (e) => {
-       e.preventDefault();
-       onDelta(e.movementY * pointerSpeed)
-    }}
-
-    onDeltaClick = { (dir) => onDelta(dir) }
-
+    v = { decadeRounding.value ? rounded : frequency }
+    exp = {exp}
+    accum = { d => {
+      accum(d);
+      setRounded(exp);
+      setValue(decadeRounding.value);
+      }
+    }
+    wheelSpeed = {mouseWheelTuningSpeed.value / 200/ 125 * exp}
+    pointerSpeed = {1/10 * exp}
+    clickSpeed = {1 * exp}
     gap = {decadeButtonSplit.value}
   />
 {/snippet}
 
-<div style="display:flex; flex-direction: column;">
-  <div class="decade" >
-    {@render myDigit(digits[7], onDelta(10000000))}
-    {@render myDigit(digits[6], onDelta(1000000))}
-    {@render myDigit(digits[5], onDelta(100000))}
-    {@render myDigit(digits[4], onDelta(10000))}
-    {@render myDigit(digits[3], onDelta(1000))}
-    <div> . </div>
-    {@render myDigit(digits[2], onDelta(100))}
-    {@render myDigit(digits[1], onDelta(10))}
-  </div>
-  <HID/>
+<div class="decade" >
+  {@render myDigit(10000000)}
+  {@render myDigit(1000000)}
+  {@render myDigit(100000)}
+  {@render myDigit(10000)}
+  {@render myDigit(1000)}
+  <div> . </div>
+  {@render myDigit(100)}
+  {@render myDigit(10)}
 </div>
+{#if debug}
+<div>
+  {frequency}
+  <br>
+  {rounded}
+</div>
+{/if}
 
 <style>
 .decade {

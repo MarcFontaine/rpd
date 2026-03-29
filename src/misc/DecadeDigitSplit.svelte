@@ -1,6 +1,8 @@
 <script lang="ts">
+let { isConfirmed, v, exp, accum, wheelSpeed, pointerSpeed, clickSpeed
+    , gap }= $props();
 
-let { isConfirmed, d=0, onDeltaWheel, onDeltaPointer, onDeltaClick, gap } = $props();
+let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10);
 
 </script>
 
@@ -13,9 +15,17 @@ let { isConfirmed, d=0, onDeltaWheel, onDeltaPointer, onDeltaClick, gap } = $pro
 	 !upperLower && 'lower_half_text'	 
        ]}
 
-    onwheel = {onDeltaWheel}
-    onpointerdown = {onDeltaPointer}
-    onclick = { () => onDeltaClick(upperLower ? 1: -1) }
+    onwheel = {(e) => {
+      e.preventDefault();
+      accum(- e.deltaY * wheelSpeed);
+    }}
+    onpointerdown = {(e) => {
+      e.preventDefault();
+      accum(e.movementY * pointerSpeed)
+    }}
+    onclick = { () => {
+      accum(upperLower ? clickSpeed: -clickSpeed)
+    }}
    >
    {d}
    </button>
@@ -26,7 +36,7 @@ let { isConfirmed, d=0, onDeltaWheel, onDeltaPointer, onDeltaClick, gap } = $pro
   style:gap="{gap}px"
 >
   {@render digit(true)}
-  {@render digit(false)}  
+  {@render digit(false)}
 </div>
 
 <style>
@@ -74,5 +84,5 @@ let { isConfirmed, d=0, onDeltaWheel, onDeltaPointer, onDeltaClick, gap } = $pro
     align-items: flex-end;
     overflow: hidden;
 }
-  
+
 </style>
