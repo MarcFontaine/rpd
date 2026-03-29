@@ -31,7 +31,7 @@
 .searchbar :global([data-svelte-typeahead] input) {
     width: 100%;
     padding: 0.5rem 0.5rem;
-    font-size: 1em;
+    font-size: 0.5em;
     border: 0;
     border-radius: 0;
     border: 1px solid #e5e5e5;

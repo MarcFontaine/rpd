@@ -44,6 +44,10 @@ let isDisabled = $derived( smartPTT.value && !isSafe) ;
   display:flex;
   flex-direction: row;
   width: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .isDisabled {

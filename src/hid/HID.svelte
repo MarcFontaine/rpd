@@ -1,5 +1,5 @@
 <script module lang="ts">
-import {gui, rig } from '../state.svelte';
+import {gui, rig, mobileMode } from '../state.svelte';
 import { ConfigVar } from '../config/ConfigVar.svelte';
 import {setFrequencyRateLimited} from '../cat';
 import Option from '../settings/Options.svelte';
@@ -143,7 +143,7 @@ function dumpDeviceReport(device:HIDDevice) {
 
 </script>
 
-{#if enableRotaryEncoder.value}
+{#if enableRotaryEncoder.value && (! mobileMode.value)}
   <div>
   <button
     onclick={connectRigControl}
