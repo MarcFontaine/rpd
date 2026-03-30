@@ -1,31 +1,13 @@
 <script lang="ts">
+  import { pwa } from './pwa.svelte.ts';
   import About from '../debug/About.svelte';
-  import { useRegisterSW } from 'virtual:pwa-register/svelte';
-
-  const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
-    onRegistered(swr) {
-      console.log(`SW registered: ${swr}`);
-    },
-    onRegisterError(error) {
-      console.log('SW registration error', error);
-    }
-  });
-
-  function close() {
-    offlineReady.set(false)
-    needRefresh.set(false)
-  }
-
-  $: toast = $offlineReady || $needRefresh;
 </script>
 
-{#if toast }
-  <div
-    role="alert"
-  >
+{#if pwa.needRefresh || pwa.isOfflineReady }
+  <div class="pwa-notification">
     <div>
       <About />
-      {#if $offlineReady}
+      {#if pwa.isOfflineReady}
       <span>
         App ready to work offline
       </span>
@@ -35,16 +17,27 @@
       </span>
       {/if}
     </div>
-    {#if $needRefresh }
-      <button on:click={() => updateServiceWorker(true)}>
-        Reload
+    {#if pwa.needRefresh }
+      <button onclick={() => pwa.update()}>
+        Load Update and Reload App
       </button>
     {/if}
-    <button on:click={close}>
-      Close
+    <button onclick={() => pwa.ignoreUpdate()}>
+      Ignore Update and Continue
     </button>
   </div>
 {/if}
 
 <style>
+  .pwa-notification {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #333;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
 </style>

@@ -1,3 +1,4 @@
+import './misc/pwa.svelte.ts'; // Side-Effect: start Update-Service-Worker
 import { setGuiMode, GuiMode } from './gui';
 import { loadFromLocalStorage , autoSaveToLocalStorage } from './config/config.svelte';
 import { mount } from 'svelte'
