@@ -6,7 +6,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,  
@@ -22,7 +22,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@kitajs/html",
     "plugins": [{ "name": "@kitajs/ts-html-plugin" }],
-    "types": [
+     "types": [
+	"vite/client",
 	"vite-plugin-pwa/svelte",
 	"unplugin-info/client",
 	"@types/w3c-web-hid",
