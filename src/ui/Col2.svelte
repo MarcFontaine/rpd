@@ -1,24 +1,22 @@
 <script>
-import AllElements from './AllElements.svelte';
+import { elementByName } from './elementByName';
 import {screen1, screen2, screen3, screen4} from '../state.svelte'
+
+const T1 = elementByName(screen1.value);
+const T2 = elementByName(screen2.value);
+const T3 = elementByName(screen3.value);
+const T4 = elementByName(screen4.value);
 </script>
+
 <div style="display:flex; flex-direction: row; width: 100%;" >
   <div class="column" >
-      <div class="tile" >
-      <AllElements element={screen1.value} />
-      </div>
-      <div class="tile" >
-      <AllElements element={screen3.value} />
-      </div>
+    <div class="tile"><T1 /></div>
+    <div class="tile"><T3 /></div>
   </div> 
   <div class="column" >
-      <div class="tile" >
-      <AllElements element={screen2.value} />
-      </div>
-      <div class="tile" >
-      <AllElements element={screen4.value} />
-      </div>
-  </div> 
+    <div class="tile"><T2 /></div>
+    <div class="tile"><T4 /></div>
+  </div>
 </div>
 
 <style>
