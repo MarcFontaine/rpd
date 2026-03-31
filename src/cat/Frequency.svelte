@@ -42,7 +42,6 @@ function setRounded(exp) {
     rounded = Math.sign(frequency) * Math.floor(Math.abs(frequency)/exp) * exp;
 }
 
-
 let isConfirmed = $derived.by(() => {
     return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
@@ -65,23 +64,29 @@ function setValue(isRounding) {
     old = newValue;
   }
 }
+
+function toDigit(exp) {
+  const f = DecadeSettings.rounding.value ? rounded : frequency;
+  const d = Math.floor(Math.abs(f)/exp) - Math.floor(Math.abs(f)/exp/10)*10;
+  return d.toString();
+}
 </script>
 
 {#snippet myDigit(exp)}
   <DecadeDigit
     isConfirmed = {isConfirmed}
-    v = { DecadeSettings.rounding.value ? rounded : frequency }
-    exp = {exp}
+    char = { toDigit(exp) }
     accum = { d => {
       accum(d);
       setRounded(exp);
       setValue(DecadeSettings.rounding.value);
       }
     }
-    wheelSpeed = {DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 * exp}
-    pointerSpeed = {1/10 * exp}
-    clickSpeed = {1 * exp}
-    gap = {DecadeSettings.buttonSplit.value}
+    wheelSpeed = { DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 * exp }
+    pointerSpeed = { 1/10 * exp }
+    clickSpeed = { 1 * exp }
+    gap = { DecadeSettings.buttonSplit.value }
+    width = "14%"
   />
 {/snippet}
 <div
@@ -93,7 +98,16 @@ function setValue(isRounding) {
   {@render myDigit(100000)}
   {@render myDigit(10000)}
   {@render myDigit(1000)}
-  <div> . </div>
+  <DecadeDigit
+    isConfirmed = {isConfirmed}
+    char = '.'
+    accum = { d => { return;}}
+    wheelSpeed = 0
+    pointerSpeed = 0
+    clickSpeed = 0
+    gap = 0
+    width = "3%"
+  />
   {@render myDigit(100)}
   {@render myDigit(10)}
 </div>
@@ -107,11 +121,12 @@ function setValue(isRounding) {
 
 <style>
 .decade {
-  font-size: clamp(1em, calc(14cqw * 1.5), 7em);
+  width: 100%;
+  container-type: inline-size;
   display:flex;
   flex-direction: row;
   flex-wrap: nowrap;
   overflow-x: hidden;
-  width: 100%;
+  --digit-font-size: 25cqw; // cqw is passed as string
 }
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import * as DecadeSettings from './DecadeSettings.svelte';
-import DecadeDigit, {renderSign } from '../misc/DecadeDigitSplit.svelte';
+import DecadeDigit from '../misc/DecadeDigitSplit.svelte';
 import {gui, rig} from '../state.svelte';
 import {} from '../cat';
 
@@ -65,13 +65,18 @@ function setValue(isRounding) {
     old = newValue;
   }
 }
+function toDigit(exp) {
+  const f = DecadeSettings.rounding.value ? rounded : frequency;
+  const d = Math.floor(Math.abs(f)/exp) - Math.floor(Math.abs(f)/exp/10)*10;
+  return d.toString();
+}
+
 </script>
 
 {#snippet myDigit(exp)}
   <DecadeDigit
     isConfirmed = {isConfirmed}
-    v = { frequency }
-    exp = {exp}
+    char = { toDigit(exp) }
     accum = { d => {
       accum(d);
       setRounded(exp);
@@ -82,11 +87,21 @@ function setValue(isRounding) {
     pointerSpeed = {1/10 * exp}
     clickSpeed = {1 * exp}
     gap = {0}
+    width ="30%"
   />
 {/snippet}
 
 <div class="decade" >
-  {@render renderSign((frequency>0) ? '+' : '-' )}
+  <DecadeDigit
+    isConfirmed = {isConfirmed}
+    char = {frequency > 0 ? '+' : '-' }
+    accum =  { d => { return;}}
+    wheelSpeed = 0
+    pointerSpeed = 0
+    clickSpeed = 0
+    gap = 0
+    width ="30%"
+  />
   {@render myDigit(100)}
   {@render myDigit(10)}
   {@render myDigit(1)}
@@ -101,8 +116,11 @@ function setValue(isRounding) {
 
 <style>
 .decade {
+  width: 25%;
+  container-type: inline-size;
   display:flex;
   flex-direction: row;
   font-size: 3em;
+  --digit-font-size: 40cqw;
 }
 </style>

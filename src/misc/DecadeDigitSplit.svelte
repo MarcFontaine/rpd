@@ -1,18 +1,16 @@
 <script module>
-  export { renderSign };
 </script>
 
 <script lang="ts">
-let { isConfirmed, v, exp, accum, wheelSpeed, pointerSpeed, clickSpeed
-    , gap }= $props();
-
-let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10);
+let { isConfirmed, char, accum, wheelSpeed, pointerSpeed, clickSpeed
+    , gap, width }= $props();
 
 </script>
 
 {#snippet digit(upperLower)}
    <button
      class={[
+         'frequency',
          isConfirmed && 'frequency_confirmed',
 	 !isConfirmed && 'frequency_not_confirmed',
 	 upperLower && 'upper_half_text',
@@ -27,59 +25,50 @@ let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10
       accum(upperLower ? clickSpeed: -clickSpeed)
     }}
    >
-   {d}
+   {char}
    </button>
 {/snippet}
 
-{#snippet renderSign(s)}
-<div class="button_container">
-  <button
-    class={ ['frequency_confirmed' ,'upper_half_text'] }
+<div
+  class="button_container"
+  style:width={width}
+  style:gap={`${gap}px`}
   >
-  {s}
-  </button>
-  <button
-    class={ ['frequency_confirmed' ,'lower_half_text'] }
-  >
-  {s}
-  </button>
-</div>
-{/snippet}
-
-<div class="button_container">
   {@render digit(true)}
   {@render digit(false)}
 </div>
 
 <style>
-.frequency_confirmed {
+.frequency {
   font-family: "Courier New";
   font-size: 1em;
-  font-weight: normal;
-  font-style: normal;
   white-space: pre;
   padding: 0px 0px;
   margin: 0px 0px 0px 0px;
   border-width: 0px;
+  width: 100%;
+  font-style: normal;
+  justify-content: center
+}
+
+.frequency_confirmed {
+  font-weight: normal;
 }
 
 .frequency_not_confirmed {
-  font-family: "Courier New";
-  font-size: 1em;
   font-weight: bold;
-  font-style: normal;
-  white-space: pre;
-  padding: 0px 0px;
-  margin: 0px 0px 0px 0px;
-  border-width: 0px;
 }
 
 .button_container {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    flex: 0 0 auto;
-    min-width: fit-content;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+  min-width: fit-content;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-size: var(--digit-font-size, 0.3 em);
 }
 
 .upper_half_text {
@@ -97,5 +86,4 @@ let d = $derived(Math.floor(Math.abs(v)/exp) - Math.floor(Math.abs(v)/exp/10)*10
     align-items: flex-end;
     overflow: hidden;
 }
-
 </style>
