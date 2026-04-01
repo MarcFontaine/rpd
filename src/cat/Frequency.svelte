@@ -127,6 +127,6 @@ function toDigit(exp) {
   flex-direction: row;
   flex-wrap: nowrap;
   overflow-x: hidden;
-  --digit-font-size: 25cqw; // cqw is passed as string
+  --digit-font-size: 25cqw; /* cqw is passed as string */
 }
 </style>

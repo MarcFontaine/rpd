@@ -8,10 +8,10 @@ import { allFromYaml, allToYaml, allReset } from './ConfigVar.svelte';
 
 export const updateYaml =  $state({trigger : 1});
 
-const emptyConfig = new Document(
+export const emptyConfig = new Document(
   { rigpage: {
-    profiles: {
-      DemoMode: {
+    profiles: [
+      {
 	cat: {
 	  demoMode: true,
 	  webserial: false,
@@ -19,7 +19,7 @@ const emptyConfig = new Document(
 	  },
 	config: { name: 'Demo Mode'},
       },
-      SerialPort: {
+      {
 	cat: {
 	  demoMode: false,
 	  webserial: true,
@@ -27,7 +27,7 @@ const emptyConfig = new Document(
 	  },
 	config: { name: 'Serial Port'},
       }
-    }
+    ]
    }
   }
 );
@@ -75,6 +75,15 @@ export function getProfiles() {
 export async function startProfile() {
   Profile.initProfile();
 };
+
+export function getConfigName( c: Document ): String {
+  return (c.getIn([ 'config','name' ]) as String)
+};
+
+export function setConfigName( c: Document, n: String ): void {
+  c.setIn([ 'config','name' ], n);
+};
+
 
 // Validate the config stored in local storage.
 export function validateConfig(j: string) {

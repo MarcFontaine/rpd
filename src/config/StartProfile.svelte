@@ -6,25 +6,26 @@ import * as WebSerial from '../serial';
 
 </script>
 
-{#snippet StartProfile(pair)}
+{#snippet StartProfile(p)}
   <button
     onclick={()=> {
-      Config.setProfile(pair.value);
+      Config.setProfile(p);
       Config.startProfile();
     }}
   >
-    Start `{pair.key }`
+    {Config.getConfigName(p)}
   </button>
   <br>
 {/snippet}
 
 <div>
-  <h2>
-    Start Profile
-  </h2>
-  {#each (Config.updateYaml.trigger ? Config.getProfiles().items : null) as pair}
-    {@render StartProfile(pair)}
-  {/each}
+  <div class="profile-list">
+  Start Profile
+  <br>
+  {#each (Config.updateYaml.trigger ? Config.getProfiles().items : null) as p}
+      {@render StartProfile(p)}
+    {/each}
+  </div>
 </div>
 <div>
   <button
@@ -33,3 +34,18 @@ import * as WebSerial from '../serial';
      Go to Profile Manager
   </button>
 </div>
+
+<style>
+  .profile-list {
+    border: 2px solid #333;
+    padding: 0.5em;
+    border-radius: 8px;
+
+  }
+  button {
+    border: 2px solid #333;
+    padding: 0.5em;
+    border-radius: 8px;
+    font-size: 1em;
+  }
+</style>
