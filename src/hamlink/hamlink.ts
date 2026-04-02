@@ -14,7 +14,21 @@ export function initHamLink() {
 }
 
 function connectToExtension() {
-  if (!port) port = chrome.runtime.connect(EXTENSION_ID);
+  if (!port) {
+    if (typeof chrome !== 'undefined'
+       && chrome.runtime && typeof chrome.runtime.connect === 'function')
+      {
+	try {
+	  port = chrome.runtime.connect(EXTENSION_ID);
+	} catch (e) {
+	  console.error("Connection failed:", e);
+	}
+      }
+      else
+      {
+        console.warn("Chrome Extension Messaging API not available.");
+      }
+  }
   if (port) {
     port.onMessage.addListener((msg:any) => {
       window.dispatchEvent(msgToEvent(msg));
