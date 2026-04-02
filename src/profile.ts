@@ -1,4 +1,4 @@
-import {replace} from 'svelte-spa-router';
+import { gotoRigcontrol } from './ui/routes';
 
 import * as WebSerial from './serial';
 import * as WebSocket from './websocket';
@@ -37,5 +37,5 @@ export async function initProfile() {
     WebSerial.connectToPort();
   }
   HamLink.initHamLink();
-  replace('/rigcontrol');
+  gotoRigcontrol();
 };

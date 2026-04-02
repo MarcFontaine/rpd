@@ -11,16 +11,19 @@ import { profileName } from '../state.svelte';
   <div class="profile-name">
     {profileName.value}
   </div>
-  <a href="/rigcontrol" use:link use:active={'/rigcontrol'} >CAT</a>
   <a href="/serial" use:link use:active={'/serial'} >Serial Port</a>
   <a href="/download" use:link use:active={'/download'} >Download Config</a>
-  <a href="/settings" use:link use:active={'/settings'} >Settings</a>
-  <a href="/webrtc" use:link use:active={'/webrtc'} >Audio/Video</a>
-  <a href="/debug" use:link use:active={'/debug'} >Debug</a>
-  <a href="/ft8" use:link use:active={'/ft8'} >FT8</a>
-  <a href="/r" use:link use:active={'/r'} >Row</a>
-  <a href="/c" use:link use:active={'/c'} >Col</a>
-  <a href="/c2" use:link use:active={'/c'} >Col2</a>
+  <a href="/rig/rigcontrol" use:link use:active={'/rigcontrol'} >CAT</a>
+  <a href="/rig/settings" use:link use:active={'/rig/settings'} >
+    <span class="icon">⚙️</span>
+    <span class="label">Settings</span>
+  </a>
+  <a href="/rig/webrtc" use:link use:active={'/rig/webrtc'} >Audio/Video</a>
+  <a href="/rig/debug" use:link use:active={'/rig/debug'} >Debug</a>
+  <a href="/rig/ft8" use:link use:active={'/rig/ft8'} >FT8</a>
+  <a href="/rig/r" use:link use:active={'/rig/r'} >Row</a>
+  <a href="/rig/c" use:link use:active={'/rig/c'} >Col</a>
+  <a href="/rig/c2" use:link use:active={'/rig/c'} >Col2</a>
 </div>
 </nav>
 {/if}
@@ -29,7 +32,7 @@ import { profileName } from '../state.svelte';
 .grid-container {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 5px;
 }
 .grid-container a {
@@ -39,6 +42,10 @@ import { profileName } from '../state.svelte';
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .profile-name {
   grid-column: span 2;
@@ -47,4 +54,5 @@ import { profileName } from '../state.svelte';
   overflow: hidden;
   display: flex;
 }
+.icon { font-size: 1em; }
 </style>

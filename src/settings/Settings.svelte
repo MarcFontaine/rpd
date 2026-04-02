@@ -1,5 +1,5 @@
 <script module lang="ts">
-import { replace } from 'svelte-spa-router'
+import { gotoDownload } from '../ui/routes';
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
   rigSyncInterval, webserial_enable, rigctld_enable, rigctld_wss, profileName,
@@ -63,7 +63,7 @@ import HamLinkSettings from '../hamlink/Settings.svelte';
       CAT Control
     </summary>
     <Option bind:o={demoMode.value} d={'No Cat Connection / Demo Mode'} />
-    <Option bind:o={webserial_enable.value} d={'Connect Local Serial Port'} />
+    <Option bind:o={webserial_enable.value} d={'Connect to Local Serial Port'} />
     <Option bind:o={rigctld_enable.value} d={'Connect to rigctld Websocket Server'} />
     <input type="text" size="80" bind:value={rigctld_wss.value}>
     rigctld Server URL
@@ -89,7 +89,7 @@ import HamLinkSettings from '../hamlink/Settings.svelte';
       Import Export Configuration
     </summary>
     <button
-      onclick={ () => replace('/download') }
+      onclick={ () => gotoDownload() }
     >
        Download Configuration from Server
     </button>

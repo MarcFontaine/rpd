@@ -1,5 +1,5 @@
 <script lang="ts">
-import { replace } from 'svelte-spa-router'
+import { gotoProfiles } from '../ui/routes';
 import * as Config from './config.svelte';
 import * as Profile from '../profile';
 import * as WebSerial from '../serial';
@@ -29,7 +29,7 @@ import * as WebSerial from '../serial';
 </div>
 <div>
   <button
-    onclick={ () => replace('/profiles') }
+    onclick={ () => gotoProfiles() }
   >
      Go to Profile Manager
   </button>

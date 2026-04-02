@@ -1,4 +1,4 @@
-import { replace } from 'svelte-spa-router'
+import { gotoRoot } from '../ui/routes';
 import { parseDocument, isMap, YAMLMap } from 'yaml';
 
 import * as Profile from '../profile';
@@ -103,7 +103,7 @@ export function validateProfile(j: string) {
 export function reset() {
   localStorage.clear();
   config = emptyConfig.clone();
-  replace('/');
+  gotoRoot();
   allReset();
   updateYaml.trigger++;
 }

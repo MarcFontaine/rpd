@@ -1,3 +1,7 @@
+import { replace } from 'svelte-spa-router'
+
+import Frame from './Frame.svelte';
+import Mobile from './Mobile.svelte';
 import StartProfile from '../config/StartProfile.svelte';
 import ProfileManager from '../config/ProfileManager.svelte';
 import Download from '../config/Download.svelte';
@@ -17,20 +21,35 @@ import Col2 from './Col2.svelte';
 
 export const routes = {
   '/': StartProfile
-, '/rigcontrol': RigControl
+, '/startprofile': StartProfile
+, '/rig/*': Frame
+, '/sim/mobile/*': Mobile
 , '/download': Download
 , '/download/*': Download
 , '/profiles': ProfileManager
 , '/debug': Debug
+, '/debug/wheel': Wheel
 , '/serial': LocalSerial
+, '/test': Test
+, '*': Debug
+}
+
+export const subroutes = {
+  '/rigcontrol': RigControl
+, '/debug': Debug
 , '/webrtc': WebRTCToggle
 , '/ft8': FT8
 , '/aux': Auxiliary
-, '/wheel': Wheel
 , '/frequency': Frequency
 , '/settings': Settings
 , '/test': Test
 , '/r': Row
 , '/c': Col
 , '/c2': Col2
+, '*': Debug
 }
+
+export function gotoRoot() { replace('/') }
+export function gotoProfiles() { replace('/profiles') }
+export function gotoRigcontrol() { replace('/rig/rigcontrol') }
+export function gotoDownload() { replace('/download') }

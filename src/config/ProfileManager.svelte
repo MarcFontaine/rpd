@@ -1,18 +1,15 @@
-<script module lang="ts">
-const undoConfig = Config.getConfig().clone();
-</script>
-
 <script lang="ts">
 import { fly, slide } from 'svelte/transition';
 import { quintOut } from 'svelte/easing';
-
-import { replace } from 'svelte-spa-router'
-import * as Config from './config.svelte';
 import { YAMLMap, Pair } from 'yaml';
+
+import * as Config from './config.svelte';
+import { gotoRoot } from '../ui/routes';
 
 let { preselect } = $props();
 
 let config = Config.getConfig();
+let undoConfig = config.clone();
 let profiles = $state(Config.getProfiles().items);
 
 let selected = $state(preselect as null | YAMLMap);
@@ -158,7 +155,7 @@ function newProfile() {
   <button
     onclick={ ()=> {
         Config.saveToLocalStorage();
-        replace('/')
+        gotoRoot();
       }
     }
   >
@@ -167,7 +164,7 @@ function newProfile() {
   <br>
   <button
     onclick={ ()=> {
-        replace('/')
+        gotoRoot();
       }
     }
   >

@@ -8,7 +8,7 @@ export const configURL = new ConfigVar(
 </script>
 
 <script lang="ts">
-import { replace } from 'svelte-spa-router'
+import { gotoRoot } from '../ui/routes';
 import * as Config from './config.svelte';
 import * as Profile from '../profile';
 
@@ -41,14 +41,9 @@ async function loadConfig() {
 
 function createProfile(txt) {
   const profile = Config.validateProfile(txt);
-  const name =
-      (profile.toJSON().config.name ?? 'Downloaded_Config')
-    + '_'
-    + crypto.randomUUID().slice(0,8);
-  const newPair = Config.getConfig().createPair(name, profile.getIn([]));
-  Config.getProfiles().items.push(newPair);
+  Config.getProfiles().items.push(profile);
   Config.updateYaml.trigger++;
-  preselect = newPair;
+  preselect = profile;
 }
 
 </script>
@@ -97,7 +92,7 @@ function createProfile(txt) {
     </button>
     <br>
     <button
-      onclick={ () => replace('/') }
+      onclick={ () => gotoRoot() }
     >
     Continue Without Downloading
     </button>

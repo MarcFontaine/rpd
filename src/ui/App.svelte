@@ -1,10 +1,9 @@
 <script lang="ts">
 import ReloadPromt from '../misc/ReloadPromt.svelte';
-import Error from '../misc/Error.svelte';
 import Navigation from './Navigation.svelte';
 import SearchBar from '../bookmarks/SearchBar.svelte';
-import Router from 'svelte-spa-router';
 import WebRTC from '../webrtc/WebRTC.svelte';
+import Router from 'svelte-spa-router';
 import {routes} from './routes';
 import "../app.css";
 
@@ -12,15 +11,6 @@ import "../app.css";
 <div class="app">
   <div>
     <ReloadPromt />
-  </div>
-  <div style="max-height: 10em; overflow-y: scroll;background-color:red; " >
-    <Error />
-  </div>
-  <div>
-    <Navigation />
-  </div>
-  <div>
-    <SearchBar />
   </div>
   <div>
     <Router {routes}/>
