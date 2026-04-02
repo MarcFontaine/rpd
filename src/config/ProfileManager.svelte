@@ -20,7 +20,6 @@ function newProfile() {
   const p = config.createNode({});
   Config.setConfigName(p, 'New_Profile');
   profiles.push(p);
-  Config.updateYaml.trigger++;
   selected = p;
 }
 
@@ -146,7 +145,6 @@ function newProfile() {
       Config.setConfig(p);
       config = p;
       profiles = Config.getProfiles().items;
-      Config.updateYaml.trigger++;
     }}
   >
     Reset Editor to Default Profiles
@@ -154,6 +152,7 @@ function newProfile() {
   <br>
   <button
     onclick={ ()=> {
+        Config.getProfiles().items = profiles;
         Config.saveToLocalStorage();
         gotoRoot();
       }

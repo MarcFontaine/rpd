@@ -44,14 +44,14 @@ import {subroutes} from './routes';
   .screen {
     width: 100%;
     height: 100%;
-    background: white;
+    background: blue;
     border-radius: 30px;
     overflow-y: auto;
     position: relative;
   }
  .content {
     flex: 1;
-    overflow-y: auto; /* Wichtig: Nur der Inhalt scrollt! */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 1rem;
   }
