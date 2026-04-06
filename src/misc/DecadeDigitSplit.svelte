@@ -2,8 +2,19 @@
 </script>
 
 <script lang="ts">
-let { isConfirmed, char, accum, wheelSpeed, pointerSpeed, clickSpeed
+let { isConfirmed, char, accum, wheelSpeed, clickSpeed
     , gap, width }= $props();
+
+let acc = 0;
+
+function accumlocal (d:num) {
+  acc += d;
+  if (acc > 1 | acc < -1) {
+    const delta = Math.sign(acc) * Math.floor( Math.abs(acc) );
+    acc = acc - delta;
+    accum(delta);
+  }
+}
 
 </script>
 
@@ -16,13 +27,12 @@ let { isConfirmed, char, accum, wheelSpeed, pointerSpeed, clickSpeed
 	 upperLower && 'upper_half_text',
 	 !upperLower && 'lower_half_text'	 
        ]}
-
     onwheel = {(e) => {
       e.preventDefault();
-      accum(- e.deltaY * wheelSpeed);
+      accumlocal(- e.deltaY * wheelSpeed);
     }}
     onclick = { () => {
-      accum(upperLower ? clickSpeed: -clickSpeed)
+      accumlocal(upperLower ? clickSpeed: -clickSpeed)
     }}
    >
    {char}

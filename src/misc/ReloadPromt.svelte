@@ -11,20 +11,19 @@
       <span>
         App ready to work offline
       </span>
-      {:else}
-      <span>
-        New content available, click on reload button to update.
-      </span>
       {/if}
     </div>
     {#if pwa.needRefresh }
+      <span>
+        New content available.
+      </span>
       <button onclick={() => pwa.update()}>
         Load Update and Reload App
       </button>
-    {/if}
     <button onclick={() => pwa.ignoreUpdate()}>
       Ignore Update and Continue
     </button>
+    {/if}
   </div>
 {/if}
 

@@ -33,15 +33,6 @@ let frequency = $derived.by(()=> {
     else return gui.bfo.value;
   });
 
-var rounded = $state(0);
-onMount(() => {
-  rounded = frequency;
-});
-
-function setRounded(exp) {
-    rounded = Math.sign(frequency) * Math.floor(Math.abs(frequency)/exp) * exp;
-}
-
 
 let isConfirmed = $derived.by(() => {
     return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
@@ -66,8 +57,7 @@ function setValue(isRounding) {
   }
 }
 function toDigit(exp) {
-  const f = DecadeSettings.rounding.value ? rounded : frequency;
-  const d = Math.floor(Math.abs(f)/exp) - Math.floor(Math.abs(f)/exp/10)*10;
+  const d = Math.floor(Math.abs(frequency)/exp) - Math.floor(Math.abs(frequency)/exp/10)*10;
   return d.toString();
 }
 
@@ -78,14 +68,11 @@ function toDigit(exp) {
     isConfirmed = {isConfirmed}
     char = { toDigit(exp) }
     accum = { d => {
-      accum(d);
-      setRounded(exp);
-      setValue(false);
+      accum(d * exp);
       }
     }
-    wheelSpeed = {DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 * exp}
-    pointerSpeed = {1/10 * exp}
-    clickSpeed = {1 * exp}
+    wheelSpeed = {DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 }
+    clickSpeed = {1}
     gap = {0}
     width ="30%"
   />

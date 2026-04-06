@@ -7,15 +7,27 @@ import {setFrequencyRateLimited} from '../cat';
 
 const debug = false;
 
-function accum(d:number):void {
-  frequency = clamp (frequency + d);
+let old = undefined as undefined | number;
+
+function accum( d: number, exp: number ): void {
+  const fn = clamp(frequency + d * exp);
+  frequency = DecadeSettings.rounding.value ? round(fn, exp) : fn;
+  if (!old || old != frequency) {
+      setFrequencyRateLimited(frequency);
+      old = frequency;
+  }
+}
+
+function round(a: number, exp:number) {
+  return clamp(Math.sign(a) * Math.floor(Math.abs(a)/exp) * exp )
 }
 
 let now = $state(Date.now());
+
 $effect(() => {
   const interval = setInterval(() => {
     now = Date.now();
-  }, 1000);
+  }, 500);
   return () => clearInterval(interval);
 });
 
@@ -33,22 +45,9 @@ let frequency = $derived.by(()=> {
     else return gui.frequency.value;
   });
 
-var rounded = $state(0);
-onMount(() => {
-  rounded = frequency;
-});
-
-function setRounded(exp) {
-    rounded = Math.sign(frequency) * Math.floor(Math.abs(frequency)/exp) * exp;
-}
-
 let isConfirmed = $derived.by(() => {
     return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
-
-function round(v:number, f:number) {
-  return (Math.round(f/v)*v)
-}
 
 function clamp(f:number) {
   if (f < 1500000) return 1500000
@@ -56,18 +55,8 @@ function clamp(f:number) {
     else return f;
 }
 
-let old = undefined as undefined | number;
-function setValue(isRounding) {
-  const newValue = isRounding ? clamp(rounded) : clamp(frequency);
-  if (!old || old != newValue) {
-    setFrequencyRateLimited(newValue);
-    old = newValue;
-  }
-}
-
 function toDigit(exp) {
-  const f = DecadeSettings.rounding.value ? rounded : frequency;
-  const d = Math.floor(Math.abs(f)/exp) - Math.floor(Math.abs(f)/exp/10)*10;
+  const d = Math.floor(Math.abs(frequency)/exp) - Math.floor(Math.abs(frequency)/exp/10)*10;
   return d.toString();
 }
 </script>
@@ -76,15 +65,11 @@ function toDigit(exp) {
   <DecadeDigit
     isConfirmed = {isConfirmed}
     char = { toDigit(exp) }
-    accum = { d => {
-      accum(d);
-      setRounded(exp);
-      setValue(DecadeSettings.rounding.value);
-      }
+    accum = {
+      d => { accum(d, exp) }
     }
-    wheelSpeed = { DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 * exp }
-    pointerSpeed = { 1/10 * exp }
-    clickSpeed = { 1 * exp }
+    wheelSpeed = { DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 }
+    clickSpeed = { 1 }
     gap = { DecadeSettings.buttonSplit.value }
     width = "14%"
   />
@@ -115,7 +100,7 @@ function toDigit(exp) {
 <div>
   {frequency}
   <br>
-  {rounded}
+  {rig.frequnecy}
 </div>
 {/if}
 
