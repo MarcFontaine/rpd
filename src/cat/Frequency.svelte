@@ -113,5 +113,9 @@ function toDigit(exp) {
   flex-wrap: nowrap;
   overflow-x: hidden;
   --digit-font-size: 25cqw; /* cqw is passed as string */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
 }
 </style>

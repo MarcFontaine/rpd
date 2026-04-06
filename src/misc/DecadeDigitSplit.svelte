@@ -32,7 +32,8 @@ function accumlocal (d:num) {
       accumlocal(- e.deltaY * wheelSpeed);
     }}
     onclick = { () => {
-      accumlocal(upperLower ? clickSpeed: -clickSpeed)
+      acc = 0;
+      accum(upperLower ? clickSpeed: -clickSpeed)
     }}
    >
    {char}
