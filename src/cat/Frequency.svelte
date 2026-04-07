@@ -7,19 +7,14 @@ import {setFrequencyRateLimited} from '../cat';
 
 const debug = false;
 
-let old = undefined as undefined | number;
+let old = undefined as number | undefined;
 
-function accum( d: number, exp: number ): void {
-  const fn = clamp(frequency + d * exp);
-  frequency = DecadeSettings.rounding.value ? round(fn, exp) : fn;
+function setFrequency(f: number) : void {
+  frequency = f;
   if (!old || old != frequency) {
-      setFrequencyRateLimited(frequency);
-      old = frequency;
+    setFrequencyRateLimited(frequency);
+    old = frequency;
   }
-}
-
-function round(a: number, exp:number) {
-  return clamp(Math.sign(a) * Math.floor(Math.abs(a)/exp) * exp )
 }
 
 let now = $state(Date.now());
@@ -49,27 +44,19 @@ let isConfirmed = $derived.by(() => {
     return Math.round(frequency / 10) == Math.round(rig.frequency / 10);
   });
 
-function clamp(f:number) {
-  if (f < 1500000) return 1500000
-    else if (f > 29999999) return 29999999
-    else return f;
-}
-
-function toDigit(exp) {
-  const d = Math.floor(Math.abs(frequency)/exp) - Math.floor(Math.abs(frequency)/exp/10)*10;
-  return d.toString();
-}
 </script>
 
 {#snippet myDigit(exp)}
   <DecadeDigit
-    isConfirmed = {isConfirmed}
-    char = { toDigit(exp) }
-    accum = {
-      d => { accum(d, exp) }
-    }
+    rounding = { DecadeSettings.rounding.value }
+    exp = { exp }
+    min = {  1500000 }
+    max = { 29999999 }
+    value = { frequency }
+    setter = { f => setFrequency(f) }
     wheelSpeed = { DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 }
     clickSpeed = { 1 }
+    isConfirmed = { isConfirmed }
     gap = { DecadeSettings.buttonSplit.value }
     width = "14%"
   />
@@ -84,14 +71,18 @@ function toDigit(exp) {
   {@render myDigit(10000)}
   {@render myDigit(1000)}
   <DecadeDigit
-    isConfirmed = {isConfirmed}
-    char = '.'
-    accum = { d => { return;}}
-    wheelSpeed = 0
-    pointerSpeed = 0
-    clickSpeed = 0
-    gap = 0
+    rounding = { false }
+    exp = { 0 }
+    min = { 0 }
+    max = { 0 }
+    value = { 0 }
+    setter = { f => {return;} }
+    wheelSpeed = { 0 }
+    clickSpeed = { 0 }
+    isConfirmed = { isConfirmed }
+    gap = { DecadeSettings.buttonSplit.value }
     width = "3%"
+    char = '.'
   />
   {@render myDigit(100)}
   {@render myDigit(10)}
@@ -112,7 +103,9 @@ function toDigit(exp) {
   flex-direction: row;
   flex-wrap: nowrap;
   overflow-x: hidden;
-  --digit-font-size: 25cqw; /* cqw is passed as string */
+ /* cqw is a string on definition time
+    and computed at use time */
+  --digit-font-size: 25cqw;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;

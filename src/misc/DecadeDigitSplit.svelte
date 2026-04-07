@@ -1,18 +1,37 @@
-<script module>
-</script>
-
 <script lang="ts">
-let { isConfirmed, char, accum, wheelSpeed, clickSpeed
-    , gap, width }= $props();
+let { isConfirmed, gap, width, char
+    , wheelSpeed, clickSpeed
+    , rounding, exp , min, max
+    , value, setter }= $props();
+
+function clamp(f:number) {
+  if (f < min) return min
+    else if (f > max) return max
+    else return f;
+}
+
+function toDigit() {
+  const d = Math.floor(Math.abs(value)/exp) - Math.floor(Math.abs(value)/exp/10)*10;
+  return d.toString();
+}
+
+function round(a: number) {
+  return clamp(Math.sign(a) * Math.floor(Math.abs(a)/exp) * exp )
+}
+
+function accumValue( d: number): void {
+  const fn = value + d * exp;
+  setter(clamp(rounding ? round(fn) : fn));
+}
 
 let acc = 0;
 
-function accumlocal (d:num) {
+function accumLocal (d:num) {
   acc += d;
   if (acc > 1 | acc < -1) {
     const delta = Math.sign(acc) * Math.floor( Math.abs(acc) );
     acc = acc - delta;
-    accum(delta);
+    accumValue(delta);
   }
 }
 
@@ -29,14 +48,14 @@ function accumlocal (d:num) {
        ]}
     onwheel = {(e) => {
       e.preventDefault();
-      accumlocal(- e.deltaY * wheelSpeed);
+      accumLocal(- e.deltaY * wheelSpeed);
     }}
     onclick = { () => {
       acc = 0;
-      accum(upperLower ? clickSpeed: -clickSpeed)
+      accumValue(upperLower ? clickSpeed: -clickSpeed)
     }}
    >
-   {char}
+   {char || toDigit() }
    </button>
 {/snippet}
 
