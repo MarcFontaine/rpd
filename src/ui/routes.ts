@@ -10,6 +10,7 @@ import Debug from '../debug/Debug.svelte';
 import WebRTCToggle from '../webrtc/Toggle.svelte';
 import Wheel from '../misc/Wheel.svelte';
 import Test from '../misc/Test.svelte';
+import Reset from '../misc/Reset.svelte';
 import Frequency from '../cat/Frequency.svelte';
 import Settings from '../settings/Settings.svelte';
 import Auxiliary from '../aux/Auxiliary.svelte';
@@ -31,6 +32,7 @@ export const routes = {
 , '/debug/wheel': Wheel
 , '/serial': LocalSerial
 , '/test': Test
+, '/Reset': Reset
 , '*': Debug
 }
 
@@ -47,6 +49,7 @@ export const subroutes = {
 , '/c': Col
 , '/c2': Col2
 , '/profilemanager' : ProfileManager
+, '/Reset': Reset
 , '*': Debug
 }
 
