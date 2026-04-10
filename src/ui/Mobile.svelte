@@ -8,12 +8,6 @@ import {subroutes} from './routes';
 <div class="mobile-phone">
  <div class="screen">
   <div class="content">
-    <SearchBar />
-  </div>
-  <div>
-    <Router routes={subroutes} prefix="/sim/mobile" />
-  </div>
-
   <nav class="bottom-nav">
     <a href="#/sim/mobile/rigcontrol">
       <span class="icon">📊</span>
@@ -25,7 +19,12 @@ import {subroutes} from './routes';
       <span class="label">Settings</span>
     </a>
   </nav>
- </div>
+  <SearchBar />
+  <div>
+    <Router routes={subroutes} prefix="/sim/mobile" />
+  </div>
+  </div>
+</div>
 </div>
   
 <style>

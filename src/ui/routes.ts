@@ -46,6 +46,7 @@ export const subroutes = {
 , '/r': Row
 , '/c': Col
 , '/c2': Col2
+, '/profilemanager' : ProfileManager
 , '*': Debug
 }
 

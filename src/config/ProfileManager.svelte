@@ -28,7 +28,7 @@ function newProfile() {
 <div
   class="select-profile"
 >
-  <button
+  <button style:width="100%"
     onclick={()=> { selected = p;} }
   >
     '{Config.updateYaml.trigger ? Config.getConfigName(p) : 'Unnamed Profile'}'
@@ -106,9 +106,7 @@ function newProfile() {
   </div>
 {/snippet}
 
-<div>
-  Profile Editor
-  <br>
+<div class="profile-manager">
   <div class="profile-list">
   Current Profiles:
   <br>
@@ -120,8 +118,11 @@ function newProfile() {
      {/if}
      </div>
   {/each}
-  </div>
 </div>
+<div
+ style:display=flex
+ style:flex-direction=column
+>
   <button
     onclick={newProfile}
   >
@@ -169,9 +170,10 @@ function newProfile() {
   >
     Exit
   </button>
-  <br>
-  {msg}
-<br>
+  <div>
+</div>
+</div>
+</div>
 
 
 <style>
@@ -205,5 +207,8 @@ function newProfile() {
     gap: 1em;
     border: 1px solid #ccc;
     padding: 0.5em;
+  }
+  .profile-manager {
+    font-size: 0.5em;
   }
 </style>

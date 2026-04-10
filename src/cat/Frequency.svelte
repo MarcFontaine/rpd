@@ -51,7 +51,7 @@ let isConfirmed = $derived.by(() => {
     rounding = { DecadeSettings.rounding.value }
     exp = { exp }
     min = {  1500000 }
-    max = { 29999999 }
+    max = { 29999990 }
     value = { frequency }
     setter = { f => setFrequency(f) }
     wheelSpeed = { DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 }
