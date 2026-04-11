@@ -5,24 +5,29 @@
 
 {#if pwa.needRefresh || pwa.isOfflineReady }
   <div class="pwa-notification">
+    <About />
+    {#if pwa.isOfflineReady}
     <div>
-      <About />
-      {#if pwa.isOfflineReady}
       <span>
         App ready to work offline
       </span>
-      {/if}
+      <button onclick={() => { pwa.isOfflineReady = false; }}>
+        OK
+      </button>
     </div>
+    {/if}
     {#if pwa.needRefresh }
-      <span>
+    <div>
+     <span>
         New content available.
       </span>
       <button onclick={() => pwa.update()}>
         Load Update and Reload App
       </button>
-    <button onclick={() => pwa.ignoreUpdate()}>
-      Ignore Update and Continue
-    </button>
+      <button onclick={() => pwa.ignoreUpdate()}>
+	Ignore Update and Continue
+      </button>
+    </div>
     {/if}
   </div>
 {/if}
