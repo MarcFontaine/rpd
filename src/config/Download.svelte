@@ -18,34 +18,58 @@ let username = $state('');
 let password = $state('');
 let config_txt = $state('');
 let preselect = $state(null);
-
 let view = $state('download');
+let error =  $state('');
+
+async function safeFetch() {
+  try {
+    const response = await fetch(url, {
+      method:'GET',
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+	'Authorization': 'Basic ' + btoa(`${username}:${password}`),
+	'Accept': 'application/x-yaml'      
+      }    
+    });
+    if (!response.ok) {
+      return { 
+        data: null, 
+        error: `Download Error: ${response.status}`
+      };
+    }
+    const text = await response.text();
+      return { data: text, error: null, status: response.status };
+
+  } catch (err) {
+    return { 
+      data: null, 
+      error: err instanceof Error ? err.message : "Download Error"
+    };
+  }
+}
 
 async function loadConfig() {
-  const response = await fetch(url, {
-    method:'GET',
-    headers: {
-      'Authorization': 'Basic ' + btoa(`${username}:${password}`),
-      'Accept': 'application/x-yaml'
-    }
-  });
-  const data = await response.text();
-  if (data) {
+  error = '';
+  const fetchResult = await safeFetch();
+  if (fetchResult.error) {
+    error = fetchResult.error;
+    return;
+  }
+  const profile = Config.validateProfile(fetchResult.data);
+  if (profile) {
     view = 'config';
-    config_txt = data;
-    createProfile(data);
+    config_txt = fetchResult.data;
+    Config.getProfiles().items.push(profile);
+    Config.updateYaml.trigger++;
+    preselect = profile;
     return (true);
   }
-  else return false;
+  else {
+    error = "Error: Cannot validate Profile";
+    return false;
+  }
 }
-
-function createProfile(txt) {
-  const profile = Config.validateProfile(txt);
-  Config.getProfiles().items.push(profile);
-  Config.updateYaml.trigger++;
-  preselect = profile;
-}
-
 </script>
 
 <div>
@@ -111,4 +135,13 @@ function createProfile(txt) {
   </details>
 </div>
 {/if}
+<div>
+{#if error }
+Error:
+<br>
+<pre>
+{error}
+</pre>
+{/if}
+</div>
 </div>
