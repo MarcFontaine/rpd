@@ -95,9 +95,14 @@ export function validateConfig(j: string) {
 }
 
 // Validate a single profile (from Download)
-export function validateProfile(j: string) {
+export function validateProfile(j: string): (null | YAMLMap) {
   const doc = parseDocument(j);
-  return doc;
+  if (isMap(doc.contents)) {
+    return doc.contents;
+  } else
+  {
+    return null;
+  }
 }
 
 export function reset() {
