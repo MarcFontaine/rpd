@@ -1,4 +1,4 @@
-# XK852 Rig Control
+# EK890 Rig Control
 
 ## Building
 ```sh
@@ -20,4 +20,4 @@ npm run dev
 # Live Demo
 Web Serial mode (needs Google Chrome)
 
-[RigPage](https://marcfontaine.github.io/rigpage/)
+[RigPage](https://marcfontaine.github.io/EK890/)
