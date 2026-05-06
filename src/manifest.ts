@@ -1,8 +1,8 @@
 import type { ManifestOptions } from 'vite-plugin-pwa';
 
 export const webmanifest: Partial<ManifestOptions> = {
-  "short_name": "XK852 rig control",
-  "name": "XK852 rig control",
+  "short_name": "EK890 rig control",
+  "name": "EK890 rig control",
   "theme_color": "#ffffff",
     "display": "standalone",
   "icons": [
