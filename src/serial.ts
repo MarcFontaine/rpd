@@ -125,7 +125,7 @@ export async function connectToPort(): Promise<void> {
   const options = {
     baudRate: 9600,
     dataBits: 7 as 7,
-    parity: 'even' as ParityType,
+    parity: 'odd' as ParityType,
     stopBits: 1 as 1,
     flowControl: <const> 'none',
     bufferSize,
