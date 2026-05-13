@@ -50,7 +50,7 @@ function setFrequencyCmd(f: number): CmdType {
   if (x < 10000) x = 10000;
   if (x > 29999999) x = 29999999;
   const fstring = String(x).padStart(8, `00000000` );
-  const cmd = `F${fstring}`;
+  const cmd = `F${fstring}F?`;
   return toCmd(cmd);
 }
 
@@ -111,10 +111,10 @@ export function setMode (m: XK852Mode) {
   }
 }
 
-export function set_MODE_AME()     { sendCmd(toCmd('I1')); }
-export function set_MODE_USB()     { sendCmd(toCmd('I2')); }
-export function set_MODE_LSB()     { sendCmd(toCmd('I3')); }
-export function set_MODE_CW()      { sendCmd(toCmd('I5')); }
+export function set_MODE_AME()     { sendCmd(toCmd('I1I?')); }
+export function set_MODE_USB()     { sendCmd(toCmd('I2I?')); }
+export function set_MODE_LSB()     { sendCmd(toCmd('I3I?')); }
+export function set_MODE_CW()      { sendCmd(toCmd('I5I?')); }
 
 export let latestSendCmdTime = Date.now ();
 
