@@ -50,15 +50,15 @@ let isConfirmed = $derived.by(() => {
   <DecadeDigit
     rounding = { DecadeSettings.rounding.value }
     exp = { exp }
-    min = {  1500000 }
-    max = { 29999990 }
+    min = {    10000 }
+    max = { 30000000 }
     value = { frequency }
     setter = { f => setFrequency(f) }
     wheelSpeed = { DecadeSettings.mouseWheelTuningSpeed.value / 200/ 125 }
     clickSpeed = { 1 }
     isConfirmed = { isConfirmed }
     gap = { DecadeSettings.buttonSplit.value }
-    width = "14%"
+    width = "12%"
   />
 {/snippet}
 <div
@@ -81,11 +81,12 @@ let isConfirmed = $derived.by(() => {
     clickSpeed = { 0 }
     isConfirmed = { isConfirmed }
     gap = { DecadeSettings.buttonSplit.value }
-    width = "3%"
+    width = "4%"
     char = '.'
   />
   {@render myDigit(100)}
   {@render myDigit(10)}
+  {@render myDigit(1)}
 </div>
 {#if debug}
 <div>
@@ -105,7 +106,7 @@ let isConfirmed = $derived.by(() => {
   overflow-x: hidden;
  /* cqw is a string on definition time
     and computed at use time */
-  --digit-font-size: 25cqw;
+  --digit-font-size: 19cqw;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
