@@ -7,9 +7,11 @@ import TXPower from './cat/txpower/TXPower.svelte';
 import Mode from './cat/mode/Mode.svelte';
 import Level from './level/Level.svelte';
 import AntennaTuner from './cat/AntennaTuner.svelte';
+import StatusBar from './status/StatusBar.svelte';
 </script>
 
 <div>
+  <StatusBar />
   <Frequency />
   <HID />
   <PTT />

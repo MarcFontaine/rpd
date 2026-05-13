@@ -108,21 +108,13 @@ export function setMode (m: XK852Mode) {
     case 'USB'              : { set_MODE_USB(); break; }
     case 'LSB'              : { set_MODE_LSB(); break; }
     case 'CW'               : { set_MODE_CW(); break; }
-    case 'ISB'              : { set_MODE_ISB(); break; }
-    case 'FSK Low Power'    : { set_MODE_FSK_LP(); break; }
-    case 'FSK Medium Power' : { set_MODE_FSK_MID(); break; }
-    case 'FSK High Power'   : { set_MODE_FSK_HP(); break; }
   }
 }
 
-export function set_MODE_AME()     { sendCmd(toCmd('*I1')); }
-export function set_MODE_USB()     { sendCmd(toCmd('*I2')); }
-export function set_MODE_LSB()     { sendCmd(toCmd('*I3')); }
-export function set_MODE_CW()      { sendCmd(toCmd('*I5')); }
-export function set_MODE_ISB()     { sendCmd(toCmd('*I6')); }
-export function set_MODE_FSK_LP()  { sendCmd(toCmd('*I7')); }
-export function set_MODE_FSK_MID() { sendCmd(toCmd('*I8')); }
-export function set_MODE_FSK_HP()  { sendCmd(toCmd('*I9')); }
+export function set_MODE_AME()     { sendCmd(toCmd('I1')); }
+export function set_MODE_USB()     { sendCmd(toCmd('I2')); }
+export function set_MODE_LSB()     { sendCmd(toCmd('I3')); }
+export function set_MODE_CW()      { sendCmd(toCmd('I5')); }
 
 export let latestSendCmdTime = Date.now ();
 
