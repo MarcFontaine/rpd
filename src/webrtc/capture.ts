@@ -17,9 +17,15 @@ export async function stopSession() {
 export async function startSession() {
   if (! webRTCCapture.starting) {
       webRTCCapture.starting = true;
+      const customAudioConstraints = {
+	  autoGainControl: false,
+	  noiseSuppression: false,
+	  echoCancellation: false,
+	  highpassFilter: false
+      };
       const constraints = {
            'video': webRTCCapture.enableVideo,
-           'audio': true
+           'audio': customAudioConstraints
       };
       navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
 	const session = webRTC.api.createProducerSession(stream);
