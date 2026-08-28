@@ -52,6 +52,7 @@ export const subroutes = {
 , '/c2': Col2
 , '/profilemanager' : ProfileManager
 , '/Reset': Reset
+, '/rig_to_usb': Cmd
 , '*': Debug
 }
 

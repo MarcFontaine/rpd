@@ -12,7 +12,7 @@ let config = Config.getConfig();
 let undoConfig = config.clone();
 let profiles = $state(Config.getProfiles().items);
 
-let selected = $state(preselect as null | YAMLMap);
+let selected = $derived(preselect as null | YAMLMap);
 
 let msg = $state('ok');
 

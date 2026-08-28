@@ -32,7 +32,7 @@ function connectToExtension() {
   if (port) {
     port.onMessage.addListener((msg:any) => {
       window.dispatchEvent(msgToEvent(msg));
-      console.log("JSON empfangen:", msg);
+//      console.log("JSON empfangen:", msg);
     });
 
     port.onDisconnect.addListener(() => {

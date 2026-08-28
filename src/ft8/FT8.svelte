@@ -24,6 +24,7 @@ import { onMount } from 'svelte';
 import FT8Clock from'./FT8Clock.svelte';
 
 let decoded = new SvelteMap([]);
+let selected = $state(null);
 
 let filterLatest = $state('');
 let fullQuery = $derived.by(joinFullQuery)
@@ -116,7 +117,16 @@ onclick={()=> { decoded.clear(); } }
 >
 Clear
 </button>
+<br>
+{#if selected }
+<button
+onclick={()=> { console.log(selected); } }
+>
+reply to: {selected.decode_message}
+</button>
+{/if}
 
+<br>
 <table>
   <thead>
      <tr>
@@ -128,10 +138,11 @@ Clear
      </tr>
   </thead>
     <tbody>
-    <tbody>
     {#each [...decoded.values()] as row}
-      <tr>
-	{@render decodedRow(row)}
+      <tr
+        onclick={()=> { selected = row; }}
+      >
+      {@render decodedRow(row)}
       </tr>
     {/each}
     </tbody>

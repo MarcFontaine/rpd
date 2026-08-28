@@ -9,14 +9,14 @@ export const log = $state(
   , errors: emptyLogs
   });
 
-export function pushError(obj: any) {
+export function pushError(obj: any):void {
   obj.isError = true;
   obj.isErrorConfirmed = false;
   log.errors.push(obj)
   pushLog(obj);
 };
 
-export function pushLog(obj:any) {
+export function pushLog(obj: any):void {
   if (!obj.date) obj.date = new Date();
   log.objs.push(obj)
 };
@@ -88,7 +88,7 @@ export const espHomeEvent = $state(
   , powerReverse: 0
   });
 
-export function sendCmdCallbackError(_cmd:any) {
+export function sendCmdCallbackError(_cmd: any) {
   pushError(
     { src: 'CAT'
     , date: new Date()

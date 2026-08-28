@@ -9,9 +9,10 @@
   },
   "dependencies": {
     "@types/w3c-web-serial": "^1.0.3",
-    "cbor2": "^2.3.0",
+    "cbor-utils": "^0.12.12",
     "gstwebrtc-api": "file:./libs/gstwebrtc-api",
     "svelte-typeahead": "^5.0.0",
+    "typescript-language-server": "^5.3.0",
     "web-serial-polyfill": "^1.0.14",
     "yaml": "^2.8.2"
   },

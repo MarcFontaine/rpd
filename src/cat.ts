@@ -156,12 +156,12 @@ function toCmdTimeout(cmd: string, timeout:number) {
 * @param {string} cmd the command string
 * @return {Uint8Array} the XK852 command bytes
 */
-function toXK852Cmd(cmd: string): Uint8Array {
+export function toXK852Cmd(cmd: string): Uint8Array {
   const m = encoder.encode(cmd);
   const msg = new Uint8Array(m.length + 2);
   msg[0] = 10; // begin of message : LF
   msg.set(m, 1);
-  msg[m.length + 1] = 13; // begin of message : CR
+  msg[m.length + 1] = 13; // end of message : CR
   return msg;
 }
 

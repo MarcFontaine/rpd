@@ -6,7 +6,7 @@ import { rig } from './state.svelte';
 export function setReturnMsg(msg: string)
 {
   rig.returnMsg = msg;
-  //ignore this message T message
+  //ignore T message
   if (msg != '\n T  ') {
     parseXK852Status(msg);
   }

@@ -13,7 +13,7 @@ import * as Config from './config.svelte';
 import * as Profile from '../profile';
 
 let {params} = $props();
-let url = $state((params && params.wild && params.wild !='') ? params.wild : configURL.value);
+let url = $derived((params && params.wild && params.wild !='') ? params.wild : configURL.value);
 let username = $state('');
 let password = $state('');
 let config_txt = $state('');

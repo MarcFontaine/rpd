@@ -1,6 +1,7 @@
 import { encode, bool, bytes, arrayLen, u8, uint} from 'cbor-utils'
+import { Result, tryDecode, mapLen } from "cbor-utils";
 
-const CMD = {
+export const CMD = {
   StartBootLoader: 'StartBootLoader',
   Panic: 'Panic',
   Test:  'Test',
@@ -13,10 +14,11 @@ const CMD = {
   TxOff: 'TxOff',
   MorseSpeed: 'MorseSpeed',
   MorseSend: 'MorseSend',
-  MorseAppend: 'MorseAppend'
+  MorseAppend: 'MorseAppend',
+  SendCat: 'SendCat'
 } as const
 
-export const tags = {
+const tags = {
   StartBootLoader: 0,
   Panic:           1,
   Test:            2,
@@ -30,6 +32,7 @@ export const tags = {
   MorseSpeed:     10,
   MorseSend:      11,
   MorseAppend:    12,
+  SendCat:        13,
 } as const;
 
 export type Cmd = {
@@ -49,11 +52,16 @@ export function toCBOR(cmd:Cmd):Uint8Array {
     e.encode(u8, tag);
     e.encode(uint, n);
   }
-  function txt_bytes(t: string) {
+  function txt_string(t: string) {
     e.encode(arrayLen, 2);
     e.encode(u8, tag);
     const encoder = new TextEncoder();
     e.encode(bytes, encoder.encode(t));
+  }
+  function txt_bytes(b: Uint8Array ) {
+    e.encode(arrayLen, 2);
+    e.encode(u8, tag);
+    e.encode(bytes, b);
   }
   switch (cmd.cmd) {
     case 'LED':
@@ -72,10 +80,13 @@ export function toCBOR(cmd:Cmd):Uint8Array {
       oneNumber(cmd.ditlen);
       break;
     case 'MorseSend':
-      txt_bytes(cmd.txt);
+      txt_string(cmd.txt);
       break;
     case 'MorseAppend':
-      txt_bytes(cmd.txt);
+      txt_string(cmd.txt);
+      break;
+    case 'SendCat':
+      txt_bytes(cmd.bytes);
       break;
     default:
       e.encode(arrayLen, 1);
@@ -90,8 +101,8 @@ export const prebuild_cmds = {
   panic: toCBOR({cmd: CMD.Panic}),
   test: toCBOR({cmd: CMD.Test}),
   reset: toCBOR({cmd: CMD.Reset}),
-  led_on: toCBOR({cmd: CMD.LED, value: false}),
-  led_off: toCBOR({cmd: CMD.LED, value: true}),
+  led_on: toCBOR({cmd: CMD.LED, value: true}),
+  led_off: toCBOR({cmd: CMD.LED, value: false}),
   led_blink_1s: toCBOR({cmd: CMD.LEDBlink, interval: 1000}),
   radio_on_10s: toCBOR({cmd: CMD.RadioOn, time: 10000}),
   radio_off: toCBOR({cmd: CMD.RadioOff}),
@@ -99,3 +110,32 @@ export const prebuild_cmds = {
   tx_off: toCBOR({cmd: CMD.TxOff}),
   wps_24 : toCBOR({cmd: CMD.MorseSpeed, ditlen: 50 })
 };
+
+export interface HIDReport {
+  cat_rx_msg?: Uint8Array;
+  cat_rx_skipped?: Uint8Array;
+  sequence_id?: number;
+  is_error?: boolean;
+  device_name?: string;
+}
+
+export function deserializeHIDReport(cborBytes: Uint8Array): Result<HIDReport, unknown> {
+  return tryDecode(cborBytes, (d) => {
+    const report: HIDReport = {};
+    const length = d.decode(mapLen)!;
+    for (let i = 0; i < length; i++) {
+      const index = d.decode(u8);
+      switch (index) {
+        case 0:
+          report.cat_rx_msg = d.decode(bytes);
+          break;
+        case 1:
+          report.cat_rx_skipped = d.decode(bytes);
+          break;
+        default:
+          break;
+      }
+    }
+    return report;
+    });
+}

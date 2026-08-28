@@ -1,9 +1,9 @@
 <script lang="ts">
-import {type Cmd, prebuild_cmds, toCBOR} from './cmd.ts';
-import {device, connectRigToUsb} from './hidraw.ts';
+import {toXK852Cmd} from '../cat.ts';
+import {type Cmd, CMD, prebuild_cmds, toCBOR} from './cmd.ts';
+import {sendReport, connectRigToUsb} from './hidraw.ts';
 //console.log(prebuild_cmds);
 
-const reportId = 0;
 </script>
 
 <div>
@@ -18,7 +18,7 @@ CMD test
 
   <div>
   <button
-    onclick={() => {device.sendReport(reportId, prebuild_cmds.led_on);}}
+    onclick={() => {sendReport(prebuild_cmds.led_on);}}
   >
   LED ON
   </button>
@@ -26,7 +26,7 @@ CMD test
 
   <div>
   <button
-    onclick={() => {device.sendReport(reportId, prebuild_cmds.led_off);}}
+    onclick={() => {sendReport(prebuild_cmds.led_off);}}
   >
   LED OFF
   </button>
@@ -34,10 +34,23 @@ CMD test
 
   <div>
   <button
-    onclick={() => {device.sendReport(reportId, prebuild_cmds.led_blink_1s);}}
+    onclick={() => {sendReport(prebuild_cmds.led_blink_1s);}}
   >
   LED Blink
   </button>
   </div>
 
+  <div>
+  <button
+    onclick={() => { sendReport(
+      {
+        cmd: CMD.SendCat,
+	bytes: toXK852Cmd("*O1")
+      })
+    }
+    }
+  >
+  Cat query status
+  </button>
+  </div>
 </div>
