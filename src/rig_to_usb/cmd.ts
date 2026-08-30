@@ -71,10 +71,10 @@ export function toCBOR(cmd:Cmd):Uint8Array {
       oneNumber(cmd.interval);
       break;
     case 'RadioOn':
-      oneNumber(cmd.time);
+      oneNumber(cmd.timeout_ms);
       break;
     case 'TxOn':
-      oneNumber(cmd.time);
+      oneNumber(cmd.timeout_ms);
       break;
     case 'MorseSpeed':
       oneNumber(cmd.ditlen);
@@ -104,9 +104,9 @@ export const prebuild_cmds = {
   led_on: toCBOR({cmd: CMD.LED, value: true}),
   led_off: toCBOR({cmd: CMD.LED, value: false}),
   led_blink_1s: toCBOR({cmd: CMD.LEDBlink, interval: 1000}),
-  radio_on_10s: toCBOR({cmd: CMD.RadioOn, time: 10000}),
+  radio_on_10s: toCBOR({cmd: CMD.RadioOn, timeout_ms: 10000}),
   radio_off: toCBOR({cmd: CMD.RadioOff}),
-  tx_on_4s:  toCBOR({cmd: CMD.TxOn, time: 4000}),
+  tx_on_4s:  toCBOR({cmd: CMD.TxOn, timeout_ms: 4000}),
   tx_off: toCBOR({cmd: CMD.TxOff}),
   wps_24 : toCBOR({cmd: CMD.MorseSpeed, ditlen: 50 })
 };

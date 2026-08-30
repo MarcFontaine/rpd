@@ -14,7 +14,7 @@ import Reset from '../misc/Reset.svelte';
 import Frequency from '../cat/Frequency.svelte';
 import Settings from '../settings/Settings.svelte';
 import Auxiliary from '../aux/Auxiliary.svelte';
-import Cmd from '../rig_to_usb/Cmd.svelte';
+import RigToUsb from '../rig_to_usb/RigToUsb.svelte';
 import FT8 from '../ft8/FT8.svelte';
 import RigControl from './RigControl.svelte';
 import Row from './Row.svelte';
@@ -34,7 +34,7 @@ export const routes = {
 , '/serial': LocalSerial
 , '/test': Test
 , '/Reset': Reset
-, '/rig_to_usb': Cmd
+, '/rig_to_usb': RigToUsb
 , '*': Debug
 }
 
@@ -52,7 +52,7 @@ export const subroutes = {
 , '/c2': Col2
 , '/profilemanager' : ProfileManager
 , '/Reset': Reset
-, '/rig_to_usb': Cmd
+, '/rig_to_usb': RigToUsb
 , '*': Debug
 }
 

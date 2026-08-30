@@ -3,24 +3,70 @@ import {setReturnMsg} from '../setXK852Status';
 import {type CmdType} from '../state.svelte';
 import { type Cmd, CMD, toCBOR, deserializeHIDReport } from './cmd';
 import * as State from '../state.svelte';
-export var device:HIDDevice;
 
-const reportId = 0;
+var device: HIDDevice | null = null;
+
+const REPORT_ID = 0;
+const VENDOR_ID = 0x1209;
+const PRODUCT_ID = 0x001;
+
+export function isConnected():Boolean {
+  if (!device) {
+    return false;
+  }
+  if (!device.opened) {
+    return false;
+  }
+  if (device.vendorId === 0 || device.productId === 0) {
+    return false;
+  }
+  return true;
+};
+
+function setDevice(d: HIDDevice): void {
+  device = d;
+  device.addEventListener("inputreport", handleHidInput);
+  State.setSendCmdCallback(send_cat);
+};
+
+export async function tryAutoConnectRigToUsb(): Promise<HIDDevice | null> {
+  if (!('hid' in navigator)) {
+    console.warn("WebHID is not supported in this browser.");
+    return null;
+  }
+
+  try {
+    const allowedDevices: HIDDevice[] = await navigator.hid.getDevices();
+    const rig_to_usb = allowedDevices.find(
+      (device) => device.vendorId === VENDOR_ID && device.productId === PRODUCT_ID
+    );
+    if (rig_to_usb) {
+      if (!rig_to_usb.opened) {
+        await rig_to_usb.open();
+      }
+      setDevice(rig_to_usb);
+      return rig_to_usb;
+    }
+    console.log("RigToUSB not paired. A manual click is required.");
+    return null;
+  } catch (error) {
+    console.error("Failed to auto-connect to HID device:", error);
+    return null;
+  }
+}
 
 export async function connectRigToUsb() {
   if ("hid" in navigator) {
     const deviceFilter = {
       filters : [
-        { vendorId: 0x1209, productId: 0x0001 }
+        { vendorId: VENDOR_ID, productId: PRODUCT_ID }
       ]
     };
     const devices = await navigator.hid.requestDevice(deviceFilter);
     if (devices && devices[0]) {
       const rig_to_usb = devices[0];
       await rig_to_usb.open();
-      device = rig_to_usb;
-      device.addEventListener("inputreport", handleHidInput);
-      State.setSendCmdCallback(send_cat);
+      setDevice(rig_to_usb);
     }
   }
 }
@@ -48,15 +94,24 @@ function handleHidInput(event: HIDInputReportEvent) {
 };
 
 function send_cat(cmd: CmdType) {
-  device.sendReport(
-    reportId,
-    toCBOR({
+  sendCmd(
+    {
       cmd: CMD.SendCat,
       bytes: cmd.xk852serialNative
     })
-  )
 };
 
-export function sendReport(cmd: Cmd) {
-  device.sendReport(reportId, toCBOR(cmd))
+export function sendCmd(cmd: Cmd):Boolean {
+  return sendReport(toCBOR(cmd))
+}
+
+export function sendReport(bytes: Uint8Array):Boolean {
+  device!.sendReport(REPORT_ID, bytes)
+    .then(() => { return true;} )
+  .catch((error) => {
+    console.error("HID sendReport failed:", error);
+    device = null;
+    return false;
+  });
+  return true;
 }
