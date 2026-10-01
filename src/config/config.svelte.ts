@@ -15,15 +15,26 @@ export const emptyConfig = new Document(
 	cat: {
 	  demoMode: true,
 	  webserial: false,
-	  rigctld: false
+	  rigctld: false,
+	  rig_to_usb: false
 	  },
 	config: { name: 'Demo Mode'},
       },
       {
 	cat: {
 	  demoMode: false,
+	  webserial: false,
+	  rigctld: false,
+	  rig_to_usb: true
+	  },
+	config: { name: 'RigToUSB'},
+      },
+      {
+	cat: {
+	  demoMode: false,
 	  webserial: true,
-	  rigctld: false
+	  rigctld: false,
+	  rig_to_usb: false
 	  },
 	config: { name: 'Serial Port'},
       }

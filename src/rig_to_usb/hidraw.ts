@@ -1,3 +1,4 @@
+import {setGuiMode, GuiMode} from '../gui';
 import {pushLog} from '../state.svelte';
 import {setReturnMsg} from '../setXK852Status';
 import {type CmdType} from '../state.svelte';
@@ -9,6 +10,19 @@ var device: HIDDevice | null = null;
 const REPORT_ID = 0;
 const VENDOR_ID = 0x1209;
 const PRODUCT_ID = 0x001;
+
+export async function initRigToUsb() {
+  tryAutoConnectRigToUsb();
+  navigator.hid.addEventListener('disconnect', handleDisconnect);
+  navigator.hid.addEventListener('connect', tryAutoConnectRigToUsb);
+}
+
+function handleDisconnect(event: HIDConnectionEvent) {
+  if (event.device === device) {
+    device = null;
+    setGuiMode(GuiMode.SomeError);
+  }
+};
 
 export function isConnected():Boolean {
   if (!device) {
@@ -27,6 +41,7 @@ function setDevice(d: HIDDevice): void {
   device = d;
   device.addEventListener("inputreport", handleHidInput);
   State.setSendCmdCallback(send_cat);
+  setGuiMode(GuiMode.Connected);
 };
 
 export async function tryAutoConnectRigToUsb(): Promise<HIDDevice | null> {
@@ -76,7 +91,6 @@ function handleHidInput(event: HIDInputReportEvent) {
   const bytes = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
   const report = deserializeHIDReport(bytes);
   if (report.ok()) {
-    console.log(report.value);
     const msg_string = (new TextDecoder("utf-8")).decode(
       report.value.cat_rx_msg!.subarray(1, -1)
     );

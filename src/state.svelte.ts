@@ -128,6 +128,11 @@ export const smartPTT = new ConfigVar(
     , path: [ 'cat', 'smartPTT' ]
     });
 
+export const rig_to_usb_enable = new ConfigVar(
+    { default: false
+    , path: [ 'cat', 'rig_to_usb' ]
+    });
+
 export const webserial_enable = new ConfigVar(
     { default: false
     , path: [ 'cat', 'webserial' ]

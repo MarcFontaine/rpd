@@ -6,10 +6,11 @@ import * as WebRTC from './webrtc/webrtc';
 import * as WebRTCCapture from './webrtc/capture';
 import * as EspHome from './esphome';
 import { webRTC, webRTCClient, webRTCCapture,
-   rigctld_enable, rigctld_wss, webserial_enable }
-   from './state.svelte';
+  rigctld_enable, rigctld_wss, webserial_enable, rig_to_usb_enable }
+  from './state.svelte';
 import { espSwrMeterEnable, espSwrMeterUrl } from './level/level-settings';
-import * as HamLink from './hamlink/hamlink'
+import * as HamLink from './hamlink/hamlink';
+import { initRigToUsb } from './rig_to_usb/hidraw';
 
 export async function initProfile() {
   if (espSwrMeterEnable.value) {
@@ -35,6 +36,9 @@ export async function initProfile() {
   if (webserial_enable.value) {
     WebSerial.initWebSerial();
     WebSerial.connectToPort();
+  }
+  if (rig_to_usb_enable.value) {
+    initRigToUsb();
   }
   HamLink.initHamLink();
   gotoRigcontrol();

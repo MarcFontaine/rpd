@@ -14,7 +14,8 @@ import Reset from '../misc/Reset.svelte';
 import Frequency from '../cat/Frequency.svelte';
 import Settings from '../settings/Settings.svelte';
 import Auxiliary from '../aux/Auxiliary.svelte';
-import RigToUsb from '../rig_to_usb/RigToUsb.svelte';
+import StartRigToUsb from '../rig_to_usb/Start.svelte';
+import TestRigToUsb from '../rig_to_usb/Test.svelte';
 import FT8 from '../ft8/FT8.svelte';
 import RigControl from './RigControl.svelte';
 import Row from './Row.svelte';
@@ -34,7 +35,7 @@ export const routes = {
 , '/serial': LocalSerial
 , '/test': Test
 , '/Reset': Reset
-, '/rig_to_usb': RigToUsb
+, '/rig_to_usb/start': StartRigToUsb
 , '*': Debug
 }
 
@@ -52,7 +53,8 @@ export const subroutes = {
 , '/c2': Col2
 , '/profilemanager' : ProfileManager
 , '/Reset': Reset
-, '/rig_to_usb': RigToUsb
+, '/rig_to_usb/start': StartRigToUsb
+, '/rig_to_usb/test': TestRigToUsb
 , '*': Debug
 }
 
@@ -60,3 +62,4 @@ export function gotoRoot() { replace('/') }
 export function gotoProfiles() { replace('/profiles') }
 export function gotoRigcontrol() { replace('/rig/rigcontrol') }
 export function gotoDownload() { replace('/download') }
+export function gotoStartRigToUSB() { replace('/rig/rig_to_usb/start') }

@@ -2,7 +2,7 @@
 import { gotoDownload } from '../ui/routes';
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
   showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
-  rigSyncInterval, webserial_enable, rigctld_enable, rigctld_wss, profileName,
+  rigSyncInterval, rig_to_usb_enable, webserial_enable, rigctld_enable, rigctld_wss, profileName,
   enableCatchAllErrors
   } from '../state.svelte';
 import * as Config from '../config/config.svelte';
@@ -63,6 +63,7 @@ import HamLinkSettings from '../hamlink/Settings.svelte';
       CAT Control
     </summary>
     <Option bind:o={demoMode.value} d={'No Cat Connection / Demo Mode'} />
+    <Option bind:o={rig_to_usb_enable.value} d={'Connect to RigToUSB Device'} />
     <Option bind:o={webserial_enable.value} d={'Connect to Local Serial Port'} />
     <Option bind:o={rigctld_enable.value} d={'Connect to rigctld Websocket Server'} />
     <input type="text" size="80" bind:value={rigctld_wss.value}>

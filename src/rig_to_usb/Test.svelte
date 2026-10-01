@@ -1,16 +1,7 @@
 <script lang="ts">
-import { onMount } from 'svelte';
-import {toXK852Cmd} from '../cat.ts';
-import {type Cmd, CMD, prebuild_cmds, toCBOR} from './cmd.ts';
-import {isConnected, sendCmd, sendReport, tryAutoConnectRigToUsb, connectRigToUsb} from './hidraw.ts';
-
-let isWorkable = $state(false);
-onMount(async () => {
-  if (!isConnected()) {
-    tryAutoConnectRigToUsb()
-      .then ((s) => isWorkable = s)
-  }
-})
+import { toXK852Cmd } from '../cat.ts';
+import { type Cmd, CMD, prebuild_cmds, toCBOR } from './cmd.ts';
+import { isConnected, sendCmd, sendReport } from './hidraw.ts';
 
 let radioOnTimeOut = $state(3600);
 
@@ -19,16 +10,6 @@ let radioOnTimeOut = $state(3600);
   <h3>
   RigToUsb Test
   </h3>
-<div>
-  {#if !isWorkable}
-    <button
-      onclick={() => {connectRigToUsb()}}
-    >
-    Connect RigToUsb
-    </button>
-  {/if}
-</div>
-
 <div>
   <div>
     <button
