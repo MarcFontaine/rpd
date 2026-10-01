@@ -1,4 +1,5 @@
 import {setGuiMode, GuiMode} from '../gui';
+import { gotoStartRigToUSB } from '../ui/routes';
 import {pushLog} from '../state.svelte';
 import {setReturnMsg} from '../setXK852Status';
 import {type CmdType} from '../state.svelte';
@@ -12,9 +13,10 @@ const VENDOR_ID = 0x1209;
 const PRODUCT_ID = 0x001;
 
 export async function initRigToUsb() {
-  tryAutoConnectRigToUsb();
   navigator.hid.addEventListener('disconnect', handleDisconnect);
   navigator.hid.addEventListener('connect', tryAutoConnectRigToUsb);
+  tryAutoConnectRigToUsb()
+    .then ((s) => {if (!s) gotoStartRigToUSB()})
 }
 
 function handleDisconnect(event: HIDConnectionEvent) {

@@ -1,5 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+
+import { gotoRigcontrol } from '../ui/routes';
 import { toXK852Cmd } from '../cat.ts';
 import { type Cmd, CMD, prebuild_cmds, toCBOR } from './cmd.ts';
 import { isConnected, tryAutoConnectRigToUsb, connectRigToUsb } from './hidraw.ts';
@@ -21,7 +23,12 @@ onMount(async () => {
 <div>
   {#if !isWorkable}
     <button
-      onclick={() => { connectRigToUsb() } }
+      onclick={() => {
+        connectRigToUsb()
+          .then(() => { if (isConnected()) gotoRigcontrol();
+                      });
+      }
+      }
     >
     Connect RigToUsb Device
     </button>
