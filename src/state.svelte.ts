@@ -39,6 +39,8 @@ export const rig = $state(
   , bfo: 0
   , power: null as (Type.XK852Power | null)
   , mode: null as (Type.XK852Mode | null)
+  , keepRadioOn: False
+  , keepTxOn: False
   });
 
 export const webRTC = $state(
@@ -118,6 +120,7 @@ export const screen1 = uiOption('RigControl', 'screen1')
 export const screen2 = uiOption('Debug', 'screen2');
 export const screen3 = uiOption('Settings', 'screen3');
 export const screen4 = uiOption('Empty', 'screen4');
+export const showOnOffButton = uiOption(false,  'onOffButton')
 export const showSearchBar = uiOption(true, 'searchBar');
 export const showNavigationBar = uiOption(true, 'navigationBar');
 export const showPTT = uiOption(true, 'PttButton');

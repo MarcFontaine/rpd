@@ -1,7 +1,7 @@
 <script module lang="ts">
 import { gotoDownload } from '../ui/routes';
 import {expertMode, demoMode, mobileMode, screen1, screen2, screen3, screen4,
-  showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
+  showOnOffButton, showSearchBar, showNavigationBar, showPTT, smartPTT, showAntennaTuner,
   rigSyncInterval, rig_to_usb_enable, webserial_enable, rigctld_enable, rigctld_wss, profileName,
   enableCatchAllErrors
   } from '../state.svelte';
@@ -37,6 +37,7 @@ import HamLinkSettings from '../hamlink/Settings.svelte';
     </summary>
     <Option bind:o={mobileMode.value} d={'Mobile Mode'} />
     <Option bind:o={expertMode.value} d={'ExpertMode'} />
+    <Option bind:o={showOnOffButton.value} d={'Show On/Off Button'} />
     <Option bind:o={showSearchBar.value} d={'Show Search Bar'} />
     <Option bind:o={showNavigationBar.value} d={'Show Navigation Bar'} />
     <SelectScreen bind:o={screen1.value} d={'Tile 1'} />

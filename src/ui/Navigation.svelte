@@ -1,4 +1,6 @@
 <script lang="ts">
+import OnOffButton from '../misc/OnOffButton.svelte';
+
 import {link} from 'svelte-spa-router'
 import active from 'svelte-spa-router/active'
 import {showNavigationBar} from '../state.svelte';
@@ -6,26 +8,29 @@ import { profileName } from '../state.svelte';
 </script>
 
 {#if showNavigationBar.value}
-<nav>
 <div class="grid-container" style="font-size:1em;" >
   <div class="profile-name">
     {profileName.value}
   </div>
-  <a href="/serial" use:link use:active={'/serial'} >Serial Port</a>
-  <a href="/download" use:link use:active={'/download'} >Download Config</a>
-  <a href="/rig/rigcontrol" use:link use:active={'/rigcontrol'} >CAT</a>
-  <a href="/rig/settings" use:link use:active={'/rig/settings'} >
-    <span class="icon">⚙️</span>
-    <span class="label">Settings</span>
-  </a>
-  <a href="/rig/webrtc" use:link use:active={'/rig/webrtc'} >Audio/Video</a>
-  <a href="/rig/debug" use:link use:active={'/rig/debug'} >Debug</a>
-  <a href="/rig/ft8" use:link use:active={'/rig/ft8'} >FT8</a>
-  <a href="/rig/r" use:link use:active={'/rig/r'} >Row</a>
-  <a href="/rig/c" use:link use:active={'/rig/c'} >Col</a>
-  <a href="/rig/c2" use:link use:active={'/rig/c'} >Col2</a>
+  <div>
+    <OnOffButton />
+  </div>
+  <nav style="display: contents;" >
+    <a href="/serial" use:link use:active={'/serial'} >Serial Port</a>
+    <a href="/download" use:link use:active={'/download'} >Download Config</a>
+    <a href="/rig/rigcontrol" use:link use:active={'/rigcontrol'} >CAT</a>
+    <a href="/rig/settings" use:link use:active={'/rig/settings'} >
+      <span class="icon">⚙️</span>
+      <span class="label">Settings</span>
+    </a>
+    <a href="/rig/webrtc" use:link use:active={'/rig/webrtc'} >Audio/Video</a>
+    <a href="/rig/debug" use:link use:active={'/rig/debug'} >Debug</a>
+    <a href="/rig/ft8" use:link use:active={'/rig/ft8'} >FT8</a>
+    <a href="/rig/r" use:link use:active={'/rig/r'} >Row</a>
+    <a href="/rig/c" use:link use:active={'/rig/c'} >Col</a>
+    <a href="/rig/c2" use:link use:active={'/rig/c'} >Col2</a>
+  </nav>
 </div>
-</nav>
 {/if}
 
 <style>

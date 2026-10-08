@@ -1,7 +1,7 @@
 {
   description = "Nix flake build for Rigpage remote QTH";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-26.05";
   };
 
   outputs = {
